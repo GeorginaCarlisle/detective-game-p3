@@ -1,32 +1,92 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Detective game
 
-Welcome,
+Developer: Georgina Carlisle
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
+A detective game where the player must follows the clues to work out who stole the missing item and where they have hidden it.
 
-## Reminders
+This game is currently under development
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+## Contents
+[Features](#features)
 
-## Creating the Heroku app
+[Design](#design)
+- [The Strategy Plane](#the-strategy-plane)
+- [The Scope Plane](#the-scope-plane)
+- [The Structure Plane](#the-structure-plane)
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+[Testing and Validation](#testing-and-validation)
 
-1. `heroku/python`
-2. `heroku/nodejs`
+[Bugs and Fixes](#bugs-and-fixes)
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+[Deployment](#deployment)
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+[Cloning this repository](#cloning)
 
-Connect your GitHub repository and deploy as normal.
+[Forking a branch](#forking)
 
-## Constraints
+[Making additions and changes to the game](#making-additions-and-changes-to-the-game)
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+[Languages](#languages)
 
----
+[Tools and technologies](#tools-and-technologies)
 
-Happy coding!
+[Credits](#credits)
+
+[Acknowledgements](#acknowledgements)
+
+## Features
+
+## Design
+
+### The Strategy Plane
+
+[Return to contents list](#contents)
+
+### The Scope Plane
+
+[Return to contents list](#contents)
+
+### The Structure Plane
+
+[Return to contents list](#contents)
+
+## Testing and Validation
+
+[Return to contents list](#contents)
+
+## Bugs and fixes
+
+[Return to contents list](#contents)
+
+## Deployment
+
+[Return to contents list](#contents)
+
+## Cloning this repository
+
+[Return to contents list](#contents)
+
+## Forking a branch
+
+[Return to contents list](#contents)
+
+## Making additions and changes to the game
+
+[Return to contents list](#contents)
+
+## Languages
+
+[Return to contents list](#contents)
+
+## Tools and Technologies
+
+[Return to contents list](#contents)
+
+## Credits
+
+[Return to contents list](#contents)
+
+## Acknowledgements
+
+[Return to contents list](#contents)
+
