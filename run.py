@@ -16,6 +16,8 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 # Global variables
 
 user_name = ""
+notebook_column = 0
+notebook_row = 0
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
@@ -52,9 +54,8 @@ def set_game():
     """
     Runs all the functions required to set-up a new game
     """
-    date = get_date()
-    # global notebook_column
-    # notebook_column = new_notebook_entry(date)
+    date = str(get_date())
+    new_notebook_entry(date)
     # choose case, thief and stash location and set variables/classes for these
 
 def get_date():
@@ -64,6 +65,18 @@ def get_date():
     date = datetime.date.today()
     return date
 
+def new_notebook_entry(date):
+    """
+    Locate the number of the next empty column within the notebook
+    Update the global variable notebook_column with this number
+    Call the update_notebook function passing it the argument date
+    """
+    global notebook_column
+    notebook = SHEET.worksheet("notebook")
+    top_row = notebook.row_values(1)
+    number_columns = len(top_row)
+    notebook_column = number_columns + 1
+    # update_notebook(date)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
