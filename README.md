@@ -42,8 +42,6 @@ This game is currently under development
 
 #### Users
 
-Users
-
 The target audience enjoy solving ‘who dunnit’ mysteries. They enjoy finding clues and linking them together in order to solve a puzzle. They also enjoy the narrative of a story. In particular, the story lines and level of difficulty will make it suitable for children to play.
 
 As a first-time user:
