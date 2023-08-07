@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import datetime
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -18,11 +19,13 @@ user_name = ""
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
+    """
+    Runs all the functions that happen prior to the main game beginning
+    """
     initial_sequence()
-    # set_game()
+    set_game()
     # introduce_case()
     # welcome()
-
 
 def initial_sequence():
     """
@@ -44,6 +47,23 @@ Title name and art to be created
     user_name = input("Please input your name to begin your new career as a detective:\n")
     # input to be validated including request for confirmation of name if
     # len(user_name) <3 or >20, or user_name.isaplpha()is False
+
+def set_game():
+    """
+    Runs all the functions required to set-up a new game
+    """
+    date = get_date()
+    # global notebook_column
+    # notebook_column = new_notebook_entry(date)
+    # choose case, thief and stash location and set variables/classes for these
+
+def get_date():
+    """
+    Gets and returns the current date
+    """
+    date = datetime.date.today()
+    return date
+
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
