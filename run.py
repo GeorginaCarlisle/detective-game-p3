@@ -17,7 +17,20 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 
 user_name = ""
 notebook_column = 0
-notebook_row = 0
+
+# Functions used throughout the running of the program
+
+def update_notebook(entry):
+    """
+    Takes the string to be entered into the notebook as a parameter
+    Locates the next free cell in the column for this game
+    Updates the cell with the string
+    """
+    notebook = SHEET.worksheet("notebook")
+    current_column = notebook.col_values(notebook_column)
+    number_rows = len(current_column)
+    next_free_row = number_rows + 1
+    notebook.update_cell(next_free_row, notebook_column, entry)
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
@@ -76,7 +89,7 @@ def new_notebook_entry(date):
     top_row = notebook.row_values(1)
     number_columns = len(top_row)
     notebook_column = number_columns + 1
-    # update_notebook(date)
+    update_notebook(date)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
