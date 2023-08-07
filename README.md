@@ -109,6 +109,15 @@ All features to be implement during the 1st edition of this application. However
 
 ### The Structure Plane
 
+Detective game is a terminal based game. The following flow diagram shows how the player will move through the game.
+Available player actions will be clearly stated at each point input is required. Player input will then activate the chosen action.
+
+![Flow diagram showing how the player will move through the game](documentation/game_flow.drawio.pdf)
+
+The following diagram shows the clues that can be gained through visiting a location or questioning the suspect and how these lead the player to further linked locations and build a clear picture of who the thief is and where they have stashed the item. The green font shows all the information that is specific to the case and thief identity and the black shows background information that will always show regardless of the case or thief.
+
+![Diagram showing how the clues will work](documentation/clues.drawio.pdf)
+
 [Return to contents list](#contents)
 
 ## Testing and Validation
