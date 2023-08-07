@@ -40,6 +40,40 @@ This game is currently under development
 
 ### The Strategy Plane
 
+#### Users
+
+Users
+
+The target audience enjoy solving ‘who dunnit’ mysteries. They enjoy finding clues and linking them together in order to solve a puzzle. They also enjoy the narrative of a story. In particular, the story lines and level of difficulty will make it suitable for children to play.
+
+As a first-time user:
+-	I would like to understand what sort of game this is and what it is about before I start playing.
+-	I would like to know what happens to any information that I input into the game.
+-	I would like the game controls, what I need to do and how I can win to be concisely explained and easy to understand.
+
+As a user:
+-	I would like a ‘who dunnit’ style mystery to solve.
+-	I would like the story line of the game to both make sense and be enjoyable.
+-	I would like to be able to move through the game easily, quickly navigating between different options.
+-	I would like to be able to review any clues that I have picked up as and when I would like to.
+-	I would like the game to provide challenge so that I have to link together multiple clues, but I would like the trail to be fairly obvious. 
+
+As a returning user:
+-	I would like the game to be different each time I play so that it is always a mystery. 
+-	I would like the story that ends up unfolding as I play to be different each time.
+-	I would like the game to be structured to minimise and avoid short cuts where possible. For example: once I find the thief I don’t want to automatically know where they have hid the item, because the item is always to be found in thief’s work location. 
+
+#### Owner
+
+The owner is looking to:
+-	Provide a fun and enjoyable ‘who dunnit’ style mystery game that both children and adults can enjoy.
+
+The owner requires:
+-	The ability to quickly and easily add, update or change different elements to the game. These elements are to include the case present to the user, the suspects and the locations.
+-	Readable code that allows for quick debugging.
+-	Data to allow for further improving and refining of the game. Data showing how users are moving through the game, whether they are picking up on and following the clues and whether they are correct in their guesses as to the thief and the location of the stolen item. Data providing feedback from users.
+
+
 [Return to contents list](#contents)
 
 ### The Scope Plane
