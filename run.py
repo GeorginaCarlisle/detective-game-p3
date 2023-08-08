@@ -47,7 +47,7 @@ class Case:
         self.crime_scene = crime_scene
     
     def introduce(self):
-       return f"Someone has stolen the {item} {event} at the {crime_scene}"        
+       print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
@@ -203,9 +203,14 @@ def set_stash_and_precrime_locations(thief_name):
     update_notebook(pre_crime_location)
 
 def introduce_case():
-    brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …\n'"
+    brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
     print(brief_welcome)
-    #introduce case using a class of case
+    case_name = current_case[0]
+    item = current_case[1]
+    event = current_case[2]
+    crime_scene = current_case[3]
+    active_case = Case(case_name, item, event, crime_scene)
+    active_case.introduce()
     accept_case = input("Do you wish to take on the case?” (y/n)\n")
     # input to be validated and input handled
 
