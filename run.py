@@ -1,6 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 import datetime
+import random
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -17,6 +18,7 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 
 user_name = ""
 notebook_column = 0
+current_case = []
 
 # Functions used throughout the running of the program
 
@@ -69,6 +71,7 @@ def set_game():
     """
     date = str(get_date())
     new_notebook_entry(date)
+    set_case()
     # choose case, thief and stash location and set variables/classes for these
 
 def get_date():
@@ -90,6 +93,22 @@ def new_notebook_entry(date):
     number_columns = len(top_row)
     notebook_column = number_columns + 1
     update_notebook(date)
+
+def set_case():
+    """
+    Calculates number of available cases and randomly chooses one
+    Takes the: case_name, item, event, crime_scene for the chosen case from the cases sheet
+    Adding to the global list variable current_case    
+    """
+    cases = SHEET.worksheet("cases")
+    column_one = cases.col_values(1)
+    number_rows = len(column_one)
+    number_cases = number_rows -1
+    chosen_case_number = random.randrange(number_cases) +2
+    global current_case
+    for ind in range(1, 5):
+        new_list_item = cases.cell(chosen_case_number, ind).value
+        current_case.append(new_list_item)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
