@@ -108,7 +108,9 @@ def set_case():
     global current_case
     for ind in range(1, 5):
         new_list_item = cases.cell(chosen_case_number, ind).value
+        update_notebook(new_list_item)
         current_case.append(new_list_item)
+    return chosen_case_number
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
