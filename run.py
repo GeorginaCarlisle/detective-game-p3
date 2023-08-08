@@ -57,7 +57,7 @@ def intro_and_setup():
     initial_sequence()
     set_game()
     introduce_case()
-    # welcome()
+    welcome()
 
 def initial_sequence():
     """
@@ -214,6 +214,14 @@ def introduce_case():
     accept_case = input("Do you wish to take on the case?” (y/n)\n")
     # input to be validated and input handled
 
+def welcome():
+    main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to the ??? detective agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at ? on having the best detectives in the area.\nThis is your chance to show us you deserve a place on the team."
+    print(main_welcome)
+    print("")
+    print("")
+    game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at ??)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
+    print(game_explanation)
+    # link to function that requests user input as to what action they would like to take
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
