@@ -20,6 +20,8 @@ user_name = ""
 notebook_column = 0
 current_case = []
 thief_dictionary = {}
+stash_location = ""
+pre_crime_location = ""
 
 # Functions used throughout the running of the program
 
@@ -74,7 +76,7 @@ def set_game():
     new_notebook_entry(date)
     chosen_case_number = set_case()
     thief_name = set_thief(chosen_case_number)
-    # choose case, thief and stash location and set variables/classes for these
+    set_stash_and_precrime_locations(thief_name)
 
 def get_date():
     """
@@ -148,6 +150,45 @@ def set_thief(chosen_case_number):
     thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
     return thief_dictionary['Thief']
 
+def set_stash_and_precrime_locations(thief_name):
+    """
+    Retrieves the selected case's crime_scene
+    Using the thief_name retrieves the thief's work, hobby and connection locations
+    Randomly assignes two of the locations not being used as the crime scene as the stash and pre_crime locations
+    """
+    suspects = SHEET.worksheet("suspects")
+    suspect_name_column = suspects.col_values(1)
+    thief_row = suspect_name_column.index(thief_name) + 1
+    work_location = suspects.cell(thief_row, 4).value
+    hobby_location = suspects.cell(thief_row, 7).value
+    connection_location = suspects.cell(thief_row, 9).value
+    crime_scene = current_case[3]
+    choose_locations_number = random.randrange(3)
+    global stash_location
+    global pre_crime_location
+    if choose_locations_number == 0:
+        if work_location != crime_scene:
+            stash_location = work_location
+            pre_crime_location = hobby_location
+        else:
+            stash_location = hobby_location
+            pre_crime_location = connection_location
+    if choose_locations_number == 1:
+        if hobby_location != crime_scene:
+            stash_location = hobby_location
+            pre_crime_location = connection_location
+        else:
+            stash_location = connection_location
+            pre_crime_location = work_location
+    if choose_locations_number == 2:
+        if connection_location != crime_scene:
+            stash_location = connection_location
+            pre_crime_location = work_location
+        else:
+            stash_location = work_location
+            pre_crime_location = hobby_location
+    update_notebook(stash_location)
+    update_notebook(pre_crime_location)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
