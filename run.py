@@ -19,6 +19,7 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 user_name = ""
 notebook_column = 0
 current_case = []
+thief_dictionary = {}
 
 # Functions used throughout the running of the program
 
@@ -71,7 +72,8 @@ def set_game():
     """
     date = str(get_date())
     new_notebook_entry(date)
-    set_case()
+    chosen_case_number = set_case()
+    thief_name = set_thief(chosen_case_number)
     # choose case, thief and stash location and set variables/classes for these
 
 def get_date():
@@ -98,7 +100,7 @@ def set_case():
     """
     Calculates number of available cases and randomly chooses one
     Takes the: case_name, item, event, crime_scene for the chosen case from the cases sheet
-    Adding to the global list variable current_case    
+    Adding to the global list variable current_case
     """
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
@@ -111,6 +113,41 @@ def set_case():
         update_notebook(new_list_item)
         current_case.append(new_list_item)
     return chosen_case_number
+
+def set_thief(chosen_case_number):
+    """
+    Randomly selects one of the three potential thieves for the chosen case
+    update_notebook with the chosen_thief_number
+    Creates a dictionary for the thief using the headings and values related to that thief
+    from the cases sheet
+    """
+    cases = SHEET.worksheet("cases")
+    case_row = cases.row_values(chosen_case_number)
+    chosen_thief_number = random.randrange(3) +1
+    update_notebook(chosen_thief_number)
+    if chosen_thief_number == 1:
+        start_range = 12
+        end_range = 17
+    elif chosen_thief_number == 2:
+        start_range = 17
+        end_range = 22
+    elif chosen_thief_number == 3:
+        start_range = 22
+        end_range = 27
+    else:
+        print("ERROR!!")
+    thief_details = []
+    for ind in range(start_range, end_range):
+        thief_detail = cases.cell(chosen_case_number, ind).value
+        thief_details.append(thief_detail)
+    headings = []
+    for ind in range(start_range, end_range):
+        heading = cases.cell(1, ind).value
+        headings.append(heading)
+    global thief_dictionary
+    thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
+    return thief_dictionary['Thief']
+
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
