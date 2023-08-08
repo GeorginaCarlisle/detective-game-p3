@@ -37,6 +37,18 @@ def update_notebook(entry):
     next_free_row = number_rows + 1
     notebook.update_cell(next_free_row, notebook_column, entry)
 
+# Classes
+
+class Case:
+    def __init__(self, case_name, item, event, crime_scene):
+        self.case_name = case_name
+        self.item = item
+        self.event = event
+        self.crime_scene = crime_scene
+    
+    def introduce(self):
+       return f"Someone has stolen the {item} {event} at the {crime_scene}"        
+
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
