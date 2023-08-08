@@ -18,7 +18,7 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 
 user_name = ""
 notebook_column = 0
-current_case = []
+current_case = None
 thief_dictionary = {}
 stash_location = ""
 pre_crime_location = ""
@@ -113,8 +113,9 @@ def new_notebook_entry(date):
 def set_case():
     """
     Calculates number of available cases and randomly chooses one
-    Takes the: case_name, item, event, crime_scene for the chosen case from the cases sheet
-    Adding to the global list variable current_case
+    Takes the: case_name, item, event and crime_scene for the chosen case from the cases sheet
+    Adds these values to the notebook and
+    Uses them to create an instance of the Case class in variable current_case
     """
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
@@ -122,10 +123,15 @@ def set_case():
     number_cases = number_rows -1
     chosen_case_number = random.randrange(number_cases) +2
     global current_case
-    for ind in range(1, 5):
-        new_list_item = cases.cell(chosen_case_number, ind).value
-        update_notebook(new_list_item)
-        current_case.append(new_list_item)
+    case_name = cases.cell(chosen_case_number, 1).value
+    update_notebook(case_name)
+    item = cases.cell(chosen_case_number, 2).value
+    update_notebook(item)
+    event = cases.cell(chosen_case_number, 3).value
+    update_notebook(event)
+    crime_scene = cases.cell(chosen_case_number, 4).value
+    update_notebook(crime_scene)
+    current_case = Case(case_name, item, event, crime_scene)
     return chosen_case_number
 
 def set_thief(chosen_case_number):
@@ -174,7 +180,7 @@ def set_stash_and_precrime_locations(thief_name):
     work_location = suspects.cell(thief_row, 4).value
     hobby_location = suspects.cell(thief_row, 7).value
     connection_location = suspects.cell(thief_row, 9).value
-    crime_scene = current_case[3]
+    crime_scene = current_case.crime_scene
     choose_locations_number = random.randrange(3)
     global stash_location
     global pre_crime_location
@@ -205,12 +211,7 @@ def set_stash_and_precrime_locations(thief_name):
 def introduce_case():
     brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
     print(brief_welcome)
-    case_name = current_case[0]
-    item = current_case[1]
-    event = current_case[2]
-    crime_scene = current_case[3]
-    active_case = Case(case_name, item, event, crime_scene)
-    active_case.introduce()
+    current_case.introduce()
     accept_case = input("Do you wish to take on the case?” (y/n)\n")
     # input to be validated and input handled
 
