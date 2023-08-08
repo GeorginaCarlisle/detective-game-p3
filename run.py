@@ -44,7 +44,7 @@ def intro_and_setup():
     """
     initial_sequence()
     set_game()
-    # introduce_case()
+    introduce_case()
     # welcome()
 
 def initial_sequence():
@@ -189,6 +189,14 @@ def set_stash_and_precrime_locations(thief_name):
             pre_crime_location = hobby_location
     update_notebook(stash_location)
     update_notebook(pre_crime_location)
+
+def introduce_case():
+    brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …\n'"
+    print(brief_welcome)
+    #introduce case using a class of case
+    accept_case = input("Do you wish to take on the case?” (y/n)\n")
+    # input to be validated and input handled
+
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
