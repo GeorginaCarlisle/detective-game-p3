@@ -45,9 +45,9 @@ class Case:
         self.item = item
         self.event = event
         self.crime_scene = crime_scene
-    
+
     def introduce(self):
-       print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
+        print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
@@ -120,8 +120,8 @@ def set_case():
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
     number_rows = len(column_one)
-    number_cases = number_rows -1
-    chosen_case_number = random.randrange(number_cases) +2
+    number_cases = number_rows - 1
+    chosen_case_number = random.randrange(number_cases) + 2
     global current_case
     case_name = cases.cell(chosen_case_number, 1).value
     update_notebook(case_name)
@@ -142,8 +142,7 @@ def set_thief(chosen_case_number):
     from the cases sheet
     """
     cases = SHEET.worksheet("cases")
-    case_row = cases.row_values(chosen_case_number)
-    chosen_thief_number = random.randrange(3) +1
+    chosen_thief_number = random.randrange(3) + 1
     update_notebook(chosen_thief_number)
     if chosen_thief_number == 1:
         start_range = 12
