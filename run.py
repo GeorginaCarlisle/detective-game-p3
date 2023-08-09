@@ -92,7 +92,7 @@ class Stash:
         self.item = item
 
     def cctv_stash_location(self):
-        intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
+        intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
         print (intro_cctv_stash)
         list_suspects = "list of suspects"
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
@@ -398,12 +398,30 @@ def visit_stash_location(location_number):
     current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
     # Instance created actions follow below
     current_location.enter_location()
+    first_action = location_action_options()
+    if first_action == "c":
+        current_location.cctv_stash_location()
+    elif first_action == "l":
+        current_location.look_around_stash_location()
+    elif first_action == "t":
+        current_location.talk_witness_stash_location()
+    else:
+        print("ERROR!!")
 
 def visit_pre_crime_location(location_number):
     print("This is the pre_crime location")
 
 def visit_crime_scene_location(location_number):
     print("This is the crime_scene")
+
+def location_action_options():
+    print("Would you like to:")
+    choice = input("check the cctv (c), look around (l), talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
+    # input to be validated
+    if choice == "r":
+        main_action_options()
+    else:
+        return choice
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
