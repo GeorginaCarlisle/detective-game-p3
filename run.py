@@ -227,6 +227,10 @@ def welcome():
 # Main game functions
 
 def main_action_options():
+    """
+    Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
+    Handles player input and calls the associated functions
+    """
     action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)\n")
     # input to be validated
     if action == "m":
