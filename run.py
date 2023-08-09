@@ -49,6 +49,41 @@ class Case:
     def introduce(self):
         print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
 
+class Location:
+    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness):
+        self.location_name = location_name
+        self.description = description
+        self.employee = employee
+        self.regulars = regulars
+        self.character_connection = character_connection
+        self.work_witness = work_witness
+
+    def enter_location(self):
+        intro_location = f"You enter the {location_name} it is {description}"
+        print(intro_location)
+
+    def cctv_unconnected_location(self):
+        intro_cctv_location = f"You review the cctv during the hours after the {item} was stolen.\nYou notice the following suspects at the {location_name}:"
+        print (intro_cctv_stash)
+        list_suspects = "list of suspects"
+        # need to look at how it will work to gain suspect list from spreadsheet and how to then print
+        summary_cctv_location = f"Nothing stands out as being suspicious."
+
+    def look_around_location(self):
+        intro_look_around = f"You quickly search the {location_name} if you want to do a more thorough search you will need to obtain a search warrant."
+        print(intro_look_around)
+
+    def look_around_unconnected_location(self):
+        look_around_location(self)
+        notice_nothing = f"As you look around you notice nothing that might connect with the crime "
+        print(notice_nothing)
+
+    def talk_witness_unconnected_location(self):
+        question = f"You question the {work_witness}"
+        print(question)
+        response = f"I don't know that I can help you. {employee} works here {regulars} are often to be seen here. {character_connection} also pops in occasionally"
+        print(response)
+
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
