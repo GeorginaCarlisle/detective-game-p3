@@ -221,7 +221,36 @@ def welcome():
     print("")
     game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at ??)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
     print(game_explanation)
-    # link to function that requests user input as to what action they would like to take
+    print("Where would you like to start?/n")
+    main_action_options()
+
+# Main game functions
+
+def main_action_options():
+    action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)")
+    # input to be validated
+    if action == "m":
+        view_map()
+    elif action == "n":
+        view_notebook()
+    elif action == "s":
+        view_suspect_list()
+    elif action == "w":
+        obtain_search_warrant()
+    else:
+        print("ERROR!!")
+
+def view_map():
+    print("map reached")
+
+def view_notebook():
+    print("notebook reached")
+
+def view_suspect_list():
+    print("suspect_list reached")
+
+def obtain_search_warrant():
+    print("search warrant reached")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
