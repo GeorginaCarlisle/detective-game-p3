@@ -297,7 +297,7 @@ def view_map():
     # input to be validated
     if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
         action = int(action) + 1
-        visit_location(action)
+        check_location_type(action)
     elif action == "r":
         main_action_options()
     else:
@@ -312,6 +312,24 @@ def view_suspect_list():
 def obtain_search_warrant():
     print("search warrant reached")
 
+def check_location_type(location_number):
+    """
+    Checks the location chosen to see how it needs handling and calls one of the following functions
+    visit_stash_location, visit_pre_crime_location, visit_crime_scene_location
+    """
+    locations = SHEET.worksheet("locations")
+    location_name = locations.cell(location_number, 1).value
+    update_notebook(f"You visted {location_name}")
+    if location_name == stash_location:
+        visit_stash_location(location_number)
+    elif location_name == pre_crime_location:
+        visit_pre_crime_location(location_number)
+    elif location_name == current_case.crime_scene:
+        visit_crime_scene_location(location_number)
+    else:
+        visit_location(location_number)
+    # need to look at what's going to happen with the work location
+
 def visit_location(location_number):
     """
     Takes the chosen location_number as an argument and uses to create an instance of Location
@@ -320,7 +338,6 @@ def visit_location(location_number):
     # Find values and create a new instance of Location
     locations = SHEET.worksheet("locations")
     location_name = locations.cell(location_number, 1).value
-    update_notebook(f"You visted {location_name}")
     description = locations.cell(location_number, 2).value
     employee = locations.cell(location_number, 3).value
     regulars = locations.cell(location_number, 4).value
@@ -329,6 +346,15 @@ def visit_location(location_number):
     current_location = Location(location_name, description, employee, regulars, character_connection, work_witness)
     # Instance created actions follow below
     current_location.enter_location()
+
+def visit_stash_location(location_number):
+    print("This is the stash location")
+
+def visit_pre_crime_location(location_number):
+    print("This is the pre_crime location")
+
+def visit_crime_scene_location(location_number):
+    print("This is the crime_scene")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
