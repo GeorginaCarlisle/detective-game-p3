@@ -379,7 +379,25 @@ def visit_location(location_number):
     current_location.enter_location()
 
 def visit_stash_location(location_number):
-    print("This is the stash location")
+    """
+    Takes the chosen location_number as an argument and uses to create an instance of Stash_location
+    Uses the methods of the Location and Stash classes to allow the user to explore the location
+    """
+    # Find values and create a new instance of Stash_location
+    locations = SHEET.worksheet("locations")
+    location_name = locations.cell(location_number, 1).value
+    description = locations.cell(location_number, 2).value
+    employee = locations.cell(location_number, 3).value
+    regulars = locations.cell(location_number, 4).value
+    character_connection = locations.cell(location_number, 5).value
+    work_witness = locations.cell(location_number, 6).value
+    thief = thief_dictionary['Thief']
+    # Need to figure through a way to location crime_physical_clue detail
+    crime_physcial_clue = "need to locate"
+    item = current_case.item
+    current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
+    # Instance created actions follow below
+    current_location.enter_location()
 
 def visit_pre_crime_location(location_number):
     print("This is the pre_crime location")
