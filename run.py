@@ -227,7 +227,7 @@ def welcome():
 # Main game functions
 
 def main_action_options():
-    action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)")
+    action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)\n")
     # input to be validated
     if action == "m":
         view_map()
@@ -241,7 +241,28 @@ def main_action_options():
         print("ERROR!!")
 
 def view_map():
-    print("map reached")
+    """
+    Prints the map title, intro and a list of all the locations
+    Requests that user choose one of the locations or chooses to return to the main options
+    Handles user input and either calls the main options or calls visit_location 
+    passing the chosen location number adjusted to represent the location's row number in the sheet
+    """
+    print("Map title to be created")
+    print("A map of the area shows the following notable locations:")
+    locations = SHEET.worksheet("locations")
+    for ind in range(1, 9):
+        row = ind + 1
+        location = locations.cell(row, 1).value
+        print(f"{ind} - {location}")
+    action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
+    # input to be validated
+    if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
+        action = int(action) + 1
+        visit_location(action)
+    elif action == "r":
+        main_action_options()
+    else:
+        print("ERROR!!!")
 
 def view_notebook():
     print("notebook reached")
@@ -251,6 +272,9 @@ def view_suspect_list():
 
 def obtain_search_warrant():
     print("search warrant reached")
+
+def visit_location(location_number):
+    print(f"You are visiting location {location_number}")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
