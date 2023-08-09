@@ -59,18 +59,18 @@ class Location:
         self.work_witness = work_witness
 
     def enter_location(self):
-        intro_location = f"You enter the {location_name} it is {description}"
+        intro_location = f"You enter the {self.location_name} it is {self.description}"
         print(intro_location)
 
     def cctv_unconnected_location(self):
-        intro_cctv_location = f"You review the cctv during the hours after the {item} was stolen.\nYou notice the following suspects at the {location_name}:"
+        intro_cctv_location = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
         print (intro_cctv_stash)
         list_suspects = "list of suspects"
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         summary_cctv_location = f"Nothing stands out as being suspicious."
 
     def look_around_location(self):
-        intro_look_around = f"You quickly search the {location_name} if you want to do a more thorough search you will need to obtain a search warrant."
+        intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
 
     def look_around_unconnected_location(self):
@@ -79,9 +79,9 @@ class Location:
         print(notice_nothing)
 
     def talk_witness_unconnected_location(self):
-        question = f"You question the {work_witness}"
+        question = f"You question the {self.work_witness}"
         print(question)
-        response = f"I don't know that I can help you. {employee} works here {regulars} are often to be seen here. {character_connection} also pops in occasionally"
+        response = f"I don't know that I can help you. {self.employee} works here {self.regulars} are often to be seen here. {character_connection} also pops in occasionally"
         print(response)
 
 # Initial sequence and introduction to game and case
@@ -313,7 +313,22 @@ def obtain_search_warrant():
     print("search warrant reached")
 
 def visit_location(location_number):
-    print(f"You are visiting location {location_number}")
+    """
+    Takes the chosen location_number as an argument and uses to create an instance of Location
+    Uses the methods of the Location class to allow the user to explore the location
+    """
+    # Find values and create a new instance of Location
+    locations = SHEET.worksheet("locations")
+    location_name = locations.cell(location_number, 1).value
+    update_notebook(f"You visted {location_name}")
+    description = locations.cell(location_number, 2).value
+    employee = locations.cell(location_number, 3).value
+    regulars = locations.cell(location_number, 4).value
+    character_connection = locations.cell(location_number, 5).value
+    work_witness = locations.cell(location_number, 6).value
+    current_location = Location(location_name, description, employee, regulars, character_connection, work_witness)
+    # Instance created actions follow below
+    current_location.enter_location()
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
