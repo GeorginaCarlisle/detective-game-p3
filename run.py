@@ -130,7 +130,7 @@ def intro_and_setup():
     thief_details = set_thief(case_details, notebook_column)
     crime_scene_details = build_crime_scene_info(case_details)
     extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
-    pre_crime_location_details = build_pre_crime_location_info(extra_locations)
+    pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
     stash_location_details = build_stash_location_info(extra_locations)
     current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location)
     begin_game(current_case)
@@ -266,7 +266,6 @@ def build_crime_scene_info(case_details):
     }
     return crime_scene_details
 
-
 def set_stash_and_precrime_locations(thief_details, case_details, notebook_column):
     """
     Retrieves the selected case's crime_scene
@@ -312,6 +311,38 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_colum
     update_notebook(notebook_column, stash_location)
     update_notebook(notebook_column, pre_crime_location)
     return [stash_location, pre_crime_location]
+
+def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details):
+    """
+    Retrieves pre_crime location_name from extra_locations list
+    Accesses the location spreadsheet and thief_details to locate all associated info
+    Adds pre_crime_physical_clue info to crime_scene_details
+    Builds a dictionary of information for the pre_crime_location
+    Returns dictionary
+    """
+    location_name = extra_locations[1]
+    locations = SHEET.worksheet("locations")
+    location_name_column = locations.col_values(1)
+    pre_crime_location_row = location_name_column.index(location_name) + 1
+    description = locations.cell(pre_crime_location_row, 2).value
+    employee = locations.cell(pre_crime_location_row, 3).value
+    regulars = locations.cell(pre_crime_location_row, 4).value
+    character_connection = locations.cell(pre_crime_location_row, 5).value
+    work_witness = locations.cell(pre_crime_location_row, 6).value
+    pre_crime = thief_details['Pre-crime evidence']
+    pre_crime_physical_clue = locations.cell(pre_crime_location_row, 7).value
+    crime_scene_details['pre_crime_physical_clue'] = pre_crime_physical_clue
+    print(crime_scene_details)
+    pre_crime_location_details = {
+        "location_name": location_name,
+        "description": description,
+        "employee": employee,
+        "regulars": regulars,
+        "character_connection": character_connection,
+        "work_witness": work_witness,
+        "pre_crime": pre_crime,
+    }
+    return pre_crime_location_details
 
 def introduce_case():
     brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
