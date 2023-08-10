@@ -14,18 +14,9 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('detective_game')
 
-# Global variables
-
-user_name = ""
-notebook_column = 0
-current_case = None
-thief_dictionary = {}
-stash_location = ""
-pre_crime_location = ""
-
 # Functions used throughout the running of the program
 
-def update_notebook(entry):
+def update_notebook(notebook_column, entry):
     """
     Takes the string to be entered into the notebook as a parameter
     Locates the next free cell in the column for this game
@@ -40,14 +31,45 @@ def update_notebook(entry):
 # Classes
 
 class Case:
-    def __init__(self, case_name, item, event, crime_scene):
-        self.case_name = case_name
-        self.item = item
-        self.event = event
+    def __init__(self, player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location):
+        self.player_name = player_name
+        self.notebook_column = notebook_column
+        self.case_details = case_details
+        self.thief_details = thief_details
         self.crime_scene = crime_scene
+        self.pre_crime_location = pre_crime_location
+        self.stash_location = stash_location
 
-    def introduce(self):
-        print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
+    def introduce_case(self):
+        brief_welcome = f"You enter Case Closed Detective Agency\n'You must be Junior detective {self.player_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
+        print(brief_welcome)
+        introduce_case = f"Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}"
+        print(introduce_case)
+        accept_case = input("Do you wish to take on the case?” (y/n)\n")
+        # input to be validated and input handled
+        return accept_case
+
+    def welcome(self):
+        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to Case Closed Detective Agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at Case Closed on being able to solve and close every case we are given.\nThis is your chance to show us you deserve a place on the team."
+        print(main_welcome)
+        print("")
+        print("")
+        game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at Case Closed)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
+        print(game_explanation)
+        print("Where would you like to start?\n")
+
+    def set_stash_location(self):
+        location_name = self.stash_location["location_name"]
+        description = self.stash_location["description"]
+        employee = self.stash_location["employee"]
+        regulars = self.stash_location["regulars"]
+        character_connection = self.stash_location["character_connection"]
+        work_witness = self.stash_location["work_witness"]
+        thief = self.stash_location["thief"]
+        crime_physcial_clue = self.stash_location["crime_physcial_clue"]
+        item = self.stash_location["item"]
+        current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
+        return current_location
 
 # Location class and associated classes
 class Location:
@@ -118,16 +140,27 @@ class Stash_location(Location, Stash):
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
-    Runs all the functions that happen prior to the main game beginning
+    Runs all the functions which provide an initial introduction to the game and set up a new case 
+    The player's name is gained 
+    A case, thief, stash location and pre_crime location are randomly chosen
+    All game specific information is added to a new instance of the Case class
+    The begin_game function is then called passing on the new instance
     """
-    initial_sequence()
-    set_game()
-    introduce_case()
-    welcome()
+    player_name = initial_sequence()
+    date = str(get_date())
+    notebook_column = new_notebook_entry(date)
+    case_details = set_case(notebook_column)
+    thief_details = set_thief(case_details, notebook_column)
+    crime_scene_details = build_crime_scene_info(case_details)
+    extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
+    pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
+    stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
+    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
+    begin_game(current_case)
 
 def initial_sequence():
     """
-    Prints initial info to be seen when the user first loads the website
+    Prints initial info to be seen when the user first loads the website:
     the game title image, developer info, a brief explanation of the game
     and an input request from the user to input their name to start the game.
     """
@@ -138,23 +171,13 @@ Title name and art to be created
     developer = "Created by Georgina Carlisle 2023\n"
     question_user = "Would you make a good detective?\nHave you got the skills to follow the clues, arrest the correct suspect and locate the stolen item? \n"
     game_introduction = "In ??? detective agency you will choose which locations to visit, who to interview, who to arrest and where to search for the stolen item.\nYour game data will be saved and used for development purposes, but no personal data will be kept and used outside of your game.\n"
-    global user_name
     print(developer)
     print(question_user)
     print(game_introduction)
-    user_name = input("Please input your name to begin your new career as a detective:\n")
+    player_name = input("Please input your name to begin your new career as a detective:\n")
+    return player_name
     # input to be validated including request for confirmation of name if
     # len(user_name) <3 or >20, or user_name.isaplpha()is False
-
-def set_game():
-    """
-    Runs all the functions required to set-up a new game
-    """
-    date = str(get_date())
-    new_notebook_entry(date)
-    chosen_case_number = set_case()
-    thief_name = set_thief(chosen_case_number)
-    set_stash_and_precrime_locations(thief_name)
 
 def get_date():
     """
@@ -166,50 +189,56 @@ def get_date():
 def new_notebook_entry(date):
     """
     Locate the number of the next empty column within the notebook
-    Update the global variable notebook_column with this number
-    Call the update_notebook function passing it the argument date
+    Call the update_notebook function passing it the arguments notebook_column and date
+    Return the notebook_column number
     """
-    global notebook_column
     notebook = SHEET.worksheet("notebook")
     top_row = notebook.row_values(1)
     number_columns = len(top_row)
     notebook_column = number_columns + 1
-    update_notebook(date)
+    update_notebook(notebook_column, date)
+    return notebook_column
 
-def set_case():
+def set_case(notebook_column):
     """
     Calculates number of available cases and randomly chooses one
     Takes the: case_name, item, event and crime_scene for the chosen case from the cases sheet
     Adds these values to the notebook and
-    Uses them to create an instance of the Case class in variable current_case
+    Uses them to create and a return a dictionary
     """
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
     number_rows = len(column_one)
     number_cases = number_rows - 1
     chosen_case_number = random.randrange(number_cases) + 2
-    global current_case
     case_name = cases.cell(chosen_case_number, 1).value
-    update_notebook(case_name)
+    update_notebook(notebook_column, case_name)
     item = cases.cell(chosen_case_number, 2).value
-    update_notebook(item)
+    update_notebook(notebook_column, item)
     event = cases.cell(chosen_case_number, 3).value
-    update_notebook(event)
+    update_notebook(notebook_column, event)
     crime_scene = cases.cell(chosen_case_number, 4).value
-    update_notebook(crime_scene)
-    current_case = Case(case_name, item, event, crime_scene)
-    return chosen_case_number
+    update_notebook(notebook_column, crime_scene)
+    crime_physcial_clue = cases.cell(chosen_case_number, 11).value
+    case_details = {
+        "case_number": chosen_case_number,
+        "case_name": case_name,
+        "item": item,
+        "event": event,
+        "crime_scene": crime_scene,
+        "crime_physcial_clue": crime_physcial_clue
+    }
+    return case_details
 
-def set_thief(chosen_case_number):
+def set_thief(case_details, notebook_column):
     """
     Randomly selects one of the three potential thieves for the chosen case
-    update_notebook with the chosen_thief_number
-    Creates a dictionary for the thief using the headings and values related to that thief
-    from the cases sheet
+    Creates a dictionary for the thief using the headings and values related to that thief from the cases sheet
+    Updates the notebook with the thief's name
+    Returns the thief dictionary
     """
     cases = SHEET.worksheet("cases")
     chosen_thief_number = random.randrange(3) + 1
-    update_notebook(chosen_thief_number)
     if chosen_thief_number == 1:
         start_range = 12
         end_range = 17
@@ -221,6 +250,7 @@ def set_thief(chosen_case_number):
         end_range = 27
     else:
         print("ERROR!!")
+    chosen_case_number = case_details['case_number']
     thief_details = []
     for ind in range(start_range, end_range):
         thief_detail = cases.cell(chosen_case_number, ind).value
@@ -229,26 +259,53 @@ def set_thief(chosen_case_number):
     for ind in range(start_range, end_range):
         heading = cases.cell(1, ind).value
         headings.append(heading)
-    global thief_dictionary
     thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
-    return thief_dictionary['Thief']
+    update_notebook(notebook_column, thief_dictionary['Thief'])
+    return thief_dictionary
 
-def set_stash_and_precrime_locations(thief_name):
+def build_crime_scene_info(case_details):
+    """
+    Creates a dictionary of information linked to the crime_scene and returns
+    """
+    cases = SHEET.worksheet("cases")
+    chosen_case_number = case_details["case_number"]
+    location_name = case_details["crime_scene"]
+    suspects = cases.cell(chosen_case_number, 7).value
+    clue_detail = cases.cell(chosen_case_number, 8).value
+    witness = cases.cell(chosen_case_number, 9).value
+    witness_report = cases.cell(chosen_case_number, 10).value
+    item = case_details["item"]
+    plea = cases.cell(chosen_case_number, 6).value
+    timeline = cases.cell(chosen_case_number, 5).value
+    event = case_details["event"]
+    crime_scene_details = {
+       "location_name": location_name,
+       "suspects": suspects,
+       "clue_detail": clue_detail,
+       "witness": witness,
+       "witness_report": witness_report,
+       "item": item,
+       "plea": plea,
+       "timeline": timeline,
+       "event": event 
+    }
+    return crime_scene_details
+
+def set_stash_and_precrime_locations(thief_details, case_details, notebook_column):
     """
     Retrieves the selected case's crime_scene
     Using the thief_name retrieves the thief's work, hobby and connection locations
     Randomly assignes two of the locations not being used as the crime scene as the stash and pre_crime locations
     """
+    thief_name = thief_details['Thief']
     suspects = SHEET.worksheet("suspects")
     suspect_name_column = suspects.col_values(1)
     thief_row = suspect_name_column.index(thief_name) + 1
     work_location = suspects.cell(thief_row, 4).value
     hobby_location = suspects.cell(thief_row, 7).value
     connection_location = suspects.cell(thief_row, 9).value
-    crime_scene = current_case.crime_scene
+    crime_scene = case_details['crime_scene']
     choose_locations_number = random.randrange(3)
-    global stash_location
-    global pre_crime_location
     if choose_locations_number == 0:
         if work_location != crime_scene:
             stash_location = work_location
@@ -270,29 +327,101 @@ def set_stash_and_precrime_locations(thief_name):
         else:
             stash_location = work_location
             pre_crime_location = hobby_location
-    update_notebook(stash_location)
-    update_notebook(pre_crime_location)
+    update_notebook(notebook_column, stash_location)
+    update_notebook(notebook_column, pre_crime_location)
+    return [stash_location, pre_crime_location]
 
-def introduce_case():
-    brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
-    print(brief_welcome)
-    current_case.introduce()
-    accept_case = input("Do you wish to take on the case?” (y/n)\n")
-    # input to be validated and input handled
+def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details):
+    """
+    Retrieves pre_crime location_name from extra_locations list
+    Accesses the location spreadsheet and thief_details to locate all associated info
+    Adds pre_crime_physical_clue info to crime_scene_details
+    Builds a dictionary of information for the pre_crime_location
+    Returns dictionary
+    """
+    location_name = extra_locations[1]
+    locations = SHEET.worksheet("locations")
+    location_name_column = locations.col_values(1)
+    pre_crime_location_row = location_name_column.index(location_name) + 1
+    description = locations.cell(pre_crime_location_row, 2).value
+    employee = locations.cell(pre_crime_location_row, 3).value
+    regulars = locations.cell(pre_crime_location_row, 4).value
+    character_connection = locations.cell(pre_crime_location_row, 5).value
+    work_witness = locations.cell(pre_crime_location_row, 6).value
+    pre_crime = thief_details['Pre-crime evidence']
+    pre_crime_physical_clue = locations.cell(pre_crime_location_row, 7).value
+    crime_scene_details['pre_crime_physical_clue'] = pre_crime_physical_clue
+    pre_crime_location_details = {
+        "location_name": location_name,
+        "description": description,
+        "employee": employee,
+        "regulars": regulars,
+        "character_connection": character_connection,
+        "work_witness": work_witness,
+        "pre_crime": pre_crime,
+    }
+    return pre_crime_location_details
 
-def welcome():
-    main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to the ??? detective agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at ? on having the best detectives in the area.\nThis is your chance to show us you deserve a place on the team."
-    print(main_welcome)
-    print("")
-    print("")
-    game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at ??)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
-    print(game_explanation)
-    print("Where would you like to start?/n")
-    main_action_options()
+def build_stash_location_info(extra_locations, case_details, thief_details):
+    """
+    Retrieves stash location_name from extra_locations list
+    Accesses the location spreadsheet, thief_details and case_details to locate all associated info
+    Builds a dictionary of information for the stash_location
+    Returns dictionary
+    """
+    location_name = extra_locations[0]
+    locations = SHEET.worksheet("locations")
+    location_name_column = locations.col_values(1)
+    stash_location_row = location_name_column.index(location_name) + 1
+    description = locations.cell(stash_location_row, 2).value
+    employee = locations.cell(stash_location_row, 3).value
+    regulars = locations.cell(stash_location_row, 4).value
+    character_connection = locations.cell(stash_location_row, 5).value
+    work_witness = locations.cell(stash_location_row, 6).value
+    thief = thief_details['Thief']
+    crime_physcial_clue = case_details['crime_physcial_clue']
+    item = case_details['item']
+    stash_location_details = {
+        "location_name": location_name,
+        "description": description,
+        "employee": employee,
+        "regulars": regulars,
+        "character_connection": character_connection,
+        "work_witness": work_witness,
+        "thief": thief,
+        "crime_physcial_clue": crime_physcial_clue,
+        "item": item
+    }
+    return stash_location_details
 
-# Main game functions
+# Main game
 
-def main_action_options():
+def begin_game(current_case):
+    """
+    Runs functions to indroduce the case and welcome the user
+    this includes explaining how the game works
+    If the user doesn't accept the case, the game_over function is called
+    """
+    accept_case = current_case.introduce_case()
+    if accept_case == "y":
+        current_case.welcome()
+        main_action_options(current_case)
+    elif accept_case == "n":
+        game_over("case_not_accepted", current_case)
+    else:
+        print("Error!!")
+
+def game_over(reason, current_case):
+    """
+    Called when player choice leads to game over and passed an argument giving the reason why
+    Final scene of the game played, including an explanation of the reason for game over
+    """
+    if reason == "case_not_accepted":
+        print(f"'I'm afraid {current_case.player_name} that your time at Case Closed must end before it has even begun. I did warn you that we only accept the best here and the best do not turn down important cases that need solving'\n")
+    print(f"'Good day to you {current_case.player_name}'")
+    print("GAME OVER")
+
+def main_action_options(current_case):
     """
     Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
     Handles player input and calls the associated functions
@@ -300,7 +429,7 @@ def main_action_options():
     action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)\n")
     # input to be validated
     if action == "m":
-        view_map()
+        view_map(current_case)
     elif action == "n":
         view_notebook()
     elif action == "s":
@@ -310,7 +439,7 @@ def main_action_options():
     else:
         print("ERROR!!")
 
-def view_map():
+def view_map(current_case):
     """
     Prints the map title, intro and a list of all the locations
     Requests that user choose one of the locations or chooses to return to the main options
@@ -327,10 +456,10 @@ def view_map():
     action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
     # input to be validated
     if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
-        action = int(action) + 1
-        check_location_type(action)
+        location_number = int(action) + 1
+        check_location_type(location_number, current_case)
     elif action == "r":
-        main_action_options()
+        main_action_options(current_case)
     else:
         print("ERROR!!!")
 
@@ -343,22 +472,23 @@ def view_suspect_list():
 def obtain_search_warrant():
     print("search warrant reached")
 
-def check_location_type(location_number):
+def check_location_type(location_number, current_case):
     """
     Checks the location chosen to see how it needs handling and calls one of the following functions
     visit_stash_location, visit_pre_crime_location, visit_crime_scene_location
     """
     locations = SHEET.worksheet("locations")
     location_name = locations.cell(location_number, 1).value
-    update_notebook(f"You visted {location_name}")
-    if location_name == stash_location:
-        visit_stash_location(location_number)
-    elif location_name == pre_crime_location:
-        visit_pre_crime_location(location_number)
-    elif location_name == current_case.crime_scene:
-        visit_crime_scene_location(location_number)
+    update_notebook(current_case.notebook_column, f"You visted {location_name}")
+    if location_name == current_case.stash_location["location_name"]:
+        current_location = current_case.set_stash_location()
+        current_location.enter_location()
+    elif location_name == current_case.pre_crime_location["location_name"]:
+        print("visit pre_crime_location")
+    elif location_name == current_case.crime_scene["location_name"]:
+        print("visit crime_scene_location")
     else:
-        visit_location(location_number)
+        print("visit unconnected location")
     # need to look at what's going to happen with the work location
 
 def visit_location(location_number):
