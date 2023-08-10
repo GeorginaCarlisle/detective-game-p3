@@ -53,6 +53,15 @@ class Case:
         # input to be validated and input handled
         return accept_case
 
+    def welcome(self):
+        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to Case Closed Detective Agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at Case Closed on being able to solve and close every case we are given.\nThis is your chance to show us you deserve a place on the team."
+        print(main_welcome)
+        print("")
+        print("")
+        game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at Case Closed)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
+        print(game_explanation)
+        print("Where would you like to start?\n")
+
 # Location class and associated classes
 class Location:
     def __init__(self, location_name, description, employee, regulars, character_connection, work_witness):
@@ -384,23 +393,12 @@ def begin_game(current_case):
     """
     accept_case = current_case.introduce_case()
     if accept_case == "y":
-        welcome(current_case)
+        current_case.welcome()
+        main_action_options(current_case)
     elif accept_case == "n":
         game_over("case_not_accepted")
     else:
         print("Error!!")
-
-
-
-def welcome(current_case):
-    main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to the ??? detective agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at ? on having the best detectives in the area.\nThis is your chance to show us you deserve a place on the team."
-    print(main_welcome)
-    print("")
-    print("")
-    game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at ??)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
-    print(game_explanation)
-    print("Where would you like to start?/n")
-    main_action_options()
 
 # Main game functions
 
