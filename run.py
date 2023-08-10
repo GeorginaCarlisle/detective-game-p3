@@ -183,6 +183,57 @@ class Pre_crime_location(Location, Pre_crime):
         Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
         Pre_crime.__init__(self, pre_crime, physical_clue)
 
+class Crime_scene:
+    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name):
+        self.location_name = location_name
+        self.suspects = suspects
+        self.clue_detail = clue_detail
+        self.witness = witness
+        self.witness_report = witness_report
+        self.pre_crime_physical_clue = pre_crime_physical_clue
+        self.item = item
+        self.plea = plea
+        self.timeline = timeline
+        self.event = event
+        self.player_name
+
+    def enter_crime_scene(self):
+        intro_crime_scene = f"As you walk into {self.location_name} the {self.employee} rushes over to meet you"
+        print(intro_crime_scene)
+        greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but ?? has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
+        print(greet_employee)
+        question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
+        # input to be validated including handling of error
+        # Below needs looking at
+        event_timeline() if question_employee = "y" else game_over("poor_detective")
+
+    def event_timeline(self):
+        print(timeline)
+        help_offer = f"'Is there anything I can do to help? I can show you where the {self.item} was stolen from'"
+        # run specific location choices and main action choices
+    
+    def cctv_crime_scene(self):
+        intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
+        print(intro_cctv_crime_scene)
+        list_suspects = "list of suspects"
+        # need to look at how it will work to gain suspect list from spreadsheet and how to then print
+        cctv_recording_crime_scene = f"The following suspects have been spotted in the vicinity of the crime:\nList of suspects\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        # run specific location choices and main action choices
+
+    def look_around_crime_scene(self):
+        look_around_location(self)
+        notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}"
+        print(notice_clue)
+        # run specific location choices and main action choices
+
+    def talk_witness_crime_scene(self):
+        question = f"You question the {self.witness}"
+        print(question)
+        response = f"{self.witness_report} I noticed the thief ..."
+        # need to look at how to generate description clue
+        print(response)
+        # run specific location choices and main action choices
+
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
