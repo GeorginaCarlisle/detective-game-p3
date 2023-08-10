@@ -442,9 +442,9 @@ def view_map(current_case):
         print(f"{ind} - {location}")
     action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
     # input to be validated
-    if action "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
+    if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
         location_number = int(action) + 1
-        check_location_type(location_number)
+        check_location_type(location_number, current_case)
     elif action == "r":
         main_action_options(current_case)
     else:
@@ -459,22 +459,22 @@ def view_suspect_list():
 def obtain_search_warrant():
     print("search warrant reached")
 
-def check_location_type(location_number):
+def check_location_type(location_number, current_case):
     """
     Checks the location chosen to see how it needs handling and calls one of the following functions
     visit_stash_location, visit_pre_crime_location, visit_crime_scene_location
     """
     locations = SHEET.worksheet("locations")
     location_name = locations.cell(location_number, 1).value
-    update_notebook(f"You visted {location_name}")
-    if location_name == stash_location:
-        visit_stash_location(location_number)
-    elif location_name == pre_crime_location:
-        visit_pre_crime_location(location_number)
-    elif location_name == current_case.crime_scene:
-        visit_crime_scene_location(location_number)
+    update_notebook(current_case.notebook_column, f"You visted {location_name}")
+    if location_name == current_case.stash_location_details["location_name"]:
+        print("visit stash_location")
+    elif location_name == current_case.pre_crime_location_details["location_name"]:
+        print("visit pre_crime_location")
+    elif location_name == current_case.crime_scene_details["location_name"]:
+        print("visit crime_scene_location")
     else:
-        visit_location(location_number)
+        print("visit unconnected location")
     # need to look at what's going to happen with the work location
 
 def visit_location(location_number):
