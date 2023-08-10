@@ -20,7 +20,7 @@ pre_crime_location = ""
 
 # Functions used throughout the running of the program
 
-def update_notebook(entry):
+def update_notebook(notebook_column, entry):
     """
     Takes the string to be entered into the notebook as a parameter
     Locates the next free cell in the column for this game
@@ -166,15 +166,15 @@ def get_date():
 def new_notebook_entry(date):
     """
     Locate the number of the next empty column within the notebook
-    Update the global variable notebook_column with this number
-    Call the update_notebook function passing it the argument date
+    Call the update_notebook function passing it the arguments notebook_column and date
+    Return the notebook_column number
     """
-    global notebook_column
     notebook = SHEET.worksheet("notebook")
     top_row = notebook.row_values(1)
     number_columns = len(top_row)
     notebook_column = number_columns + 1
-    update_notebook(date)
+    update_notebook(notebook_column, date)
+    return notebook_column
 
 def set_case():
     """
