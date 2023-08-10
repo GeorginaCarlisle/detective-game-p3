@@ -71,6 +71,9 @@ class Case:
         current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
         return current_location
 
+    def set_pre_crime_location(self):
+        current_location = 
+
 # Location class and associated classes
 class Location:
     def __init__(self, location_name, description, employee, regulars, character_connection, work_witness):
@@ -141,6 +144,29 @@ class Stash_location(Location, Stash):
     def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item):
         Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
         Stash.__init__(self, thief, crime_physcial_clue, item)
+
+class Pre_crime:
+    def __init__(self, pre_crime, physical_clue):
+        self.pre_crime = pre_crime
+        self.physical_clue = physical_clue
+
+    def cctv_pre_crime(self):
+        intro_cctv_pre_crime = f"You review the cctv the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
+        print(intro_cctv_pre_crime)
+        list_suspects = "list of suspects"
+        # need to look at how it will work to gain suspect list from spreadsheet and how to then print
+        summary_cctv = f"Nothing stands out as being suspicious. Anyone of them could have ended up with the {self.physical_clue} in their pocket."
+        print(summary_cctv)
+        # run specific location choices and main action choices
+
+    def talk_witness_pre_crime(self):
+        question = f"You question the {self.work_witness}"
+        print(question)
+        response = f"Well on that morning {self.employee} was here as normal and {self.regulars} came in during the morning. {self.character_connection} also popped in"
+        print(response)
+        clue = f"Oh and come to think of it {self.pre_crime}"
+        print(clue)
+        # run specific location choices and main action choices
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
