@@ -396,9 +396,19 @@ def begin_game(current_case):
         current_case.welcome()
         main_action_options(current_case)
     elif accept_case == "n":
-        game_over("case_not_accepted")
+        game_over("case_not_accepted", current_case)
     else:
         print("Error!!")
+
+def game_over(reason, current_case):
+    """
+    Called when player choice leads to game over and passed an argument giving the reason why
+    Final scene of the game played, including an explanation of the reason for game over
+    """
+    if reason == "case_not_accepted":
+        print(f"'I'm afraid {current_case.player_name} that your time at Case Closed must end before it has even begun. I did warn you that we only accept the best here and the best do not turn down important cases that need solving'\n")
+    print(f"'Good day to you {current_case.player_name}'")
+    print("GAME OVER")
 
 # Main game functions
 
