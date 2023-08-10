@@ -168,6 +168,11 @@ class Pre_crime:
         print(clue)
         # run specific location choices and main action choices
 
+class Pre_crime_location(Location, Pre_crime):
+    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue):
+        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
+        Pre_crime.__init__(self, pre_crime, physical_clue)
+
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
