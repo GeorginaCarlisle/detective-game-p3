@@ -126,7 +126,7 @@ def intro_and_setup():
     player_name = initial_sequence()
     date = str(get_date())
     notebook_column = new_notebook_entry(date)
-    case_details = set_case()
+    case_details = set_case(notebook_column)
     thief_details = set_thief(case_details)
     crime_scene_details = build_crime_scene_info(case_details)
     extra_locations = set_stash_and_precrime_locations(case_details)
@@ -176,29 +176,34 @@ def new_notebook_entry(date):
     update_notebook(notebook_column, date)
     return notebook_column
 
-def set_case():
+def set_case(notebook_column):
     """
     Calculates number of available cases and randomly chooses one
     Takes the: case_name, item, event and crime_scene for the chosen case from the cases sheet
     Adds these values to the notebook and
-    Uses them to create an instance of the Case class in variable current_case
+    Uses them to create and a return a dictionary
     """
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
     number_rows = len(column_one)
     number_cases = number_rows - 1
     chosen_case_number = random.randrange(number_cases) + 2
-    global current_case
     case_name = cases.cell(chosen_case_number, 1).value
-    update_notebook(case_name)
+    update_notebook(notebook_column, case_name)
     item = cases.cell(chosen_case_number, 2).value
-    update_notebook(item)
+    update_notebook(notebook_column, item)
     event = cases.cell(chosen_case_number, 3).value
-    update_notebook(event)
+    update_notebook(notebook_column, event)
     crime_scene = cases.cell(chosen_case_number, 4).value
-    update_notebook(crime_scene)
-    current_case = Case(case_name, item, event, crime_scene)
-    return chosen_case_number
+    update_notebook(notebook_column, crime_scene)
+    case_details = {
+        "case_number": chosen_case_number,
+        "case_name": case_name,
+        "item": item,
+        "event": event,
+        "crime_scene": crime_scene
+    }
+    return case_details
 
 def set_thief(chosen_case_number):
     """
