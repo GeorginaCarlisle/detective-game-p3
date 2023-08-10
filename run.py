@@ -127,7 +127,7 @@ def intro_and_setup():
     date = str(get_date())
     notebook_column = new_notebook_entry(date)
     case_details = set_case(notebook_column)
-    thief_details = set_thief(case_details)
+    thief_details = set_thief(case_details, notebook_column)
     crime_scene_details = build_crime_scene_info(case_details)
     extra_locations = set_stash_and_precrime_locations(case_details)
     pre_crime_location_details = build_pre_crime_location_info(extra_locations)
@@ -205,16 +205,15 @@ def set_case(notebook_column):
     }
     return case_details
 
-def set_thief(chosen_case_number):
+def set_thief(case_details, notebook_column):
     """
     Randomly selects one of the three potential thieves for the chosen case
-    update_notebook with the chosen_thief_number
-    Creates a dictionary for the thief using the headings and values related to that thief
-    from the cases sheet
+    Creates a dictionary for the thief using the headings and values related to that thief from the cases sheet
+    Updates the notebook with the thief's name
+    Returns the thief dictionary
     """
     cases = SHEET.worksheet("cases")
     chosen_thief_number = random.randrange(3) + 1
-    update_notebook(chosen_thief_number)
     if chosen_thief_number == 1:
         start_range = 12
         end_range = 17
@@ -226,6 +225,7 @@ def set_thief(chosen_case_number):
         end_range = 27
     else:
         print("ERROR!!")
+    chosen_case_number = case_details['case_number']
     thief_details = []
     for ind in range(start_range, end_range):
         thief_detail = cases.cell(chosen_case_number, ind).value
@@ -234,9 +234,9 @@ def set_thief(chosen_case_number):
     for ind in range(start_range, end_range):
         heading = cases.cell(1, ind).value
         headings.append(heading)
-    global thief_dictionary
     thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
-    return thief_dictionary['Thief']
+    update_notebook(notebook_column, thief_dictionary['Thief'])
+    return thief_dictionary
 
 def set_stash_and_precrime_locations(thief_name):
     """
