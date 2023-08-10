@@ -72,7 +72,17 @@ class Case:
         return current_location
 
     def set_pre_crime_location(self):
-        current_location = 
+        location_name = self.pre_crime_location["location_name"]
+        description = self.pre_crime_location["description"]
+        employee = self.pre_crime_location["employee"]
+        regulars = self.pre_crime_location["regulars"]
+        character_connection = self.pre_crime_location["character_connection"]
+        work_witness = self.pre_crime_location["work_witness"]
+        pre_crime = self.pre_crime_location["pre_crime"]
+        physical_clue = self.pre_crime_location["physical_clue"]
+        current_location = Pre_crime_location(location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue)
+        return current_location
+
 
 # Location class and associated classes
 class Location:
@@ -395,6 +405,7 @@ def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_de
         "character_connection": character_connection,
         "work_witness": work_witness,
         "pre_crime": pre_crime,
+        "physical_clue": pre_crime_physical_clue
     }
     return pre_crime_location_details
 
