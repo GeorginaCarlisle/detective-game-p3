@@ -58,6 +58,19 @@ class Case:
         print(game_explanation)
         print("Where would you like to start?\n")
 
+    def set_stash_location(self):
+        location_name = self.stash_location["location_name"]
+        description = self.stash_location["description"]
+        employee = self.stash_location["employee"]
+        regulars = self.stash_location["regulars"]
+        character_connection = self.stash_location["character_connection"]
+        work_witness = self.stash_location["work_witness"]
+        thief = self.stash_location["thief"]
+        crime_physcial_clue = self.stash_location["crime_physcial_clue"]
+        item = self.stash_location["item"]
+        current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
+        return current_location
+
 # Location class and associated classes
 class Location:
     def __init__(self, location_name, description, employee, regulars, character_connection, work_witness):
@@ -468,7 +481,7 @@ def check_location_type(location_number, current_case):
     location_name = locations.cell(location_number, 1).value
     update_notebook(current_case.notebook_column, f"You visted {location_name}")
     if location_name == current_case.stash_location_details["location_name"]:
-        print("visit stash_location")
+        current_location = current_case.set_stash_location()
     elif location_name == current_case.pre_crime_location_details["location_name"]:
         print("visit pre_crime_location")
     elif location_name == current_case.crime_scene_details["location_name"]:
