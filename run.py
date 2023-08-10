@@ -131,8 +131,8 @@ def intro_and_setup():
     crime_scene_details = build_crime_scene_info(case_details)
     extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
     pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
-    stash_location_details = build_stash_location_info(extra_locations)
-    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location)
+    stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
+    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location, stash_location)
     begin_game(current_case)
 
 def initial_sequence():
@@ -196,12 +196,14 @@ def set_case(notebook_column):
     update_notebook(notebook_column, event)
     crime_scene = cases.cell(chosen_case_number, 4).value
     update_notebook(notebook_column, crime_scene)
+    crime_physcial_clue = cases.cell(chosen_case_number, 11).value
     case_details = {
         "case_number": chosen_case_number,
         "case_name": case_name,
         "item": item,
         "event": event,
-        "crime_scene": crime_scene
+        "crime_scene": crime_scene,
+        "crime_physcial_clue": crime_physcial_clue
     }
     return case_details
 
@@ -336,6 +338,38 @@ def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_de
         "pre_crime": pre_crime,
     }
     return pre_crime_location_details
+
+def build_stash_location_info(extra_locations, case_details, thief_details):
+    """
+    Retrieves stash location_name from extra_locations list
+    Accesses the location spreadsheet, thief_details and case_details to locate all associated info
+    Builds a dictionary of information for the stash_location
+    Returns dictionary
+    """
+    location_name = extra_locations[0]
+    locations = SHEET.worksheet("locations")
+    location_name_column = locations.col_values(1)
+    stash_location_row = location_name_column.index(location_name) + 1
+    description = locations.cell(stash_location_row, 2).value
+    employee = locations.cell(stash_location_row, 3).value
+    regulars = locations.cell(stash_location_row, 4).value
+    character_connection = locations.cell(stash_location_row, 5).value
+    work_witness = locations.cell(stash_location_row, 6).value
+    thief = thief_details['Thief']
+    crime_physcial_clue = case_details['crime_physcial_clue']
+    item = case_details['item']
+    stash_location_details = {
+        "location_name": location_name,
+        "description": description,
+        "employee": employee,
+        "regulars": regulars,
+        "character_connection": character_connection,
+        "work_witness": work_witness,
+        "thief": thief,
+        "crime_physcial_clue": crime_physcial_clue,
+        "item": item
+    }
+    return stash_location_details
 
 def introduce_case():
     brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
