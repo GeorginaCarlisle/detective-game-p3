@@ -156,16 +156,6 @@ Title name and art to be created
     # input to be validated including request for confirmation of name if
     # len(user_name) <3 or >20, or user_name.isaplpha()is False
 
-def set_game():
-    """
-    Runs all the functions required to set-up a new game
-    """
-    date = str(get_date())
-    new_notebook_entry(date)
-    chosen_case_number = set_case()
-    thief_name = set_thief(chosen_case_number)
-    set_stash_and_precrime_locations(thief_name)
-
 def get_date():
     """
     Gets and returns the current date
