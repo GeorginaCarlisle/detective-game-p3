@@ -142,7 +142,7 @@ def intro_and_setup():
     extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
     pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
     stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
-    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location, stash_location)
+    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
     begin_game(current_case)
 
 def initial_sequence():
@@ -381,6 +381,8 @@ def build_stash_location_info(extra_locations, case_details, thief_details):
     }
     return stash_location_details
 
+# Main game
+
 def begin_game(current_case):
     """
     Runs functions to indroduce the case and welcome the user
@@ -406,8 +408,6 @@ def game_over(reason, current_case):
     print(f"'Good day to you {current_case.player_name}'")
     print("GAME OVER")
 
-# Main game functions
-
 def main_action_options(current_case):
     """
     Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
@@ -416,7 +416,7 @@ def main_action_options(current_case):
     action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)\n")
     # input to be validated
     if action == "m":
-        view_map()
+        view_map(current_case)
     elif action == "n":
         view_notebook()
     elif action == "s":
@@ -426,7 +426,7 @@ def main_action_options(current_case):
     else:
         print("ERROR!!")
 
-def view_map():
+def view_map(current_case):
     """
     Prints the map title, intro and a list of all the locations
     Requests that user choose one of the locations or chooses to return to the main options
@@ -442,11 +442,11 @@ def view_map():
         print(f"{ind} - {location}")
     action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
     # input to be validated
-    if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
-        action = int(action) + 1
-        check_location_type(action)
+    if action "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
+        location_number = int(action) + 1
+        check_location_type(location_number)
     elif action == "r":
-        main_action_options()
+        main_action_options(current_case)
     else:
         print("ERROR!!!")
 
