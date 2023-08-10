@@ -582,11 +582,11 @@ def visit_pre_crime_location(current_case):
     current_location.enter_location()
     choice = current_location.location_actions()
     if choice == "c":
-        print("check cctv at pre_crime")
+        current_location.cctv_pre_crime()
     elif choice == "l":
         current_location.look_around_location()
     elif choice == "t":
-        print("talk to witness at pre_crime")
+        current_location.talk_witness_pre_crime()
     elif choice == "r":
         main_action_options(current_case)
     else:
