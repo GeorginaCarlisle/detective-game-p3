@@ -14,10 +14,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('detective_game')
 
-# Global variables
-stash_location = ""
-pre_crime_location = ""
-
 # Functions used throughout the running of the program
 
 def update_notebook(notebook_column, entry):
