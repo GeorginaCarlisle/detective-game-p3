@@ -44,9 +44,14 @@ class Case:
         self.pre_crime_location = pre_crime_location
         self.stash_location = stash_location
 
-
-#    def introduce(self):
-#       print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
+    def introduce_case(self):
+        brief_welcome = f"You enter Case Closed Detective Agency\n'You must be Junior detective {self.player_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
+        print(brief_welcome)
+        introduce_case = f"Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}"
+        print(introduce_case)
+        accept_case = input("Do you wish to take on the case?” (y/n)\n")
+        # input to be validated and input handled
+        return accept_case
 
 # Location class and associated classes
 class Location:
@@ -377,7 +382,7 @@ def begin_game(current_case):
     this includes explaining how the game works
     If the user doesn't accept the case, the game_over function is called
     """
-    accept_case = introduce_case(current_case)
+    accept_case = current_case.introduce_case()
     if accept_case == "y":
         welcome(current_case)
     elif accept_case == "n":
@@ -385,12 +390,7 @@ def begin_game(current_case):
     else:
         print("Error!!")
 
-def introduce_case(current_case):
-    brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
-    print(brief_welcome)
-    current_case.introduce()
-    accept_case = input("Do you wish to take on the case?” (y/n)\n")
-    # input to be validated and input handled
+
 
 def welcome(current_case):
     main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to the ??? detective agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at ? on having the best detectives in the area.\nThis is your chance to show us you deserve a place on the team."
