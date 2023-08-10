@@ -117,12 +117,23 @@ class Stash_location(Location, Stash):
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
-    Runs all the functions that happen prior to the main game beginning
+    Runs all the functions which provide an initial introduction to the game and set up a new case 
+    The player's name is gained 
+    A case, thief, stash location and pre_crime location are randomly chosen
+    All game specific information is added to a new instance of the Case class
+    The begin_game function is then called passing on the new instance
     """
-    initial_sequence()
-    set_game()
-    introduce_case()
-    welcome()
+    player_name = initial_sequence()
+    date = str(get_date())
+    notebook_column = new_notebook_entry(date)
+    case_details = set_case()
+    thief_details = set_thief(case_details)
+    crime_scene_details = build_crime_scene_info(case_details)
+    extra_locations = set_stash_and_precrime_locations(case_details)
+    pre_crime_location_details = build_pre_crime_location_info(extra_locations)
+    stash_location_details = build_stash_location_info(extra_locations)
+    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location)
+    begin_game(current_case)
 
 def initial_sequence():
     """
