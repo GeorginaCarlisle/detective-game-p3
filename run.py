@@ -238,6 +238,35 @@ def set_thief(case_details, notebook_column):
     update_notebook(notebook_column, thief_dictionary['Thief'])
     return thief_dictionary
 
+def build_crime_scene_info(case_details):
+    """
+    Creates a dictionary of information linked to the crime_scene and returns
+    """
+    cases = SHEET.worksheet("cases")
+    chosen_case_number = case_details["case_number"]
+    location_name = case_details["crime_scene"]
+    suspects = cases.cell(chosen_case_number, 7).value
+    clue_detail = cases.cell(chosen_case_number, 8).value
+    witness = cases.cell(chosen_case_number, 9).value
+    witness_report = cases.cell(chosen_case_number, 10).value
+    item = case_details["item"]
+    plea = cases.cell(chosen_case_number, 6).value
+    timeline = cases.cell(chosen_case_number, 5).value
+    event = case_details["event"]
+    crime_scene_details = {
+       "location_name": location_name,
+       "suspects": suspects,
+       "clue_detail": clue_detail,
+       "witness": witness,
+       "witness_report": witness_report,
+       "item": item,
+       "plea": plea,
+       "timeline": timeline,
+       "event": event 
+    }
+    return crime_scene_details
+
+
 def set_stash_and_precrime_locations(thief_name):
     """
     Retrieves the selected case's crime_scene
