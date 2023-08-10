@@ -85,6 +85,11 @@ class Location:
         intro_location = f"You enter the {self.location_name} it is {self.description}"
         print(intro_location)
 
+    def location_actions(self):
+        print("Would you like to:")
+        choice = input("check the cctv (c), look around (l), or talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
+        return choice
+
     def cctv_unconnected_location(self):
         intro_cctv_location = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
         print (intro_cctv_stash)
@@ -481,8 +486,7 @@ def check_location_type(location_number, current_case):
     location_name = locations.cell(location_number, 1).value
     update_notebook(current_case.notebook_column, f"You visted {location_name}")
     if location_name == current_case.stash_location["location_name"]:
-        current_location = current_case.set_stash_location()
-        current_location.enter_location()
+        visit_stash_location(current_case)
     elif location_name == current_case.pre_crime_location["location_name"]:
         print("visit pre_crime_location")
     elif location_name == current_case.crime_scene["location_name"]:
@@ -508,33 +512,22 @@ def visit_location(location_number):
     # Instance created actions follow below
     current_location.enter_location()
 
-def visit_stash_location(location_number):
+def visit_stash_location(current_case):
     """
-    Takes the chosen location_number as an argument and uses to create an instance of Stash_location
-    Uses the methods of the Location and Stash classes to allow the user to explore the location
+    Sets the current_location as an instance of Stash_location. 
+    Runs enter_location, requests player to choose next action and handles choice
     """
-    # Find values and create a new instance of Stash_location
-    locations = SHEET.worksheet("locations")
-    location_name = locations.cell(location_number, 1).value
-    description = locations.cell(location_number, 2).value
-    employee = locations.cell(location_number, 3).value
-    regulars = locations.cell(location_number, 4).value
-    character_connection = locations.cell(location_number, 5).value
-    work_witness = locations.cell(location_number, 6).value
-    thief = thief_dictionary['Thief']
-    # Need to figure through a way to location crime_physical_clue detail
-    crime_physcial_clue = "need to locate"
-    item = current_case.item
-    current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
-    # Instance created actions follow below
+    current_location = current_case.set_stash_location()
     current_location.enter_location()
-    first_action = location_action_options()
-    if first_action == "c":
+    choice = current_location.location_actions()
+    if choice == "c":
         current_location.cctv_stash_location()
-    elif first_action == "l":
+    elif choice == "l":
         current_location.look_around_stash_location()
-    elif first_action == "t":
+    elif choice == "t":
         current_location.talk_witness_stash_location()
+    elif choice == "r":
+        main_action_options(current_case)
     else:
         print("ERROR!!")
 
