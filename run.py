@@ -129,7 +129,7 @@ def intro_and_setup():
     case_details = set_case(notebook_column)
     thief_details = set_thief(case_details, notebook_column)
     crime_scene_details = build_crime_scene_info(case_details)
-    extra_locations = set_stash_and_precrime_locations(case_details)
+    extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
     pre_crime_location_details = build_pre_crime_location_info(extra_locations)
     stash_location_details = build_stash_location_info(extra_locations)
     current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location)
@@ -267,22 +267,25 @@ def build_crime_scene_info(case_details):
     return crime_scene_details
 
 
-def set_stash_and_precrime_locations(thief_name):
+def set_stash_and_precrime_locations(thief_details, case_details, notebook_column):
     """
     Retrieves the selected case's crime_scene
     Using the thief_name retrieves the thief's work, hobby and connection locations
     Randomly assignes two of the locations not being used as the crime scene as the stash and pre_crime locations
     """
+    thief_name = thief_details['Thief']
     suspects = SHEET.worksheet("suspects")
     suspect_name_column = suspects.col_values(1)
     thief_row = suspect_name_column.index(thief_name) + 1
     work_location = suspects.cell(thief_row, 4).value
+    print(work_location)
     hobby_location = suspects.cell(thief_row, 7).value
+    print(hobby_location)
     connection_location = suspects.cell(thief_row, 9).value
-    crime_scene = current_case.crime_scene
+    print(connection_location)
+    crime_scene = case_details['crime_scene']
+    print(crime_scene)
     choose_locations_number = random.randrange(3)
-    global stash_location
-    global pre_crime_location
     if choose_locations_number == 0:
         if work_location != crime_scene:
             stash_location = work_location
@@ -304,8 +307,11 @@ def set_stash_and_precrime_locations(thief_name):
         else:
             stash_location = work_location
             pre_crime_location = hobby_location
-    update_notebook(stash_location)
-    update_notebook(pre_crime_location)
+    print(stash_location)
+    print(pre_crime_location)
+    update_notebook(notebook_column, stash_location)
+    update_notebook(notebook_column, pre_crime_location)
+    return [stash_location, pre_crime_location]
 
 def introduce_case():
     brief_welcome = f"You enter ??\n'You must be Junior detective {user_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
