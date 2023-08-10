@@ -219,7 +219,7 @@ class Crime_scene:
         question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
         # input to be validated including handling of error
         # Below needs looking at
-        event_timeline() if question_employee = "y" else game_over("poor_detective")
+        event_timeline() if question_employee == "y" else game_over("poor_detective")
 
     def event_timeline(self):
         print(timeline)
@@ -417,6 +417,7 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_colum
     connection_location = suspects.cell(thief_row, 9).value
     crime_scene = case_details['crime_scene']
     choose_locations_number = random.randrange(3)
+    # Currently causing a bug. Due to incorrect handling of crime_scene, this location can be picked twice!
     if choose_locations_number == 0:
         if work_location != crime_scene:
             stash_location = work_location
@@ -597,7 +598,7 @@ def check_location_type(location_number, current_case):
     elif location_name == current_case.pre_crime_location["location_name"]:
         visit_pre_crime_location(current_case)
     elif location_name == current_case.crime_scene["location_name"]:
-        print("visit crime_scene_location")
+        visit_crime_scene_location(current_case)
     else:
         print("visit unconnected location")
     # need to look at what's going to happen with the work location
@@ -632,7 +633,7 @@ def visit_stash_location(current_case):
     elif choice == "l":
         current_location.look_around_stash_location()
     elif choice == "t":
-        current_location.talk_witness_stash_location()
+        current_location.talk_witness_crime_scene()
     elif choice == "r":
         main_action_options(current_case)
     else:
@@ -657,8 +658,24 @@ def visit_pre_crime_location(current_case):
     else:
         print("ERROR!!")
 
-def visit_crime_scene_location(location_number):
-    print("This is the crime_scene")
+def visit_crime_scene_location(current_case):
+    """
+    Sets the current_location as an instance of Crime_scene. 
+    Runs enter_location, requests player to choose next action and handles choice
+    """
+    current_location = current_case.set_crime_scene()
+    current_location.enter_crime_scene()
+    choice = current_location.location_actions()
+    if choice == "c":
+        current_location.cctv_crime_scene()
+    elif choice == "l":
+        current_location.look_around_crime_scene()
+    elif choice == "t":
+        current_location.talk_witness_stash_location()
+    elif choice == "r":
+        main_action_options(current_case)
+    else:
+        print("ERROR!!")
 
 def location_action_options():
     print("Would you like to:")
