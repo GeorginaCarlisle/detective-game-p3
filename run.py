@@ -488,7 +488,7 @@ def check_location_type(location_number, current_case):
     if location_name == current_case.stash_location["location_name"]:
         visit_stash_location(current_case)
     elif location_name == current_case.pre_crime_location["location_name"]:
-        print("visit pre_crime_location")
+        visit_pre_crime_location(current_case)
     elif location_name == current_case.crime_scene["location_name"]:
         print("visit crime_scene_location")
     else:
@@ -531,8 +531,24 @@ def visit_stash_location(current_case):
     else:
         print("ERROR!!")
 
-def visit_pre_crime_location(location_number):
-    print("This is the pre_crime location")
+def visit_pre_crime_location(current_case):
+    """
+    Sets the current_location as an instance of pre_crime_location. 
+    Runs enter_location, requests player to choose next action and handles choice
+    """
+    current_location = current_case.set_pre_crime_location()
+    current_location.enter_location()
+    choice = current_location.location_actions()
+    if choice == "c":
+        print("check cctv at pre_crime")
+    elif choice == "l":
+        current_location.look_around_location()
+    elif choice == "t":
+        print("talk to witness at pre_crime")
+    elif choice == "r":
+        main_action_options(current_case)
+    else:
+        print("ERROR!!")
 
 def visit_crime_scene_location(location_number):
     print("This is the crime_scene")
