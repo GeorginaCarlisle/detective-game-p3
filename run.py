@@ -277,13 +277,9 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_colum
     suspect_name_column = suspects.col_values(1)
     thief_row = suspect_name_column.index(thief_name) + 1
     work_location = suspects.cell(thief_row, 4).value
-    print(work_location)
     hobby_location = suspects.cell(thief_row, 7).value
-    print(hobby_location)
     connection_location = suspects.cell(thief_row, 9).value
-    print(connection_location)
     crime_scene = case_details['crime_scene']
-    print(crime_scene)
     choose_locations_number = random.randrange(3)
     if choose_locations_number == 0:
         if work_location != crime_scene:
@@ -306,8 +302,6 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_colum
         else:
             stash_location = work_location
             pre_crime_location = hobby_location
-    print(stash_location)
-    print(pre_crime_location)
     update_notebook(notebook_column, stash_location)
     update_notebook(notebook_column, pre_crime_location)
     return [stash_location, pre_crime_location]
@@ -332,7 +326,6 @@ def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_de
     pre_crime = thief_details['Pre-crime evidence']
     pre_crime_physical_clue = locations.cell(pre_crime_location_row, 7).value
     crime_scene_details['pre_crime_physical_clue'] = pre_crime_physical_clue
-    print(crime_scene_details)
     pre_crime_location_details = {
         "location_name": location_name,
         "description": description,
