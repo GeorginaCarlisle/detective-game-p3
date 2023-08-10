@@ -15,11 +15,6 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('detective_game')
 
 # Global variables
-
-user_name = ""
-notebook_column = 0
-current_case = None
-thief_dictionary = {}
 stash_location = ""
 pre_crime_location = ""
 
@@ -40,14 +35,18 @@ def update_notebook(entry):
 # Classes
 
 class Case:
-    def __init__(self, case_name, item, event, crime_scene):
-        self.case_name = case_name
-        self.item = item
-        self.event = event
+    def __init__(self, player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location):
+        self.player_name = player_name
+        self.notebook_column = notebook_column
+        self.case_details = case_details
+        self.thief_details = thief_details
         self.crime_scene = crime_scene
+        self.pre_crime_location = pre_crime_location
+        self.stash_location = stash_location
 
-    def introduce(self):
-        print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
+
+#    def introduce(self):
+#       print(f"Someone has stolen the {self.item} {self.event} at the {self.crime_scene}")
 
 # Location class and associated classes
 class Location:
