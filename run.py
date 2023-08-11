@@ -277,7 +277,7 @@ def intro_and_setup():
     date = str(get_date())
     notebook_row = new_notebook_entry(date)
     case_details = set_case(notebook_row)
-    #thief_details = set_thief(case_details, notebook_row)
+    thief_details = set_thief(case_details, notebook_row)
     #crime_scene_details = build_crime_scene_info(case_details)
     #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
     #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
@@ -373,7 +373,7 @@ def set_case(notebook_row):
     }
     return case_details
 
-def set_thief(case_details, notebook_column):
+def set_thief(case_details, notebook_row):
     """
     Randomly selects one of the three potential thieves for the chosen case
     Creates a dictionary for the thief using the headings and values related to that thief from the cases sheet
@@ -403,7 +403,7 @@ def set_thief(case_details, notebook_column):
         heading = cases.cell(1, ind).value
         headings.append(heading)
     thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
-    update_notebook(notebook_column, thief_dictionary['Thief'])
+    update_notebook(notebook_row, [thief_dictionary['Thief']])
     return thief_dictionary
 
 def build_crime_scene_info(case_details):
