@@ -16,9 +16,10 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 
 # Functions used throughout the running of the program
 
-def update_notebook(notebook_column, entry):
+def update_notebook(notebook_column, *entries):
     """
-    Takes the string to be entered into the notebook as a parameter
+    Takes the current game's notebook_column as a parameter along with
+    and *args object containing the entries to be added into the notebook
     Locates the next free cell in the column for this game
     Updates the cell with the string
     """
@@ -26,7 +27,12 @@ def update_notebook(notebook_column, entry):
     current_column = notebook.col_values(notebook_column)
     number_rows = len(current_column)
     next_free_row = number_rows + 1
-    notebook.update_cell(next_free_row, notebook_column, entry)
+    list_entries = list(entries)
+    number_of_entries = len(list_entries[0])
+    # Need to convert current_column number into associated letter
+
+
+#notebook.update('A1:B2', [[1, 2], [3, 4]])
 
 # Classes
 
@@ -261,7 +267,6 @@ def intro_and_setup():
     date = str(get_date())
     notebook_column = new_notebook_entry(date)
     case_details = set_case(notebook_column)
-    print(case_details)
     #thief_details = set_thief(case_details, notebook_column)
     #crime_scene_details = build_crime_scene_info(case_details)
     #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
@@ -326,13 +331,9 @@ def set_case(notebook_column):
     # Pull all case information, expect the thief specific values from the cases sheet
     list_case_details = cases.get(f'A{chosen_case_number}:K{chosen_case_number}')
     case_name = list_case_details[0][0]
-    update_notebook(notebook_column, case_name)
     item = list_case_details[0][1]
-    update_notebook(notebook_column, item)
     event = list_case_details[0][2]
-    update_notebook(notebook_column, event)
     crime_scene = list_case_details[0][3]
-    update_notebook(notebook_column, crime_scene)
     timeline = list_case_details[0][4]
     plea = list_case_details[0][5]
     suspects_at_event = list_case_details[0][6]
@@ -340,6 +341,10 @@ def set_case(notebook_column):
     witness = list_case_details[0][8]
     witness_report = list_case_details[0][9]
     event_physical_clue = list_case_details[0][10]
+    # Call the update_notebook function and pass it the notebook_column 
+    # and a list of the entries to be added
+    notebook_entries = [case_name, item, event, crime_scene]
+    update_notebook(notebook_column, notebook_entries)
     # Create a dictionary of all the case details and return
     case_details = {
         "case_number": chosen_case_number,
