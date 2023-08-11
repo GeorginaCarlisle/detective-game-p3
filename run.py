@@ -279,7 +279,7 @@ def intro_and_setup():
     notebook_row = new_notebook_entry(date)
     case_details = set_case(notebook_row)
     thief_details = set_thief(case_details, notebook_row)
-    #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
+    set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
     #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
     #stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
     #current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location_details, stash_location_details)
@@ -406,12 +406,13 @@ def set_thief(case_details, notebook_row):
     update_notebook(notebook_row, [thief_dictionary['Thief']])
     return thief_dictionary
 
-def set_stash_and_precrime_locations(thief_details, case_details, notebook_column):
+def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
     """
     Retrieves the selected case's crime_scene
     Using the thief_name retrieves the thief's work, hobby and connection locations
     Randomly assignes two of the locations not being used as the crime scene as the stash and pre_crime locations
     """
+    # Get all the details needed
     thief_name = thief_details['Thief']
     suspects = SHEET.worksheet("suspects")
     suspect_name_column = suspects.col_values(1)
@@ -420,31 +421,47 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_colum
     hobby_location = suspects.cell(thief_row, 7).value
     connection_location = suspects.cell(thief_row, 9).value
     crime_scene = case_details['crime_scene']
-    choose_locations_number = random.randrange(3)
-    # Currently causing a bug. Due to incorrect handling of crime_scene, this location can be picked twice!
-    if choose_locations_number == 0:
-        if work_location != crime_scene:
-            stash_location = work_location
-            pre_crime_location = hobby_location
-        else:
+    # Generate a random number
+    choose_locations_number = random.randrange(2)
+    # Using random number choose stash and pre_crime locations
+    if work_location == crime_scene:
+        if choose_locations_number == 0:
             stash_location = hobby_location
             pre_crime_location = connection_location
-    if choose_locations_number == 1:
-        if hobby_location != crime_scene:
-            stash_location = hobby_location
+        elif choose_locations_number == 1:
+            stash_location = connection_location
+            pre_crime_location = hobby_location
+        else:
+            print("ERROR!!")
+    elif hobby_location == crime_scene:
+        if choose_locations_number == 0:
+            stash_location = work_location
             pre_crime_location = connection_location
-        else:
-            stash_location = connection_location
-            pre_crime_location = work_location
-    if choose_locations_number == 2:
-        if connection_location != crime_scene:
+        elif choose_locations_number == 1:
             stash_location = connection_location
             pre_crime_location = work_location
         else:
+            print("ERROR!!")
+    elif connection_location == crime_scene:
+        if choose_locations_number == 0:
             stash_location = work_location
             pre_crime_location = hobby_location
-    update_notebook(notebook_column, stash_location)
-    update_notebook(notebook_column, pre_crime_location)
+        elif choose_locations_number == 1:
+            stash_location = hobby_location
+            pre_crime_location = work_location
+        else:
+            print("ERROR!!")
+    else:
+        if choose_locations_number == 0:
+            stash_location = work_location
+            pre_crime_location = hobby_location
+        elif choose_locations_number == 1:
+            stash_location = connection_location
+            pre_crime_location = work_location
+        else:
+            print("ERROR!!")
+    # update notebook with choices and return them
+    update_notebook(notebook_row, [stash_location, pre_crime_location])
     return [stash_location, pre_crime_location]
 
 def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details):
