@@ -261,13 +261,14 @@ def intro_and_setup():
     date = str(get_date())
     notebook_column = new_notebook_entry(date)
     case_details = set_case(notebook_column)
-    thief_details = set_thief(case_details, notebook_column)
-    crime_scene_details = build_crime_scene_info(case_details)
-    extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
-    pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
-    stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
-    current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
-    begin_game(current_case)
+    print(case_details)
+    #thief_details = set_thief(case_details, notebook_column)
+    #crime_scene_details = build_crime_scene_info(case_details)
+    #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
+    #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
+    #stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
+    #current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
+    #begin_game(current_case)
 
 def initial_sequence():
     """
@@ -313,16 +314,17 @@ def new_notebook_entry(date):
 def set_case(notebook_column):
     """
     Calculates number of available cases and randomly chooses one
-    Takes the: case_name, item, event and crime_scene for the chosen case from the cases sheet
-    Adds these values to the notebook and
+    Takes all case information, expect the thief specific values from the cases sheet
     Uses them to create and a return a dictionary
     """
+    # Randomly choose a case
     cases = SHEET.worksheet("cases")
     column_one = cases.col_values(1)
     number_rows = len(column_one)
     number_cases = number_rows - 1
     chosen_case_number = random.randrange(number_cases) + 2
-    list_case_details = cases.get('A2:D4')
+    # Pull all case information, expect the thief specific values from the cases sheet
+    list_case_details = cases.get(f'A{chosen_case_number}:K{chosen_case_number}')
     case_name = list_case_details[0][0]
     update_notebook(notebook_column, case_name)
     item = list_case_details[0][1]
@@ -331,14 +333,27 @@ def set_case(notebook_column):
     update_notebook(notebook_column, event)
     crime_scene = list_case_details[0][3]
     update_notebook(notebook_column, crime_scene)
-    crime_physcial_clue = cases.cell(chosen_case_number, 11).value
+    timeline = list_case_details[0][4]
+    plea = list_case_details[0][5]
+    suspects_at_event = list_case_details[0][6]
+    clue_detail = list_case_details[0][7]
+    witness = list_case_details[0][8]
+    witness_report = list_case_details[0][9]
+    event_physical_clue = list_case_details[0][10]
+    # Create a dictionary of all the case details and return
     case_details = {
         "case_number": chosen_case_number,
         "case_name": case_name,
         "item": item,
         "event": event,
         "crime_scene": crime_scene,
-        "crime_physcial_clue": crime_physcial_clue
+        "timeline": timeline,
+        "plea": plea,
+        "suspects_at_event": suspects_at_event,
+        "clue_detail": clue_detail,
+        "witness": witness,
+        "witness_report": witness_report,
+        "event_physcial_clue": event_physical_clue
     }
     return case_details
 
