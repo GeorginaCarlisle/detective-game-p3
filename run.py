@@ -274,6 +274,11 @@ class Crime_scene:
         print(help_offer)
         # run specific location choices and main action choices
     
+    def location_actions(self):
+        print("Would you like to:")
+        choice = input("check the cctv (c), look around (l), or talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
+        return choice
+
     def cctv_crime_scene(self):
         intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
         print(intro_cctv_crime_scene)
@@ -653,6 +658,7 @@ def visit_crime_scene_location(current_case):
     """
     current_location = current_case.set_crime_scene()
     current_location.enter_crime_scene()
+    # The location_action function is currently duplicated. Residing in both the Location and Crime_scene classes
     choice = current_location.location_actions()
     if choice == "c":
         current_location.cctv_crime_scene()
