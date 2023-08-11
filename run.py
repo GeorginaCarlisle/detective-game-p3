@@ -322,13 +322,14 @@ def set_case(notebook_column):
     number_rows = len(column_one)
     number_cases = number_rows - 1
     chosen_case_number = random.randrange(number_cases) + 2
-    case_name = cases.cell(chosen_case_number, 1).value
+    list_case_details = cases.get('A2:D4')
+    case_name = list_case_details[0][0]
     update_notebook(notebook_column, case_name)
-    item = cases.cell(chosen_case_number, 2).value
+    item = list_case_details[0][1]
     update_notebook(notebook_column, item)
-    event = cases.cell(chosen_case_number, 3).value
+    event = list_case_details[0][2]
     update_notebook(notebook_column, event)
-    crime_scene = cases.cell(chosen_case_number, 4).value
+    crime_scene = list_case_details[0][3]
     update_notebook(notebook_column, crime_scene)
     crime_physcial_clue = cases.cell(chosen_case_number, 11).value
     case_details = {
