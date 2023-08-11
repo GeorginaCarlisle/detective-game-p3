@@ -266,11 +266,12 @@ class Crime_scene:
         question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
         # input to be validated including handling of error
         # Below needs looking at
-        event_timeline() if question_employee == "y" else game_over("poor_detective")
+        Crime_scene.event_timeline(self) if question_employee == "y" else game_over("poor_detective")
 
     def event_timeline(self):
-        print(timeline)
+        print(self.timeline)
         help_offer = f"'Is there anything I can do to help? I can show you where the {self.item} was stolen from'"
+        print(help_offer)
         # run specific location choices and main action choices
     
     def cctv_crime_scene(self):
