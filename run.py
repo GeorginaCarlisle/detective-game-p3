@@ -23,17 +23,26 @@ def update_notebook(notebook_row, *entries):
     Locates the next free cell in the column for this game
     Updates the cell with the string
     """
+    # Locate the number of the next free column in this game's row
     notebook = SHEET.worksheet("notebook")
     notebook_row_list = notebook.row_values(notebook_row)
     number_columns = len(notebook_row_list)
-    next_free_column = number_columns + 1
-    list_entries = list(entries)
-    number_of_entries = len(list_entries[0])
-    # Need to convert next_free_column into associated letter
-
-
-
-#notebook.update('A1:B2', [[1, 2], [3, 4]])
+    next_free_column = number_columns
+    print(next_free_column)
+    # check the number of entries to be added
+    list_entries = list(entries[0])
+    print(list_entries)
+    number_of_entries = len(list_entries)
+    print(number_of_entries)
+    # Calculate the column range in letters where the new entries are to be added
+    alphabet_list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    start_column_letter = alphabet_list[next_free_column]
+    print(start_column_letter)
+    end_column_number = next_free_column + number_of_entries
+    end_column_letter = alphabet_list[end_column_number]
+    print(end_column_letter)
+    # Add new entries to the notebook
+    notebook.update(f'{start_column_letter}{notebook_row}:{end_column_letter}{notebook_row}', [list_entries])
 
 # Classes
 
@@ -314,7 +323,8 @@ def new_notebook_entry(date):
     first_column = notebook.col_values(1)
     number_rows = len(first_column)
     notebook_row = number_rows + 1
-    update_notebook(notebook_row, date)
+    date_entry = [date]
+    update_notebook(notebook_row, date_entry)
     return notebook_row
 
 def set_case(notebook_row):
