@@ -134,9 +134,9 @@ class Case:
         locations = SHEET.worksheet("locations")
         location_name_column = locations.col_values(1)
         pre_crime_location_row = location_name_column.index(location_name) + 1
-        physical_clue = worksheet.cell(pre_crime_location_row, 7).value
+        physical_clue = locations.cell(pre_crime_location_row, 7).value
         # build an instance of the Crime_scene class and return
-        current_location = Crime_scene(location_name, suspects, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name)
+        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name)
         return current_location
 
 # Location class and associated classes
