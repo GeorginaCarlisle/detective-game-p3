@@ -47,7 +47,6 @@ class Case:
         self.notebook_column = notebook_column
         self.case_details = case_details
         self.thief_details = thief_details
-        self.crime_scene = crime_scene
         self.pre_crime_location = pre_crime_location
         self.stash_location = stash_location
 
