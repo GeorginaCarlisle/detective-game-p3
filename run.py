@@ -680,14 +680,6 @@ def visit_crime_scene_location(current_case):
     else:
         print("ERROR!!")
 
-def location_action_options():
-    print("Would you like to:")
-    choice = input("check the cctv (c), look around (l), talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
-    # input to be validated
-    if choice == "r":
-        main_action_options()
-    else:
-        return choice
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
