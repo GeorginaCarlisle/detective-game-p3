@@ -102,12 +102,12 @@ class Case:
         pre_crime_location_row = location_name_column.index(location_name) + 1
         # Pull the needed details from the spreadsheet
         list_pre_crime_location_details = locations.get(f'B{pre_crime_location_row}:G{pre_crime_location_row}')
-        description = list_pre_crime_location_detail[0][0]
-        employee = list_pre_crime_location_detail[0][1]
-        regulars = list_pre_crime_location_detail[0][2]
-        character_connection = list_pre_crime_location_detail[0][3]
-        work_witness = list_pre_crime_location_detail[0][4]
-        physical_clue = locations.cell[0][5]
+        description = list_pre_crime_location_details[0][0]
+        employee = list_pre_crime_location_details[0][1]
+        regulars = list_pre_crime_location_details[0][2]
+        character_connection = list_pre_crime_location_details[0][3]
+        work_witness = list_pre_crime_location_details[0][4]
+        physical_clue = list_pre_crime_location_details[0][5]
         pre_crime = self.thief_details['Pre-crime evidence']
         # build an instance of the Pre_crime_location class and return
         current_location = Pre_crime_location(location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue)
