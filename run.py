@@ -165,7 +165,7 @@ class Location:
 
     def cctv_unconnected_location(self):
         intro_cctv_location = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
-        print (intro_cctv_stash)
+        print(intro_cctv_stash)
         list_suspects = "list of suspects"
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         summary_cctv_location = f"Nothing stands out as being suspicious."
@@ -193,7 +193,7 @@ class Stash:
 
     def cctv_stash_location(self):
         intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
-        print (intro_cctv_stash)
+        print(intro_cctv_stash)
         list_suspects = "list of suspects"
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
@@ -274,7 +274,7 @@ class Crime_scene:
         help_offer = f"'Is there anything I can do to help? I can show you where the {self.item} was stolen from'"
         print(help_offer)
         # run specific location choices and main action choices
-    
+
     def location_actions(self):
         print("Would you like to:")
         choice = input("check the cctv (c), look around (l), or talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
@@ -309,8 +309,8 @@ class Crime_scene:
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
-    Runs all the functions which provide an initial introduction to the game and set up a new case 
-    The player's name is gained 
+    Runs all the functions which provide an initial introduction to the game and set up a new case
+    The player's name is gained
     A case, thief, stash location and pre_crime location are randomly chosen
     All game specific information is added to a new instance of the Case class
     The begin_game function is then called passing on the new instance
@@ -393,7 +393,7 @@ def set_case(notebook_row):
     witness = list_case_details[0][8]
     witness_report = list_case_details[0][9]
     event_physical_clue = list_case_details[0][10]
-    # Call the update_notebook function and pass it the notebook_column 
+    # Call the update_notebook function and pass it the notebook_column
     # and a list of the entries to be added
     notebook_entries = [case_name, item, event, crime_scene]
     update_notebook(notebook_row, notebook_entries)
