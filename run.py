@@ -288,7 +288,11 @@ class Crime_scene:
         # run specific location choices and main action choices
 
     def look_around_crime_scene(self):
-        look_around_location(self)
+        """
+        Prints associated story and clues for looking around the crime scene
+        """
+        intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
+        print(intro_look_around)
         notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}"
         print(notice_clue)
         # run specific location choices and main action choices
