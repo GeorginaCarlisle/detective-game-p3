@@ -84,11 +84,11 @@ class Case:
         regulars = list_stash_location_details[0][2]
         character_connection = list_stash_location_details[0][3]
         work_witness = list_stash_location_details[0][4]
-        thief = self.thief_details["thief"]
-        crime_physcial_clue = self.case_details['crime_physcial_clue']
+        thief = self.thief_details["Thief"]
+        event_physcial_clue = self.case_details['event_physcial_clue']
         item = self.case_details['item']
         # build an instance of the Stash_location class and return
-        current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
+        current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, event_physcial_clue, item)
         return current_location
 
     def set_pre_crime_location(self):
@@ -196,11 +196,12 @@ class Stash:
         print (intro_cctv_stash)
         list_suspects = "list of suspects"
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
-        suspicion_raised = f"You are immediately suspicious when the notice {self.thief} appear on the CCTV at an odd hour"
+        suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
         print(suspicion_raised)
 
     def look_around_stash_location(self):
-        look_around_location(self)
+        intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
+        print(intro_look_around)
         notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
         print(notice_clue)
 
@@ -630,7 +631,7 @@ def visit_stash_location(current_case):
     elif choice == "l":
         current_location.look_around_stash_location()
     elif choice == "t":
-        current_location.talk_witness_crime_scene()
+        current_location.talk_witness_stash_location()
     elif choice == "r":
         main_action_options(current_case)
     else:
