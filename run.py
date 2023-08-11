@@ -162,7 +162,7 @@ class Location:
         return choice
 
     def cctv_unconnected_location(self):
-        intro_cctv_location = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
+        intro_cctv_location = f"You review the cctv during the hours after the crime.\nYou notice the following suspects at the {location_name}:"
         print(intro_cctv_location)
         list_suspects = "list of suspects"
         print(list_suspects)
@@ -170,19 +170,16 @@ class Location:
         summary_cctv_location = f"Nothing stands out as being suspicious."
         print(summary_cctv_location)
 
-    def look_around_location(self):
-        intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
-        print(intro_look_around)
-
     def look_around_unconnected_location(self):
-        look_around_location(self)
+        intro_look_around = f"You quickly search the {self.location_name} there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
+        print(intro_look_around)
         notice_nothing = f"As you look around you notice nothing that might connect with the crime "
         print(notice_nothing)
 
     def talk_witness_unconnected_location(self):
         question = f"You question the {self.work_witness}"
         print(question)
-        response = f"I don't know that I can help you. {self.employee} works here {self.regulars} are often to be seen here. {character_connection} also pops in occasionally"
+        response = f"I don't know that I can help you. {self.employee} works here {self.regulars} are often to be seen here. {self.character_connection} also pops in occasionally"
         print(response)
 
 class Stash:
