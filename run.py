@@ -28,19 +28,14 @@ def update_notebook(notebook_row, *entries):
     notebook_row_list = notebook.row_values(notebook_row)
     number_columns = len(notebook_row_list)
     next_free_column = number_columns
-    print(next_free_column)
     # check the number of entries to be added
     list_entries = list(entries[0])
-    print(list_entries)
     number_of_entries = len(list_entries)
-    print(number_of_entries)
     # Calculate the column range in letters where the new entries are to be added
     alphabet_list = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     start_column_letter = alphabet_list[next_free_column]
-    print(start_column_letter)
     end_column_number = next_free_column + number_of_entries
     end_column_letter = alphabet_list[end_column_number]
-    print(end_column_letter)
     # Add new entries to the notebook
     notebook.update(f'{start_column_letter}{notebook_row}:{end_column_letter}{notebook_row}', [list_entries])
 
