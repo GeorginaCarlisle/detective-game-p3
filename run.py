@@ -16,7 +16,7 @@ SHEET = GSPREAD_CLIENT.open('detective_game')
 
 # Functions used throughout the running of the program
 
-def update_notebook(notebook_column, *entries):
+def update_notebook(notebook_row, *entries):
     """
     Takes the current game's notebook_column as a parameter along with
     and *args object containing the entries to be added into the notebook
@@ -24,12 +24,13 @@ def update_notebook(notebook_column, *entries):
     Updates the cell with the string
     """
     notebook = SHEET.worksheet("notebook")
-    current_column = notebook.col_values(notebook_column)
-    number_rows = len(current_column)
-    next_free_row = number_rows + 1
+    notebook_row_list = notebook.row_values(notebook_row)
+    number_columns = len(notebook_row_list)
+    next_free_column = number_columns + 1
     list_entries = list(entries)
     number_of_entries = len(list_entries[0])
-    # Need to convert current_column number into associated letter
+    # Need to convert next_free_column into associated letter
+
 
 
 #notebook.update('A1:B2', [[1, 2], [3, 4]])
@@ -265,14 +266,14 @@ def intro_and_setup():
     """
     player_name = initial_sequence()
     date = str(get_date())
-    notebook_column = new_notebook_entry(date)
-    case_details = set_case(notebook_column)
-    #thief_details = set_thief(case_details, notebook_column)
+    notebook_row = new_notebook_entry(date)
+    case_details = set_case(notebook_row)
+    #thief_details = set_thief(case_details, notebook_row)
     #crime_scene_details = build_crime_scene_info(case_details)
-    #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_column)
+    #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
     #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
     #stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
-    #current_case = Case(player_name, notebook_column, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
+    #current_case = Case(player_name, notebook_row, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
     #begin_game(current_case)
 
 def initial_sequence():
@@ -310,13 +311,13 @@ def new_notebook_entry(date):
     Return the notebook_column number
     """
     notebook = SHEET.worksheet("notebook")
-    top_row = notebook.row_values(1)
-    number_columns = len(top_row)
-    notebook_column = number_columns + 1
-    update_notebook(notebook_column, date)
-    return notebook_column
+    first_column = notebook.col_values(1)
+    number_rows = len(first_column)
+    notebook_row = number_rows + 1
+    update_notebook(notebook_row, date)
+    return notebook_row
 
-def set_case(notebook_column):
+def set_case(notebook_row):
     """
     Calculates number of available cases and randomly chooses one
     Takes all case information, expect the thief specific values from the cases sheet
@@ -344,7 +345,7 @@ def set_case(notebook_column):
     # Call the update_notebook function and pass it the notebook_column 
     # and a list of the entries to be added
     notebook_entries = [case_name, item, event, crime_scene]
-    update_notebook(notebook_column, notebook_entries)
+    update_notebook(notebook_row, notebook_entries)
     # Create a dictionary of all the case details and return
     case_details = {
         "case_number": chosen_case_number,
