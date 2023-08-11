@@ -573,12 +573,12 @@ def check_location_type(location_number, current_case):
     """
     locations = SHEET.worksheet("locations")
     location_name = locations.cell(location_number, 1).value
-    update_notebook(current_case.notebook_column, f"You visted {location_name}")
-    if location_name == current_case.stash_location["location_name"]:
+    update_notebook(current_case.notebook_column, [f"You visted {location_name}"])
+    if location_name == current_case.stash_location:
         visit_stash_location(current_case)
-    elif location_name == current_case.pre_crime_location["location_name"]:
+    elif location_name == current_case.pre_crime_location:
         visit_pre_crime_location(current_case)
-    elif location_name == current_case.crime_scene["location_name"]:
+    elif location_name == current_case.case_details['crime_scene']:
         visit_crime_scene_location(current_case)
     else:
         print("visit unconnected location")
