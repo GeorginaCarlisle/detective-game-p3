@@ -117,8 +117,6 @@ class Case:
         """
         builds an instance of the Crime_scene class specific to this game
         """
-        cases = SHEET.worksheet("cases")
-        chosen_case_number = self.case_details["case_number"]
         location_name = self.case_details["crime_scene"]
         suspects_at_event = self.case_details["suspects_at_event"]
         clue_detail = self.case_details["clue_detail"]
@@ -165,10 +163,12 @@ class Location:
 
     def cctv_unconnected_location(self):
         intro_cctv_location = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {location_name}:"
-        print(intro_cctv_stash)
+        print(intro_cctv_location)
         list_suspects = "list of suspects"
+        print(list_suspects)
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         summary_cctv_location = f"Nothing stands out as being suspicious."
+        print(summary_cctv_location)
 
     def look_around_location(self):
         intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
@@ -195,6 +195,7 @@ class Stash:
         intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
         list_suspects = "list of suspects"
+        print(list_suspects)
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
         print(suspicion_raised)
@@ -225,6 +226,7 @@ class Pre_crime:
         intro_cctv_pre_crime = f"You review the cctv the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_pre_crime)
         list_suspects = "list of suspects"
+        print(list_suspects)
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         summary_cctv = f"Nothing stands out as being suspicious. Anyone of them could have ended up with the {self.physical_clue} in their pocket."
         print(summary_cctv)
@@ -284,8 +286,10 @@ class Crime_scene:
         intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
         print(intro_cctv_crime_scene)
         list_suspects = "list of suspects"
+        print(list_suspects)
         # need to look at how it will work to gain suspect list from spreadsheet and how to then print
         cctv_recording_crime_scene = f"The following suspects have been spotted in the vicinity of the crime:\nList of suspects\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        print(cctv_recording_crime_scene)
         # run specific location choices and main action choices
 
     def look_around_crime_scene(self):
