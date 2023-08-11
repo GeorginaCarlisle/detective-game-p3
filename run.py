@@ -139,7 +139,7 @@ class Case:
         locations = SHEET.worksheet("locations")
         location_name_column = locations.col_values(1)
         crime_scene_location_row = location_name_column.index(location_name) + 1
-        employee = locations.cell(pre_crime_location_row, 3).value
+        employee = locations.cell(crime_scene_location_row, 3).value
         # build an instance of the Crime_scene class and return
         current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee)
         return current_location
