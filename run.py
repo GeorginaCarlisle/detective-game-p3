@@ -130,13 +130,18 @@ class Case:
         event = self.case_details["event"]
         player_name = self.player_name
         # Pull the physical_clue to be left at the crime_scene from the location chosen for pre_crime
-        location_name = self.pre_crime_location
+        pre_crime_location_name = self.pre_crime_location
         locations = SHEET.worksheet("locations")
         location_name_column = locations.col_values(1)
-        pre_crime_location_row = location_name_column.index(location_name) + 1
+        pre_crime_location_row = location_name_column.index(pre_crime_location_name) + 1
         physical_clue = locations.cell(pre_crime_location_row, 7).value
+        # Pull the employee from the location chosen as the crime_scene
+        locations = SHEET.worksheet("locations")
+        location_name_column = locations.col_values(1)
+        crime_scene_location_row = location_name_column.index(location_name) + 1
+        employee = locations.cell(pre_crime_location_row, 3).value
         # build an instance of the Crime_scene class and return
-        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name)
+        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee)
         return current_location
 
 # Location class and associated classes
@@ -239,7 +244,7 @@ class Pre_crime_location(Location, Pre_crime):
         Pre_crime.__init__(self, pre_crime, physical_clue)
 
 class Crime_scene:
-    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name):
+    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee):
         self.location_name = location_name
         self.suspects = suspects
         self.clue_detail = clue_detail
@@ -250,7 +255,8 @@ class Crime_scene:
         self.plea = plea
         self.timeline = timeline
         self.event = event
-        self.player_name
+        self.player_name = player_name
+        self.employee = employee
 
     def enter_crime_scene(self):
         intro_crime_scene = f"As you walk into {self.location_name} the {self.employee} rushes over to meet you"
