@@ -75,15 +75,25 @@ class Case:
         print("Where would you like to start?\n")
 
     def set_stash_location(self):
-        location_name = self.stash_location["location_name"]
-        description = self.stash_location["description"]
-        employee = self.stash_location["employee"]
-        regulars = self.stash_location["regulars"]
-        character_connection = self.stash_location["character_connection"]
-        work_witness = self.stash_location["work_witness"]
-        thief = self.stash_location["thief"]
-        crime_physcial_clue = self.stash_location["crime_physcial_clue"]
-        item = self.stash_location["item"]
+        """
+        builds an instance of the Stash_location class specific to this game
+        """
+        # Locate the correct row for the location chosen for pre_crime
+        location_name = self.stash_location
+        locations = SHEET.worksheet("locations")
+        location_name_column = locations.col_values(1)
+        stash_location_row = location_name_column.index(location_name) + 1
+        # Pull the needed details from the spreadsheet
+        list_stash_location_details = locations.get(f'B{stash_location_row}:F{stash_location_row}')
+        description = list_stash_location_details[0][0]
+        employee = list_stash_location_details[0][1]
+        regulars = list_stash_location_details[0][2]
+        character_connection = list_stash_location_details[0][3]
+        work_witness = list_stash_location_details[0][4]
+        thief = self.thief_details["thief"]
+        crime_physcial_clue = self.case_details['crime_physcial_clue']
+        item = self.case_details['item']
+        # build an instance of the Stash_location class and return
         current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item)
         return current_location
 
@@ -303,7 +313,7 @@ def intro_and_setup():
     pre_crime_location = stash_and_pre_crime_locations[1]
     stash_location = stash_and_pre_crime_locations[0]
     current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location)
-    #begin_game(current_case)
+    begin_game(current_case)
 
 def initial_sequence():
     """
@@ -483,38 +493,6 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
     # update notebook with choices and return them
     update_notebook(notebook_row, [stash_location, pre_crime_location])
     return [stash_location, pre_crime_location]
-
-def build_stash_location_info(extra_locations, case_details, thief_details):
-    """
-    Retrieves stash location_name from extra_locations list
-    Accesses the location spreadsheet, thief_details and case_details to locate all associated info
-    Builds a dictionary of information for the stash_location
-    Returns dictionary
-    """
-    location_name = extra_locations[0]
-    locations = SHEET.worksheet("locations")
-    location_name_column = locations.col_values(1)
-    stash_location_row = location_name_column.index(location_name) + 1
-    description = locations.cell(stash_location_row, 2).value
-    employee = locations.cell(stash_location_row, 3).value
-    regulars = locations.cell(stash_location_row, 4).value
-    character_connection = locations.cell(stash_location_row, 5).value
-    work_witness = locations.cell(stash_location_row, 6).value
-    thief = thief_details['Thief']
-    crime_physcial_clue = case_details['crime_physcial_clue']
-    item = case_details['item']
-    stash_location_details = {
-        "location_name": location_name,
-        "description": description,
-        "employee": employee,
-        "regulars": regulars,
-        "character_connection": character_connection,
-        "work_witness": work_witness,
-        "thief": thief,
-        "crime_physcial_clue": crime_physcial_clue,
-        "item": item
-    }
-    return stash_location_details
 
 # Main game
 
