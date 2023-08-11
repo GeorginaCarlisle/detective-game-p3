@@ -222,6 +222,12 @@ class Pre_crime:
         self.pre_crime = pre_crime
         self.physical_clue = physical_clue
 
+
+class Pre_crime_location(Location, Pre_crime):
+    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue):
+        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
+        Pre_crime.__init__(self, pre_crime, physical_clue)
+
     def cctv_pre_crime(self):
         intro_cctv_pre_crime = f"You review the cctv the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_pre_crime)
@@ -240,11 +246,6 @@ class Pre_crime:
         clue = f"Oh and come to think of it {self.pre_crime}"
         print(clue)
         # run specific location choices and main action choices
-
-class Pre_crime_location(Location, Pre_crime):
-    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue):
-        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
-        Pre_crime.__init__(self, pre_crime, physical_clue)
 
 class Crime_scene:
     def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee):
@@ -679,7 +680,6 @@ def visit_crime_scene_location(current_case):
         main_action_options(current_case)
     else:
         print("ERROR!!")
-
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
