@@ -188,6 +188,11 @@ class Stash:
         self.crime_physcial_clue = crime_physcial_clue
         self.item = item
 
+class Stash_location(Location, Stash):
+    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item):
+        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
+        Stash.__init__(self, thief, crime_physcial_clue, item)
+
     def cctv_stash_location(self):
         intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
@@ -208,11 +213,6 @@ class Stash:
         print(question)
         response = f"Well there was something odd.\nWhen I came in next morning I could have sworn that a couple of things seemed out of place.\nAs though someone had been in after we had locked up."
         print(response)
-
-class Stash_location(Location, Stash):
-    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item):
-        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
-        Stash.__init__(self, thief, crime_physcial_clue, item)
 
 class Pre_crime:
     def __init__(self, pre_crime, physical_clue):
