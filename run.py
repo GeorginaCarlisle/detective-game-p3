@@ -88,18 +88,31 @@ class Case:
         return current_location
 
     def set_pre_crime_location(self):
-        location_name = self.pre_crime_location["location_name"]
-        description = self.pre_crime_location["description"]
-        employee = self.pre_crime_location["employee"]
-        regulars = self.pre_crime_location["regulars"]
-        character_connection = self.pre_crime_location["character_connection"]
-        work_witness = self.pre_crime_location["work_witness"]
-        pre_crime = self.pre_crime_location["pre_crime"]
-        physical_clue = self.pre_crime_location["physical_clue"]
+        """
+        builds an instance of the Pre_crime_location class specific to this game
+        """
+        # Locate the correct row for the location chosen for pre_crime
+        location_name = self.pre_crime_location
+        locations = SHEET.worksheet("locations")
+        location_name_column = locations.col_values(1)
+        pre_crime_location_row = location_name_column.index(location_name) + 1
+        # Pull the needed details from the spreadsheet
+        list_pre_crime_location_details = locations.get(f'B{pre_crime_location_row}:G{pre_crime_location_row}')
+        description = list_pre_crime_location_detail[0][0]
+        employee = list_pre_crime_location_detail[0][1]
+        regulars = list_pre_crime_location_detail[0][2]
+        character_connection = list_pre_crime_location_detail[0][3]
+        work_witness = list_pre_crime_location_detail[0][4]
+        physical_clue = locations.cell[0][5]
+        pre_crime = self.thief_details['Pre-crime evidence']
+        # build an instance of the Pre_crime_location class and return
         current_location = Pre_crime_location(location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue)
         return current_location
 
     def set_crime_scene(self):
+        """
+        builds an instance of the Crime_scene class specific to this game
+        """
         cases = SHEET.worksheet("cases")
         chosen_case_number = self.case_details["case_number"]
         location_name = self.case_details["crime_scene"]
@@ -112,7 +125,14 @@ class Case:
         timeline = self.case_details["timeline"]
         event = self.case_details["event"]
         player_name = self.player_name
-        current_location = Crime_scene(location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name)
+        # Pull the physical_clue to be left at the crime_scene from the location chosen for pre_crime
+        location_name = self.pre_crime_location
+        locations = SHEET.worksheet("locations")
+        location_name_column = locations.col_values(1)
+        pre_crime_location_row = location_name_column.index(location_name) + 1
+        physical_clue = worksheet.cell(pre_crime_location_row, 7).value
+        # build an instance of the Crime_scene class and return
+        current_location = Crime_scene(location_name, suspects, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name)
         return current_location
 
 # Location class and associated classes
@@ -279,10 +299,10 @@ def intro_and_setup():
     notebook_row = new_notebook_entry(date)
     case_details = set_case(notebook_row)
     thief_details = set_thief(case_details, notebook_row)
-    set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
-    #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
-    #stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
-    #current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location_details, stash_location_details)
+    stash_and_pre_crime_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
+    pre_crime_location = stash_and_pre_crime_locations[1]
+    stash_location = stash_and_pre_crime_locations[0]
+    current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location)
     #begin_game(current_case)
 
 def initial_sequence():
@@ -463,38 +483,6 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
     # update notebook with choices and return them
     update_notebook(notebook_row, [stash_location, pre_crime_location])
     return [stash_location, pre_crime_location]
-
-def build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details):
-    """
-    Retrieves pre_crime location_name from extra_locations list
-    Accesses the location spreadsheet and thief_details to locate all associated info
-    Adds pre_crime_physical_clue info to crime_scene_details
-    Builds a dictionary of information for the pre_crime_location
-    Returns dictionary
-    """
-    location_name = extra_locations[1]
-    locations = SHEET.worksheet("locations")
-    location_name_column = locations.col_values(1)
-    pre_crime_location_row = location_name_column.index(location_name) + 1
-    description = locations.cell(pre_crime_location_row, 2).value
-    employee = locations.cell(pre_crime_location_row, 3).value
-    regulars = locations.cell(pre_crime_location_row, 4).value
-    character_connection = locations.cell(pre_crime_location_row, 5).value
-    work_witness = locations.cell(pre_crime_location_row, 6).value
-    pre_crime = thief_details['Pre-crime evidence']
-    pre_crime_physical_clue = locations.cell(pre_crime_location_row, 7).value
-    crime_scene_details['pre_crime_physical_clue'] = pre_crime_physical_clue
-    pre_crime_location_details = {
-        "location_name": location_name,
-        "description": description,
-        "employee": employee,
-        "regulars": regulars,
-        "character_connection": character_connection,
-        "work_witness": work_witness,
-        "pre_crime": pre_crime,
-        "physical_clue": pre_crime_physical_clue
-    }
-    return pre_crime_location_details
 
 def build_stash_location_info(extra_locations, case_details, thief_details):
     """
