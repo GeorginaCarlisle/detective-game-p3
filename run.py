@@ -669,7 +669,7 @@ def visit_crime_scene_location(current_case):
     elif choice == "l":
         current_location.look_around_crime_scene()
     elif choice == "t":
-        current_location.talk_witness_stash_location()
+        current_location.talk_witness_crime_scene()
     elif choice == "r":
         main_action_options(current_case)
     else:
