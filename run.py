@@ -47,7 +47,7 @@ def update_notebook(notebook_row, *entries):
 # Classes
 
 class Case:
-    def __init__(self, player_name, notebook_column, case_details, thief_details, crime_scene, pre_crime_location, stash_location):
+    def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location):
         self.player_name = player_name
         self.notebook_column = notebook_column
         self.case_details = case_details
@@ -100,16 +100,17 @@ class Case:
         return current_location
 
     def set_crime_scene(self):
-        location_name = self.crime_scene["location_name"]
-        suspects = self.crime_scene["suspects"]
-        clue_detail = self.crime_scene["clue_detail"]
-        witness = self.crime_scene["witness"]
-        witness_report = self.crime_scene["witness_report"]
-        pre_crime_physical_clue = self.crime_scene["pre_crime_physical_clue"]
-        item = self.crime_scene["item"]
-        plea = self.crime_scene["plea"]
-        timeline = self.crime_scene["timeline"]
-        event = self.crime_scene["event"]
+        cases = SHEET.worksheet("cases")
+        chosen_case_number = self.case_details["case_number"]
+        location_name = self.case_details["crime_scene"]
+        suspects_at_event = self.case_details["suspects_at_event"]
+        clue_detail = self.case_details["clue_detail"]
+        witness = self.case_details["witness"]
+        witness_report = self.case_details["witness_report"]
+        item = self.case_details["item"]
+        plea = self.case_details["plea"]
+        timeline = self.case_details["timeline"]
+        event = self.case_details["event"]
         player_name = self.player_name
         current_location = Crime_scene(location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name)
         return current_location
@@ -278,11 +279,10 @@ def intro_and_setup():
     notebook_row = new_notebook_entry(date)
     case_details = set_case(notebook_row)
     thief_details = set_thief(case_details, notebook_row)
-    #crime_scene_details = build_crime_scene_info(case_details)
     #extra_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
     #pre_crime_location_details = build_pre_crime_location_info(extra_locations, thief_details, crime_scene_details)
     #stash_location_details = build_stash_location_info(extra_locations, case_details, thief_details)
-    #current_case = Case(player_name, notebook_row, case_details, thief_details, crime_scene_details, pre_crime_location_details, stash_location_details)
+    #current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location_details, stash_location_details)
     #begin_game(current_case)
 
 def initial_sequence():
@@ -405,34 +405,6 @@ def set_thief(case_details, notebook_row):
     thief_dictionary = {headings[i]: thief_details[i] for i in range(len(headings))}
     update_notebook(notebook_row, [thief_dictionary['Thief']])
     return thief_dictionary
-
-def build_crime_scene_info(case_details):
-    """
-    Creates a dictionary of information linked to the crime_scene and returns
-    """
-    cases = SHEET.worksheet("cases")
-    chosen_case_number = case_details["case_number"]
-    location_name = case_details["crime_scene"]
-    suspects = cases.cell(chosen_case_number, 7).value
-    clue_detail = cases.cell(chosen_case_number, 8).value
-    witness = cases.cell(chosen_case_number, 9).value
-    witness_report = cases.cell(chosen_case_number, 10).value
-    item = case_details["item"]
-    plea = cases.cell(chosen_case_number, 6).value
-    timeline = cases.cell(chosen_case_number, 5).value
-    event = case_details["event"]
-    crime_scene_details = {
-       "location_name": location_name,
-       "suspects": suspects,
-       "clue_detail": clue_detail,
-       "witness": witness,
-       "witness_report": witness_report,
-       "item": item,
-       "plea": plea,
-       "timeline": timeline,
-       "event": event 
-    }
-    return crime_scene_details
 
 def set_stash_and_precrime_locations(thief_details, case_details, notebook_column):
     """
