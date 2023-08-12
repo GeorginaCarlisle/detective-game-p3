@@ -42,13 +42,14 @@ def update_notebook(notebook_row, *entries):
 # Classes
 
 class Case:
-    def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location):
+    def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location, all_locations):
         self.player_name = player_name
         self.notebook_column = notebook_column
         self.case_details = case_details
         self.thief_details = thief_details
         self.pre_crime_location = pre_crime_location
         self.stash_location = stash_location
+        self.all_locations = all_locations
 
     def introduce_case(self):
         brief_welcome = f"You enter Case Closed Detective Agency\n'You must be Junior detective {self.player_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
@@ -162,13 +163,18 @@ class Location:
         return choice
 
     def cctv_unconnected_location(self):
-        intro_cctv_location = f"You review the cctv during the hours after the crime.\nYou notice the following suspects at the {location_name}:"
+        """
+        Prints storyline for checking the cctv at the current_location
+        Generates and returns clues to be added to the notebook
+        """
+        intro_cctv_location = f"You review the cctv during the hours after the crime.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_location)
-        list_suspects = "list of suspects"
-        print(list_suspects)
-        # need to look at how it will work to gain suspect list from spreadsheet and how to then print
+        suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
+        print(suspects)
         summary_cctv_location = f"Nothing stands out as being suspicious."
         print(summary_cctv_location)
+        clue_for_notebook = f"{suspects} were spotted during the hours after the crime.\n"
+        return clue_for_notebook
 
     def look_around_unconnected_location(self):
         """
@@ -183,10 +189,16 @@ class Location:
         return clue_for_notebook
 
     def talk_witness_unconnected_location(self):
+        """
+        Prints storyline for talking to the witness at the current location
+        Generates and returns clues to be added to the notebook
+        """
         question = f"You question the {self.work_witness}"
         print(question)
         response = f"I don't know that I can help you. {self.employee} works here {self.regulars} are often to be seen here. {self.character_connection} also pops in occasionally"
         print(response)
+        clue_for_notebook = f"{self.employee} works here {self.regulars} are often to be seen here. {self.character_connection} also pops in occasionally.\n"
+        return clue_for_notebook
 
 class Stash:
     def __init__(self, thief, crime_physcial_clue, item):
@@ -369,7 +381,8 @@ def intro_and_setup():
     stash_and_pre_crime_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
     pre_crime_location = stash_and_pre_crime_locations[1]
     stash_location = stash_and_pre_crime_locations[0]
-    current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location)
+    all_locations = set_all_locations()
+    current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations)
     begin_game(current_case)
 
 def initial_sequence():
@@ -551,6 +564,15 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
     update_notebook(notebook_row, [stash_location, pre_crime_location])
     return [stash_location, pre_crime_location]
 
+def set_all_locations():
+    """
+    Takes all location information, expect the headings from the locations sheet
+    returns this list of lists
+    """
+    locations = SHEET.worksheet("locations")
+    all_locations = locations.get("A2:G9")
+    return all_locations
+
 # Main game
 
 def begin_game(current_case):
@@ -643,25 +665,71 @@ def check_location_type(location_number, current_case):
     elif location_name == current_case.case_details['crime_scene']:
         visit_crime_scene_location(current_case)
     else:
-        print("visit unconnected location")
+        visit_unconnected_location(location_number, current_case)
     # need to look at what's going to happen with the work location
 
-def visit_location(location_number):
+def visit_unconnected_location(location_number, current_case):
     """
     Takes the chosen location_number as an argument and uses to create an instance of Location
     Uses the methods of the Location class to allow the user to explore the location
     """
     # Find values and create a new instance of Location
     locations = SHEET.worksheet("locations")
-    location_name = locations.cell(location_number, 1).value
-    description = locations.cell(location_number, 2).value
-    employee = locations.cell(location_number, 3).value
-    regulars = locations.cell(location_number, 4).value
-    character_connection = locations.cell(location_number, 5).value
-    work_witness = locations.cell(location_number, 6).value
+    location_name = current_case.all_locations[location_number][0]
+    print(location_name)
+    description = current_case.all_locations[location_number][1]
+    employee = current_case.all_locations[location_number][2]
+    regulars = current_case.all_locations[location_number][3]
+    character_connection = current_case.all_locations[location_number][4]
+    work_witness = current_case.all_locations[location_number][5]
     current_location = Location(location_name, description, employee, regulars, character_connection, work_witness)
-    # Instance created actions follow below
+    # Instance now created user actions now requested and handled
+    clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
+    # Loop requesting and handling choice from player
+    # User will only be present with options they haven't already chosen plus return option
+    # Loop will run until all options chosen or player inputs return option
+    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    while actions_available:
+        print("")
+        print("Would you like to:")
+        if len(actions_available) == 3:
+            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 2:
+            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 1:
+            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+        else:
+            print("ERROR!!")
+        if choice == "c":
+            position_of_choice = actions_available.index("check the cctv (c)")
+            actions_available.pop(position_of_choice)
+            print("")
+            cctv_clue = current_location.cctv_unconnected_location()
+            clues_for_notebook = clues_for_notebook + cctv_clue
+        elif choice == "l":
+            position_of_choice = actions_available.index("look around (l)")
+            actions_available.pop(position_of_choice)
+            print("")
+            look_around_clue = current_location.look_around_unconnected_location()
+            clues_for_notebook = clues_for_notebook + look_around_clue
+        elif choice == "t":
+            position_of_choice = actions_available.index("talk to a witness(t)")
+            actions_available.pop(position_of_choice)
+            print("")
+            witness_clue = current_location.talk_witness_unconnected_location()
+            clues_for_notebook = clues_for_notebook + witness_clue
+        elif choice == "r":
+            break
+        else:
+            print("ERROR!!")
+    # Once loop completed or user chooses to return
+    print("")
+    update_notebook(current_case.notebook_column, [clues_for_notebook])
+    print("Exiting location. You will now be taken back to the main options")
+    print("")
+    main_action_options(current_case)
+    
 
 def visit_stash_location(current_case):
     """
