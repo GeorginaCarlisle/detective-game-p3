@@ -52,21 +52,26 @@ class Case:
         self.all_locations = all_locations
 
     def introduce_case(self):
-        brief_welcome = f"You enter Case Closed Detective Agency\n'You must be Junior detective {self.player_name}.\nI have heard great things about your detective skills.\nI hope you are eager to get started, as we’ve just had a new case come through …'\n"
+        enter_agency = "You enter Case Closed Detective Agency"
+        print(enter_agency)
+        brief_welcome = f"'You must be Junior Detective {self.player_name}. I have heard great things about your\ndetective skills. I hope you are eager to get started, as we’ve just had a new case\ncome through ......'\n"
         print(brief_welcome)
-        introduce_case = f"Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}"
+        introduce_case = f"'Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
         print(introduce_case)
-        accept_case = input("Do you wish to take on the case?” (y/n)\n")
+        accept_case = input("'Do you wish to take on the case?' (y/n)\n")
         # input to be validated and input handled
         return accept_case
 
     def welcome(self):
-        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\nWelcome to Case Closed Detective Agency. My name is ??? and\nI will be keeping a close eye on your work during this case.\nWe pride ourselves here at Case Closed on being able to solve and close every case we are given.\nThis is your chance to show us you deserve a place on the team."
+        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\n\nWelcome to Case Closed Detective Agency. My name is Detective Inspector Job Done\nand I will be keeping a close eye on your work during this case.\n\nWe pride ourselves here at Case Closed on being able to solve and close every\ncase we are given."
         print(main_welcome)
         print("")
         print("")
-        game_explanation = "Throughout the case you will access to:\na map of the area, which you can use to select a location you would like to visit,\na notebook containing all the clues you have discovered\nand a list of possible suspects, which you can use to question a suspect (a maximum of two), and arrest the thief (we don’t tolerate false arrests here at Case Closed)\nWhen you know where the thief hid the item obtain a search warrant to hunt for the missing item (we have never failed to find a missing item before).\nI’m sure you will keep our reputation high and resolve this case swiftly'\n"
+        game_explanation = "Throughout the case you will access to:\n - a map of the area, which you can use to select a location you would like\nto visit\n - a notebook containing all the clues you have discovered\ - a list of possible suspects, which you can use to question a suspect and arrest the thief\nA search warrant which you can use to thoroughly search one of the locations for the missing item.\n"
         print(game_explanation)
+        print("")
+        warnings = "A quick word of warning. We don't tolerate false arrests here at Case Closed and we have never yet failed to locate a missing item. I'm sure though that you will be able to swiftly solve this case, maintaining our high reputation"
+        print(warnings)
         print("Where would you like to start?\n")
 
     def set_stash_location(self):
@@ -178,8 +183,6 @@ class Location:
         """
         intro_look_around = f"You quickly search the {self.location_name} there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
-        notice_nothing = f"As you look around you notice nothing that might connect with the crime "
-        print(notice_nothing)
         clue_for_notebook = f"You find no clues when looking around.\n"
         return clue_for_notebook
 
@@ -249,7 +252,6 @@ class Pre_crime:
         self.pre_crime = pre_crime
         self.physical_clue = physical_clue
 
-
 class Pre_crime_location(Location, Pre_crime):
     def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue):
         Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
@@ -260,11 +262,11 @@ class Pre_crime_location(Location, Pre_crime):
         Prints storyline for checking the cctv at the pre_crime location
         Generates and returns clues to be added to the notebook
         """
-        intro_cctv_pre_crime = f"You review the cctv the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
+        intro_cctv_pre_crime = f"You review the cctv on the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_pre_crime)
         suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
         print(suspects)
-        summary_cctv = f"Nothing stands out as being suspicious. Anyone of them could have ended up with the {self.physical_clue} in their pocket."
+        summary_cctv = "Nothing stands out as being suspicious."
         print(summary_cctv)
         clue_for_notebook = f"{suspects} were spotted on the morning of the crime.\n"
         return clue_for_notebook
@@ -299,7 +301,7 @@ class Crime_scene:
         self.employee = employee
 
     def enter_crime_scene(self):
-        intro_crime_scene = f"As you walk into {self.location_name} the {self.employee} rushes over to meet you"
+        intro_crime_scene = f"As you walk into {self.location_name} {self.employee} rushes over to meet you"
         print(intro_crime_scene)
         greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but ?? has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
         print(greet_employee)
@@ -310,9 +312,6 @@ class Crime_scene:
 
     def event_timeline(self):
         print(self.timeline)
-        help_offer = f"'Is there anything I can do to help? I can show you where the {self.item} was stolen from'"
-        print(help_offer)
-        # run specific location choices and main action choices
 
     def location_actions(self):
         print("Would you like to:")
@@ -329,9 +328,9 @@ class Crime_scene:
         # Bug in generating the right info to add about suspects
         list_suspects = list(self.suspects)
         suspect_names = list_suspects[0][0] + list_suspects[1][0] + list_suspects[2][0] + list_suspects[3][0] + list_suspects[4][0]
-        cctv_recording_crime_scene = f"You spot the following suspects in the vicinity of the crime:\n{suspect_names}\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{suspect_names}\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
         print(cctv_recording_crime_scene)
-        clue_for_notebook = f"{self.suspects}\n{suspect_names} were spotted in the vicinity of the crime.\n"
+        clue_for_notebook = f"{self.suspects}\n{suspect_names} were spotted at the crime scene.\n"
         return clue_for_notebook
 
     def look_around_crime_scene(self):
@@ -391,12 +390,12 @@ Title name and art to be created
 """
     print(title)
     developer = "Created by Georgina Carlisle 2023\n"
-    question_user = "Would you make a good detective?\nHave you got the skills to follow the clues, arrest the correct suspect and locate the stolen item? \n"
-    game_introduction = "In ??? detective agency you will choose which locations to visit, who to interview, who to arrest and where to search for the stolen item.\nYour game data will be saved and used for development purposes, but no personal data will be kept and used outside of your game.\n"
+    question_user = "Would you make a good detective?\nHave you got the skills to follow the clues, arrest the correct suspect and\nlocate the stolen item? \n"
+    game_introduction = "In Case Closed you will choose which locations to visit, who to\ninterview, who to arrest and where to search for the stolen item.\nYour game data will be saved and used for development purposes, but no personal data will be kept and used outside of your game.\n"
     print(developer)
     print(question_user)
     print(game_introduction)
-    player_name = input("Please input your name to begin your new career as a detective:\n")
+    player_name = input("Please enter your name to begin your new career as a detective:\n")
     return player_name
     # input to be validated including request for confirmation of name if
     # len(user_name) <3 or >20, or user_name.isaplpha()is False
@@ -591,7 +590,7 @@ def game_over(reason, current_case):
     Final scene of the game played, including an explanation of the reason for game over
     """
     if reason == "case_not_accepted":
-        print(f"'I'm afraid {current_case.player_name} that your time at Case Closed must end before it has even begun. I did warn you that we only accept the best here and the best do not turn down important cases that need solving'\n")
+        print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
     print(f"'Good day to you {current_case.player_name}'")
     print("GAME OVER")
 
