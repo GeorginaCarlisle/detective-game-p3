@@ -200,25 +200,42 @@ class Stash_location(Location, Stash):
         Stash.__init__(self, thief, crime_physcial_clue, item)
 
     def cctv_stash_location(self):
+        """
+        Prints storyline for checking the cctv at the stash location
+        Generates and returns clues to be added to the notebook
+        """
         intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
-        list_suspects = "list of suspects"
-        print(list_suspects)
-        # need to look at how it will work to gain suspect list from spreadsheet and how to then print
+        suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
+        print(suspects)
         suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
         print(suspicion_raised)
+        clue_for_notebook = f"{self.thief} appeared on the CCTV at an odd hour\n"
+        return clue_for_notebook
 
     def look_around_stash_location(self):
+        """
+        Prints storyline for looking around the current_location
+        Generates and returns clues to be added to the notebook
+        """
         intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
         notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
         print(notice_clue)
+        clue_for_notebook = f"When looking around you notice {self.crime_physcial_clue}.\n"
+        return clue_for_notebook
 
     def talk_witness_stash_location(self):
+        """
+        Prints storyline for talking to the witness at the stash location
+        Generates and returns clues to be added to the notebook
+        """
         question = f"You question the {self.work_witness}"
         print(question)
         response = f"Well there was something odd.\nWhen I came in next morning I could have sworn that a couple of things seemed out of place.\nAs though someone had been in after we had locked up."
         print(response)
+        clue_for_notebook = f"The {self.work_witness} thought someone might have been in after they had locked up\n"
+        return clue_for_notebook
 
 class Pre_crime:
     def __init__(self, pre_crime, physical_clue):
@@ -649,21 +666,55 @@ def visit_location(location_number):
 def visit_stash_location(current_case):
     """
     Sets the current_location as an instance of Stash_location. 
-    Runs enter_location, requests player to choose next action and handles choice
+    Runs enter_location, requests player to choose next action and handles their choice
+    Returns to main_action_choices at players request or when all location actions completed
     """
     current_location = current_case.set_stash_location()
+    clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
-    choice = current_location.location_actions()
-    if choice == "c":
-        current_location.cctv_stash_location()
-    elif choice == "l":
-        current_location.look_around_stash_location()
-    elif choice == "t":
-        current_location.talk_witness_stash_location()
-    elif choice == "r":
-        main_action_options(current_case)
-    else:
-        print("ERROR!!")
+    # Loop requesting and handling choice from player
+    # User will only be present with options they haven't already chosen plus return option
+    # Loop will run until all options chosen or player inputs return option
+    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    while actions_available:
+        print("")
+        print("Would you like to:")
+        if len(actions_available) == 3:
+            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 2:
+            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 1:
+            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+        else:
+            print("ERROR!!")
+        if choice == "c":
+            position_of_choice = actions_available.index("check the cctv (c)")
+            actions_available.pop(position_of_choice)
+            print("")
+            cctv_clue = current_location.cctv_stash_location()
+            clues_for_notebook = clues_for_notebook + cctv_clue
+        elif choice == "l":
+            position_of_choice = actions_available.index("look around (l)")
+            actions_available.pop(position_of_choice)
+            print("")
+            look_around_clue = current_location.look_around_stash_location()
+            clues_for_notebook = clues_for_notebook + look_around_clue
+        elif choice == "t":
+            position_of_choice = actions_available.index("talk to a witness(t)")
+            actions_available.pop(position_of_choice)
+            print("")
+            witness_clue = current_location.talk_witness_stash_location()
+            clues_for_notebook = clues_for_notebook + witness_clue
+        elif choice == "r":
+            break
+        else:
+            print("ERROR!!")
+    # Once loop completed or user chooses to return
+    print("")
+    update_notebook(current_case.notebook_column, [clues_for_notebook])
+    print("Exiting location. You will now be taken back to the main options")
+    print("")
+    main_action_options(current_case)
 
 def visit_pre_crime_location(current_case):
     """
