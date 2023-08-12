@@ -157,11 +157,6 @@ class Location:
         intro_location = f"You enter the {self.location_name} it is {self.description}"
         print(intro_location)
 
-    def location_actions(self):
-        print("Would you like to:")
-        choice = input("check the cctv (c), look around (l), or talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
-        return choice
-
     def cctv_unconnected_location(self):
         """
         Prints storyline for checking the cctv at the current_location
