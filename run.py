@@ -661,22 +661,50 @@ def visit_pre_crime_location(current_case):
 def visit_crime_scene_location(current_case):
     """
     Sets the current_location as an instance of Crime_scene. 
-    Runs enter_location, requests player to choose next action and handles choice
+    Runs enter_crime_scene, requests player to choose next action and handles their choice
+    Returns to main_action_choices at players request or when all location actions completed
     """
     current_location = current_case.set_crime_scene()
     current_location.enter_crime_scene()
-    # The location_action function is currently duplicated. Residing in both the Location and Crime_scene classes
-    choice = current_location.location_actions()
-    if choice == "c":
-        current_location.cctv_crime_scene()
-    elif choice == "l":
-        current_location.look_around_crime_scene()
-    elif choice == "t":
-        current_location.talk_witness_crime_scene()
-    elif choice == "r":
-        main_action_options(current_case)
-    else:
-        print("ERROR!!")
+    # Loop requesting and handling choice from player
+    # User will only be present with options they haven't already chosen plus return option
+    # Loop will run until all options chosen or player inputs return option
+    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    while actions_available:
+        print("")
+        print("Would you like to:")
+        if len(actions_available) == 3:
+            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 2:
+            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 1:
+            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+        else:
+            print("ERROR!!")
+        if choice == "c":
+            position_of_choice = actions_available.index("check the cctv (c)")
+            actions_available.pop(position_of_choice)
+            print("")
+            current_location.cctv_crime_scene()
+        elif choice == "l":
+            position_of_choice = actions_available.index("look around (l)")
+            actions_available.pop(position_of_choice)
+            print("")
+            current_location.look_around_crime_scene()
+        elif choice == "t":
+            position_of_choice = actions_available.index("talk to a witness(t)")
+            actions_available.pop(position_of_choice)
+            print("")
+            current_location.talk_witness_crime_scene()
+        elif choice == "r":
+            break
+        else:
+            print("ERROR!!")
+    # Once loop completed or user chooses to return
+    print("")
+    print("Exiting location. You will now be taken back to the main options")
+    print("")
+    main_action_options(current_case)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
