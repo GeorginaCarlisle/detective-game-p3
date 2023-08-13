@@ -320,7 +320,7 @@ class Crime_scene:
         question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
         # input to be validated including handling of error
         # Below needs looking at
-        Crime_scene.event_timeline(self) if question_employee == "y" else game_over("poor_detective")
+        Crime_scene.event_timeline(self) if question_employee == "y" else game_over("poor_detective", self)
 
     def event_timeline(self):
         print(self.timeline)
@@ -637,10 +637,17 @@ def game_over(reason, current_case):
     Called when player choice leads to game over and passed an argument giving the reason why
     Final scene of the game played, including an explanation of the reason for game over
     """
+    print("")
     if reason == "case_not_accepted":
         print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
+    else:
+        print("You suddenly notice Detective Inspector Job Done walking towards you")
+        if reason == "poor_detective":
+            print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")    
     print(f"'Good day to you {current_case.player_name}'")
     print("GAME OVER")
+    print("")
+    print("Click run program to play again")
 
 def main_action_options(current_case):
     """
