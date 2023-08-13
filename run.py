@@ -206,7 +206,7 @@ class Location:
         print(question)
         response = f"I don't know that I can help you. {self.employee} works here {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally"
         print(response)
-        clue_for_notebook = f"{self.employee} works here {self.regular} is often to be seen here and {self.character_connection} pops in occasionally.\n"
+        clue_for_notebook = f"{self.employee} works here. {self.regular_hobby_link} is often seen here and {self.character_connection} who is {self.employee}'s {self.connection} pops in occasionally.\n"
         return clue_for_notebook
 
 class Stash:
@@ -231,7 +231,7 @@ class Stash_location(Location, Stash):
         print(suspects)
         suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
         print(suspicion_raised)
-        clue_for_notebook = f"{self.thief} appeared on the CCTV at an odd hour\n"
+        clue_for_notebook = f"{self.thief} appeared on the CCTV at an odd hour.\n"
         return clue_for_notebook
 
     def look_around_stash_location(self):
@@ -255,7 +255,7 @@ class Stash_location(Location, Stash):
         print(question)
         response = f"Well there was something odd.\nWhen I came in next morning I could have sworn that a couple of things seemed out of place.\nAs though someone had been in after we had locked up."
         print(response)
-        clue_for_notebook = f"The {self.work_witness} thought someone might have been in after they had locked up\n"
+        clue_for_notebook = f"The {self.work_witness} thought someone might have been in after they had locked up.\n"
         return clue_for_notebook
 
 class Pre_crime:
@@ -293,7 +293,7 @@ class Pre_crime_location(Location, Pre_crime):
         print(response)
         clue = f"Oh and come to think of it {self.pre_crime}"
         print(clue)
-        clue_for_notebook = f"The {self.work_witness} mentioned {self.pre_crime}\n"
+        clue_for_notebook = f"The {self.work_witness} mentioned '{self.pre_crime}'\n"
         return clue_for_notebook
 
 class Crime_scene:
@@ -363,7 +363,7 @@ class Crime_scene:
         print(question)
         response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
         print(response)
-        clue_for_notebook = f"The thief is a {self.description_clue}\n"
+        clue_for_notebook = f"The thief is a {self.description_clue}.\n"
         return clue_for_notebook
 
 # Initial sequence and introduction to game and case
@@ -659,7 +659,7 @@ def main_action_options(current_case):
     if action == "m":
         view_map(current_case)
     elif action == "n":
-        view_notebook()
+        view_notebook(current_case)
     elif action == "s":
         view_suspect_list()
     elif action == "w":
@@ -691,8 +691,22 @@ def view_map(current_case):
     else:
         print("ERROR!!!")
 
-def view_notebook():
-    print("notebook reached")
+def view_notebook(current_case):
+    """
+    Prints the notebook title, intro and a record of all the clues the player has gained
+    """
+    print("Notebook title to be created")
+    notebook = SHEET.worksheet("notebook")
+    list_clues = notebook.row_values(current_case.notebook_column)
+    number_clues = len(list_clues)
+    # Prints the basic case information
+    basic_case_info = f"{list_clues[1]}:\n{list_clues[2].capitalize()} has been stolen {list_clues[3]} at the {list_clues[4]}."
+    print(basic_case_info)
+    # Prints the clues the player has gained
+    for ind in range(8, number_clues):
+        print("")
+        print(list_clues[ind])
+    main_action_options(current_case)
 
 def view_suspect_list():
     print("suspect_list reached")
