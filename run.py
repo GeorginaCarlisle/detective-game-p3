@@ -363,7 +363,7 @@ class Crime_scene:
         print(question)
         response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
         print(response)
-        clue_for_notebook = f"Thief description clue.\n"
+        clue_for_notebook = f"The thief is a {self.description_clue}\n"
         return clue_for_notebook
 
 # Initial sequence and introduction to game and case
