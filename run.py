@@ -145,7 +145,7 @@ class Case:
         locations = SHEET.worksheet("locations")
         location_name_column = locations.col_values(1)
         pre_crime_location_row = location_name_column.index(pre_crime_location_name) + 1
-        physical_clue = locations.cell(pre_crime_location_row, 7).value
+        pre_crime_physical_clue = locations.cell(pre_crime_location_row, 9).value
         # Pull the employee from the location chosen as the crime_scene
         locations = SHEET.worksheet("locations")
         location_name_column = locations.col_values(1)
@@ -154,7 +154,7 @@ class Case:
         # Pull the description clue from thief details
         description_clue = self.thief_details["description_clue"]
         # build an instance of the Crime_scene class and return
-        current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
+        current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
 # Location class and associated classes
@@ -349,7 +349,7 @@ class Crime_scene:
         """
         intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
-        notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}"
+        notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}."
         print(notice_clue)
         clue_for_notebook = f"You find {self.pre_crime_physical_clue} in the vicinity of the crime.\n"
         return clue_for_notebook
