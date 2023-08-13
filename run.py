@@ -131,7 +131,7 @@ class Case:
         builds an instance of the Crime_scene class specific to this game
         """
         location_name = self.case_details["crime_scene"]
-        suspects_at_event = self.case_details["suspects_at_event"]
+        list_suspects = f"{self.case_details['suspect_1']}, {self.case_details['suspect_2']}, {self.case_details['suspect_3']}, {self.case_details['suspect_4']} and {self.case_details['suspect_5']}"
         clue_detail = self.case_details["clue_detail"]
         witness = self.case_details["witness"]
         witness_report = self.case_details["witness_report"]
@@ -154,7 +154,7 @@ class Case:
         # Pull the description clue from thief details
         description_clue = self.thief_details["description_clue"]
         # build an instance of the Crime_scene class and return
-        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
+        current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
 # Location class and associated classes
@@ -297,9 +297,9 @@ class Pre_crime_location(Location, Pre_crime):
         return clue_for_notebook
 
 class Crime_scene:
-    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue):
+    def __init__(self, location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue):
         self.location_name = location_name
-        self.suspects = suspects
+        self.list_suspects = list_suspects
         self.clue_detail = clue_detail
         self.witness = witness
         self.witness_report = witness_report
@@ -337,12 +337,9 @@ class Crime_scene:
         """
         intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
         print(intro_cctv_crime_scene)
-        # Bug in generating the right info to add about suspects
-        list_suspects = list(self.suspects)
-        suspect_names = list_suspects[0][0] + list_suspects[1][0] + list_suspects[2][0] + list_suspects[3][0] + list_suspects[4][0]
-        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{suspect_names}\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
         print(cctv_recording_crime_scene)
-        clue_for_notebook = f"{self.suspects}\n{suspect_names} were spotted at the crime scene.\n"
+        clue_for_notebook = f"{self.list_suspects} were spotted at the crime scene.\n"
         return clue_for_notebook
 
     def look_around_crime_scene(self):
@@ -447,18 +444,32 @@ def set_case(notebook_row):
     number_cases = number_rows - 1
     chosen_case_number = random.randrange(number_cases) + 2
     # Pull all case information, expect the thief specific values from the cases sheet
-    list_case_details = cases.get(f'A{chosen_case_number}:K{chosen_case_number}')
+    list_case_details = cases.get(f'A{chosen_case_number}:Y{chosen_case_number}')
     case_name = list_case_details[0][0]
     item = list_case_details[0][1]
     event = list_case_details[0][2]
     crime_scene = list_case_details[0][3]
     timeline = list_case_details[0][4]
     plea = list_case_details[0][5]
-    suspects_at_event = list_case_details[0][6]
-    clue_detail = list_case_details[0][7]
-    witness = list_case_details[0][8]
-    witness_report = list_case_details[0][9]
-    event_physical_clue = list_case_details[0][10]
+    clue_detail = list_case_details[0][6]
+    witness = list_case_details[0][7]
+    witness_report = list_case_details[0][8]
+    event_physical_clue = list_case_details[0][9]
+    suspect_1 = list_case_details[0][10]
+    presence_reason_1 = list_case_details[0][11]
+    item_connection_1 = list_case_details[0][12]
+    suspect_2 = list_case_details[0][13]
+    presence_reason_2 = list_case_details[0][14]
+    item_connection_2 = list_case_details[0][15]
+    suspect_3 = list_case_details[0][16]
+    presence_reason_3 = list_case_details[0][17]
+    item_connection_3 = list_case_details[0][18]
+    suspect_4 = list_case_details[0][19]
+    presence_reason_4 = list_case_details[0][20]
+    item_connection_4 = list_case_details[0][21]
+    suspect_5 = list_case_details[0][22]
+    presence_reason_5 = list_case_details[0][23]
+    item_connection_5 = list_case_details[0][24]
     # Call the update_notebook function and pass it the notebook_column
     # and a list of the entries to be added
     notebook_entries = [case_name, item, event, crime_scene]
@@ -472,11 +483,25 @@ def set_case(notebook_row):
         "crime_scene": crime_scene,
         "timeline": timeline,
         "plea": plea,
-        "suspects_at_event": suspects_at_event,
         "clue_detail": clue_detail,
         "witness": witness,
         "witness_report": witness_report,
-        "event_physcial_clue": event_physical_clue
+        "event_physcial_clue": event_physical_clue,
+        "suspect_1": suspect_1,
+        "presence_reason_1": presence_reason_1,
+        "item_connection_1": item_connection_1,
+        "suspect_2": suspect_2,
+        "presence_reason_2": presence_reason_2,
+        "item_connection_2": item_connection_2,
+        "suspect_3": suspect_3,
+        "presence_reason_3": presence_reason_3,
+        "item_connection_3": item_connection_3,
+        "suspect_4": suspect_4,
+        "presence_reason_4": presence_reason_4,
+        "item_connection_4": item_connection_4,
+        "suspect_5": suspect_5,
+        "presence_reason_5": presence_reason_5,
+        "item_connection_5": item_connection_5,
     }
     return case_details
 
@@ -499,14 +524,14 @@ def set_thief(case_details, notebook_row):
     cases = SHEET.worksheet("cases")
     chosen_thief_number = random.randrange(3) + 1
     if chosen_thief_number == 1:
-        start_range = 12
-        end_range = 17
+        start_range = 26
+        end_range = 31
     elif chosen_thief_number == 2:
-        start_range = 17
-        end_range = 22
+        start_range = 31
+        end_range = 36
     elif chosen_thief_number == 3:
-        start_range = 22
-        end_range = 27
+        start_range = 36
+        end_range = 41
     else:
         print("ERROR!!")
     chosen_case_number = case_details['case_number']
@@ -700,7 +725,6 @@ def visit_unconnected_location(location_number, current_case):
     work_witness = current_case.all_locations[location_number][7]
     # create an instance of Location for chosen location
     current_location = Location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
-    
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
     # Loop requesting and handling choice from player
