@@ -151,8 +151,10 @@ class Case:
         location_name_column = locations.col_values(1)
         crime_scene_location_row = location_name_column.index(location_name) + 1
         employee = locations.cell(crime_scene_location_row, 3).value
+        # Pull the description clue from thief details
+        description_clue = self.thief_details["description_clue"]
         # build an instance of the Crime_scene class and return
-        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee)
+        current_location = Crime_scene(location_name, suspects_at_event, clue_detail, witness, witness_report, physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
 # Location class and associated classes
@@ -295,7 +297,7 @@ class Pre_crime_location(Location, Pre_crime):
         return clue_for_notebook
 
 class Crime_scene:
-    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee):
+    def __init__(self, location_name, suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue):
         self.location_name = location_name
         self.suspects = suspects
         self.clue_detail = clue_detail
@@ -308,6 +310,7 @@ class Crime_scene:
         self.event = event
         self.player_name = player_name
         self.employee = employee
+        self.description_clue = description_clue
 
     def enter_crime_scene(self):
         intro_crime_scene = f"As you walk into {self.location_name} {self.employee} rushes over to meet you"
@@ -361,8 +364,7 @@ class Crime_scene:
         """
         question = f"You question the {self.witness}"
         print(question)
-        response = f"{self.witness_report} I noticed the thief ..."
-        # need to look at how to generate description clue
+        response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
         print(response)
         clue_for_notebook = f"Thief description clue.\n"
         return clue_for_notebook
@@ -381,9 +383,11 @@ def intro_and_setup():
     notebook_row = new_notebook_entry(date)
     case_details = set_case(notebook_row)
     thief_details = set_thief(case_details, notebook_row)
-    stash_and_pre_crime_locations = set_stash_and_precrime_locations(thief_details, case_details, notebook_row)
-    pre_crime_location = stash_and_pre_crime_locations[1]
-    stash_location = stash_and_pre_crime_locations[0]
+    all_suspects = set_all_suspects()
+    stash_pre_crime_and_description = set_stash_and_precrime_locations(thief_details, case_details, notebook_row, all_suspects)
+    pre_crime_location = stash_pre_crime_and_description[1]
+    stash_location = stash_pre_crime_and_description[0]
+    thief_details['description_clue'] = stash_pre_crime_and_description[2]
     all_locations = set_all_locations()
     current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations)
     begin_game(current_case)
@@ -476,6 +480,15 @@ def set_case(notebook_row):
     }
     return case_details
 
+def set_all_suspects():
+    """
+    Takes all suspect information, expect the headings from the locations sheet
+    returns this list of lists
+    """
+    suspects = SHEET.worksheet("suspects")
+    all_suspects = suspects.get("A2:G9")
+    return all_suspects
+
 def set_thief(case_details, notebook_row):
     """
     Randomly selects one of the three potential thieves for the chosen case
@@ -509,20 +522,21 @@ def set_thief(case_details, notebook_row):
     update_notebook(notebook_row, [thief_dictionary['Thief']])
     return thief_dictionary
 
-def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
+def set_stash_and_precrime_locations(thief_details, case_details, notebook_row, all_suspects):
     """
-    Retrieves the selected case's crime_scene
     Using the thief_name retrieves the thief's work, hobby and connection locations
     Randomly assignes two of the locations not being used as the crime scene as the stash and pre_crime locations
     """
-    # Get all the details needed
+    # Locate the correct list for the thief in the all_suspects list of lists
     thief_name = thief_details['Thief']
-    suspects = SHEET.worksheet("suspects")
-    suspect_name_column = suspects.col_values(1)
-    thief_row = suspect_name_column.index(thief_name) + 1
-    work_location = suspects.cell(thief_row, 4).value
-    hobby_location = suspects.cell(thief_row, 7).value
-    connection_location = suspects.cell(thief_row, 9).value
+    list_suspect_names = []
+    for ind in range(0, 8):
+        list_suspect_names.append(all_suspects[ind][0])
+    thief_list_ind = list_suspect_names.index(thief_name)
+    thief_description = all_suspects[thief_list_ind][2]
+    work_location = all_suspects[thief_list_ind][3]
+    hobby_location = all_suspects[thief_list_ind][4]
+    connection_location = all_suspects[thief_list_ind][5]
     crime_scene = case_details['crime_scene']
     # Generate a random number
     choose_locations_number = random.randrange(2)
@@ -565,7 +579,7 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_row):
             print("ERROR!!")
     # update notebook with choices and return them
     update_notebook(notebook_row, [stash_location, pre_crime_location])
-    return [stash_location, pre_crime_location]
+    return [stash_location, pre_crime_location, thief_description]
 
 def set_all_locations():
     """
