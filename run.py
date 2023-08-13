@@ -78,45 +78,52 @@ class Case:
         """
         builds an instance of the Stash_location class specific to this game
         """
-        # Locate the correct row for the location chosen for pre_crime
+        # Locate the correct list in self.all_locations for the location chosen for stash 
         location_name = self.stash_location
-        locations = SHEET.worksheet("locations")
-        location_name_column = locations.col_values(1)
-        stash_location_row = location_name_column.index(location_name) + 1
-        # Pull the needed details from the spreadsheet
-        list_stash_location_details = locations.get(f'B{stash_location_row}:F{stash_location_row}')
-        description = list_stash_location_details[0][0]
-        employee = list_stash_location_details[0][1]
-        regulars = list_stash_location_details[0][2]
-        character_connection = list_stash_location_details[0][3]
-        work_witness = list_stash_location_details[0][4]
+        list_location_names = []
+        for ind in range(0, 8):
+            list_location_names.append(self.all_locations[ind][0])
+        stash_list = list_location_names.index(location_name)
+        # Pull the needed details from self.all_locations
+        location_name = self.all_locations[stash_list][0]
+        description = self.all_locations[stash_list][1]
+        employee = self.all_locations[stash_list][2]
+        regular = self.all_locations[stash_list][3]
+        regular_hobby_link = self.all_locations[stash_list][4]
+        character_connection = self.all_locations[stash_list][5]
+        connection = self.all_locations[stash_list][6]
+        work_witness = self.all_locations[stash_list][7]
         thief = self.thief_details["Thief"]
         event_physcial_clue = self.case_details['event_physcial_clue']
         item = self.case_details['item']
         # build an instance of the Stash_location class and return
-        current_location = Stash_location(location_name, description, employee, regulars, character_connection, work_witness, thief, event_physcial_clue, item)
+        current_location = Stash_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, event_physcial_clue, item)
         return current_location
 
     def set_pre_crime_location(self):
         """
         builds an instance of the Pre_crime_location class specific to this game
         """
-        # Locate the correct row for the location chosen for pre_crime
+        # Locate the correct list in self.all_locations for the location chosen for pre_crime
         location_name = self.pre_crime_location
-        locations = SHEET.worksheet("locations")
-        location_name_column = locations.col_values(1)
-        pre_crime_location_row = location_name_column.index(location_name) + 1
-        # Pull the needed details from the spreadsheet
-        list_pre_crime_location_details = locations.get(f'B{pre_crime_location_row}:G{pre_crime_location_row}')
-        description = list_pre_crime_location_details[0][0]
-        employee = list_pre_crime_location_details[0][1]
-        regulars = list_pre_crime_location_details[0][2]
-        character_connection = list_pre_crime_location_details[0][3]
-        work_witness = list_pre_crime_location_details[0][4]
-        physical_clue = list_pre_crime_location_details[0][5]
+        list_location_names = []
+        for ind in range(0, 8):
+            list_location_names.append(self.all_locations[ind][0])
+        pre_crime_list = list_location_names.index(location_name)
+        print(pre_crime_list)
+        # Pull the needed details from self.all_locations
+        location_name = self.all_locations[pre_crime_list][0]
+        description = self.all_locations[pre_crime_list][1]
+        employee = self.all_locations[pre_crime_list][2]
+        regular = self.all_locations[pre_crime_list][3]
+        regular_hobby_link = self.all_locations[pre_crime_list][4]
+        character_connection = self.all_locations[pre_crime_list][5]
+        connection = self.all_locations[pre_crime_list][6]
+        work_witness = self.all_locations[pre_crime_list][7]
+        physical_clue = self.all_locations[pre_crime_list][8]
         pre_crime = self.thief_details['Pre-crime evidence']
         # build an instance of the Pre_crime_location class and return
-        current_location = Pre_crime_location(location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue)
+        current_location = Pre_crime_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue)
         return current_location
 
     def set_crime_scene(self):
@@ -150,12 +157,14 @@ class Case:
 
 # Location class and associated classes
 class Location:
-    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness):
+    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness):
         self.location_name = location_name
         self.description = description
         self.employee = employee
-        self.regulars = regulars
+        self.regular = regular
+        self.regular_hobby_link = regular_hobby_link
         self.character_connection = character_connection
+        self.connection = connection
         self.work_witness = work_witness
 
     def enter_location(self):
@@ -169,7 +178,7 @@ class Location:
         """
         intro_cctv_location = f"You review the cctv during the hours after the crime.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_location)
-        suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
+        suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
         summary_cctv_location = f"Nothing stands out as being suspicious."
         print(summary_cctv_location)
@@ -193,9 +202,9 @@ class Location:
         """
         question = f"You question the {self.work_witness}"
         print(question)
-        response = f"I don't know that I can help you. {self.employee} works here {self.regulars} are often to be seen here. {self.character_connection} also pops in occasionally"
+        response = f"I don't know that I can help you. {self.employee} works here {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally"
         print(response)
-        clue_for_notebook = f"{self.employee} works here {self.regulars} are often to be seen here. {self.character_connection} also pops in occasionally.\n"
+        clue_for_notebook = f"{self.employee} works here {self.regular} is often to be seen here and {self.character_connection} pops in occasionally.\n"
         return clue_for_notebook
 
 class Stash:
@@ -205,8 +214,8 @@ class Stash:
         self.item = item
 
 class Stash_location(Location, Stash):
-    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, thief, crime_physcial_clue, item):
-        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
+    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, crime_physcial_clue, item):
+        Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
         Stash.__init__(self, thief, crime_physcial_clue, item)
 
     def cctv_stash_location(self):
@@ -216,7 +225,7 @@ class Stash_location(Location, Stash):
         """
         intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
-        suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
+        suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
         suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
         print(suspicion_raised)
@@ -253,8 +262,8 @@ class Pre_crime:
         self.physical_clue = physical_clue
 
 class Pre_crime_location(Location, Pre_crime):
-    def __init__(self, location_name, description, employee, regulars, character_connection, work_witness, pre_crime, physical_clue):
-        Location.__init__(self, location_name, description, employee, regulars, character_connection, work_witness)
+    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue):
+        Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
         Pre_crime.__init__(self, pre_crime, physical_clue)
 
     def cctv_pre_crime(self):
@@ -264,7 +273,7 @@ class Pre_crime_location(Location, Pre_crime):
         """
         intro_cctv_pre_crime = f"You review the cctv on the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_pre_crime)
-        suspects = f"{self.employee}, {self.regulars} and {self.character_connection}"
+        suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
         summary_cctv = "Nothing stands out as being suspicious."
         print(summary_cctv)
@@ -278,7 +287,7 @@ class Pre_crime_location(Location, Pre_crime):
         """
         question = f"You question the {self.work_witness}"
         print(question)
-        response = f"Well on that morning {self.employee} was here as normal and {self.regulars} came in during the morning. {self.character_connection} also popped in"
+        response = f"Well on that morning {self.employee} was here as normal and {self.regular} came in during the morning. {self.character_connection} also popped in"
         print(response)
         clue = f"Oh and come to think of it {self.pre_crime}"
         print(clue)
@@ -564,7 +573,7 @@ def set_all_locations():
     returns this list of lists
     """
     locations = SHEET.worksheet("locations")
-    all_locations = locations.get("A2:G9")
+    all_locations = locations.get("A2:I9")
     return all_locations
 
 # Main game
@@ -621,15 +630,15 @@ def view_map(current_case):
     """
     print("Map title to be created")
     print("A map of the area shows the following notable locations:")
-    locations = SHEET.worksheet("locations")
-    for ind in range(1, 9):
-        row = ind + 1
-        location = locations.cell(row, 1).value
-        print(f"{ind} - {location}")
+    # loop to print location names
+    for ind in range(0, 8):
+        location = current_case.all_locations[ind][0]
+        print(f"{ind + 1} - {location}")
+    # Player choice requested and handled
     action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
     # input to be validated
-    if action == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8":
-        location_number = int(action) + 1
+    if action in ("1","2","3","4","5","6","7","8"):
+        location_number = int(action) - 1
         check_location_type(location_number, current_case)
     elif action == "r":
         main_action_options(current_case)
@@ -650,8 +659,7 @@ def check_location_type(location_number, current_case):
     Checks the location chosen to see how it needs handling and calls one of the following functions
     visit_stash_location, visit_pre_crime_location, visit_crime_scene_location
     """
-    locations = SHEET.worksheet("locations")
-    location_name = locations.cell(location_number, 1).value
+    location_name = current_case.all_locations[location_number][0]
     if location_name == current_case.stash_location:
         visit_stash_location(current_case)
     elif location_name == current_case.pre_crime_location:
@@ -667,17 +675,18 @@ def visit_unconnected_location(location_number, current_case):
     Takes the chosen location_number as an argument and uses to create an instance of Location
     Uses the methods of the Location class to allow the user to explore the location
     """
-    # Find values and create a new instance of Location
-    locations = SHEET.worksheet("locations")
+    # get details for chosen location
     location_name = current_case.all_locations[location_number][0]
-    print(location_name)
     description = current_case.all_locations[location_number][1]
     employee = current_case.all_locations[location_number][2]
-    regulars = current_case.all_locations[location_number][3]
-    character_connection = current_case.all_locations[location_number][4]
-    work_witness = current_case.all_locations[location_number][5]
-    current_location = Location(location_name, description, employee, regulars, character_connection, work_witness)
-    # Instance now created user actions now requested and handled
+    regular = current_case.all_locations[location_number][3]
+    regular_hobby_link = current_case.all_locations[location_number][4]
+    character_connection = current_case.all_locations[location_number][5]
+    connection = current_case.all_locations[location_number][6]
+    work_witness = current_case.all_locations[location_number][7]
+    # create an instance of Location for chosen location
+    current_location = Location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
+    
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
     # Loop requesting and handling choice from player
@@ -724,7 +733,6 @@ def visit_unconnected_location(location_number, current_case):
     print("")
     main_action_options(current_case)
     
-
 def visit_stash_location(current_case):
     """
     Sets the current_location as an instance of Stash_location. 
