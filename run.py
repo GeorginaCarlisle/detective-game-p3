@@ -161,10 +161,10 @@ class Case:
     def set_thief_suspect(self):
         print("setting thief")
 
-    def set_suspect(self):
-        print("setting suspect")
+    def set_present_at_scene_suspect(self):
+        print("setting suspect present at the crime scene")
 
-    def set_unconnected_suspect(self):
+    def set_suspect(self):
         print("setting unconnected suspect")
 
 # Location class and associated classes
@@ -375,6 +375,14 @@ class Crime_scene:
         print(response)
         clue_for_notebook = f"The thief is a {self.description_clue}.\n"
         return clue_for_notebook
+
+class Suspect:
+    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
+        self.suspect_name = suspect_name
+        self.occupation = occupation
+        self.hobby_location = hobby_location
+        self.character_connection = character_connection
+        self.connection_location = connection_location
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
@@ -999,9 +1007,9 @@ def check_suspect_type(suspect_number, current_case):
     if suspect_name == thief:
         current_suspect = current_case.set_thief_suspect()
     elif suspect_name in list_suspects:
-        current_suspect = current_case.set_suspect()
+        current_suspect = current_case.set_present_at_scene_suspect()
     else:
-        current_suspect = current_case.set_unconnected_suspect()
+        current_suspect = current_case.set_suspect()
     question_suspect(current_suspect, current_case)
 
 def question_suspect(current_suspect, current_case):
