@@ -381,8 +381,12 @@ class Suspect:
         print(call_for_questioning)
 
     def question_reason_at_crime_scene(self):
-        print("Ask the suspect why they were at the scene")
-        return "reason for presence"
+        question = f"You ask {self.suspect_name} why they were at the crime scene"
+        print(question)
+        response = self.presence_reason
+        print(response)
+        clue_for_notebook = f"Reason for presence at crime scene: '{response}'"
+        return clue_for_notebook
 
     def question_connections(self):
         print("Ask the suspect if they have a connection with any of the other suspects")
@@ -1065,7 +1069,8 @@ def set_thief_suspect(suspect_number, current_case):
     # Find variable needed from case_details dictionary
     suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
     find_suspect = suspects_at_scene.index(suspect_name) + 1
-    presence_reason = f"current_case.case_details['presence_reason_{find_suspect}']"
+    specific_presence_reason = f"presence_reason_{find_suspect}"
+    presence_reason = current_case.case_details[specific_presence_reason]
     # Find variable needed from thief_details dictionary
     motive = current_case.thief_details['Motive']
     denile = current_case.thief_details['Denile']
@@ -1087,8 +1092,10 @@ def set_present_at_scene_suspect(suspect_number, current_case):
     # Find variable needed from case_details dictionary
     suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
     find_suspect = suspects_at_scene.index(suspect_name) + 1
-    presence_reason = f"current_case.case_details['presence_reason_{find_suspect}']"
-    item_connection = f"current_case.case_details['item_connection_{find_suspect}']"
+    specific_presence_reason = f"presence_reason_{find_suspect}"
+    presence_reason = current_case.case_details[specific_presence_reason]
+    specific_item_connection = f"item_connection_{find_suspect}"
+    item_connection = current_case.case_details[specific_item_connection]
     # build an instance of the Present_at_scene_suspect class and return
     current_suspect = Present_at_scene_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection)
     return current_suspect
