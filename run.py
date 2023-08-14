@@ -1068,8 +1068,23 @@ def set_present_at_scene_suspect(suspect_number, current_case):
     find_suspect = suspects_at_scene.index(suspect_name) + 1
     presence_reason = f"current_case.case_details['presence_reason_{find_suspect}']"
     item_connection = f"current_case.case_details['item_connection_{find_suspect}']"
-    # build an instance of the Suspect_is_thief class and return
+    # build an instance of the Present_at_scene_suspect class and return
     current_suspect = Present_at_scene_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection)
+    return current_suspect
+
+def set_suspect(suspect_number, current_case):
+    """
+    builds an instance of the Unconnected_suspect class specific to this game
+    """
+    # Find variables needed from all_suspects list of lists
+    suspect_details = current_case.all_suspects[suspect_number]
+    suspect_name = suspect_details[0]
+    occupation = suspect_details[1]
+    hobby_location = suspect_details[4]
+    character_connection = suspect_details[5]
+    connection_location = suspect_details[6]
+    # build an instance of the Unconnected_suspect class and return
+    current_suspect = Unconnected_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location)
     return current_suspect
 
 def question_suspect(current_suspect, current_case):
