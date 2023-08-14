@@ -377,7 +377,8 @@ class Suspect:
         self.connection_location = connection_location
 
     def call_suspect_for_questioning(self):
-        print("Call suspect in for questioning")
+        call_for_questioning = f"You invite {self.suspect_name} in for questioning."
+        print(call_for_questioning)
 
     def question_reason_at_crime_scene(self):
         print("Ask the suspect why they were at the scene")
