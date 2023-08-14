@@ -316,7 +316,7 @@ class Crime_scene:
     def enter_crime_scene(self):
         intro_crime_scene = f"As you walk into {self.location_name} {self.employee} rushes over to meet you"
         print(intro_crime_scene)
-        greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but ?? has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
+        greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but Detective Inspector Job Done has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
         print(greet_employee)
         question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
         # input to be validated including handling of error
