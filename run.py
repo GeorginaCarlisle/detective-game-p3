@@ -846,7 +846,7 @@ def visit_unconnected_location(location_number, current_case):
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
-    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    actions_available = ["check the cctv (c)", "look around (s)", "talk to a witness(t)"]
     while actions_available:
         print("")
         print("Would you like to:")
@@ -864,8 +864,8 @@ def visit_unconnected_location(location_number, current_case):
             print("")
             cctv_clue = current_location.cctv_unconnected_location()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "l":
-            position_of_choice = actions_available.index("look around (l)")
+        elif choice == "s":
+            position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_unconnected_location()
@@ -899,7 +899,7 @@ def visit_stash_location(current_case):
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
-    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    actions_available = ["check the cctv (c)", "look around (s)", "talk to a witness(t)"]
     while actions_available:
         print("")
         print("Would you like to:")
@@ -917,8 +917,8 @@ def visit_stash_location(current_case):
             print("")
             cctv_clue = current_location.cctv_stash_location()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "l":
-            position_of_choice = actions_available.index("look around (l)")
+        elif choice == "s":
+            position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_stash_location()
@@ -952,7 +952,7 @@ def visit_pre_crime_location(current_case):
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
-    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    actions_available = ["check the cctv (c)", "look around (s)", "talk to a witness(t)"]
     while actions_available:
         print("")
         print("Would you like to:")
@@ -970,8 +970,8 @@ def visit_pre_crime_location(current_case):
             print("")
             cctv_clue = current_location.cctv_pre_crime()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "l":
-            position_of_choice = actions_available.index("look around (l)")
+        elif choice == "s":
+            position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_unconnected_location()
@@ -1005,7 +1005,7 @@ def visit_crime_scene_location(current_case):
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
-    actions_available = ["check the cctv (c)", "look around (l)", "talk to a witness(t)"]
+    actions_available = ["check the cctv (c)", "look around (s)", "talk to a witness(t)"]
     while actions_available:
         print("")
         print("Would you like to:")
@@ -1023,8 +1023,8 @@ def visit_crime_scene_location(current_case):
             print("")
             cctv_clue = current_location.cctv_crime_scene()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "l":
-            position_of_choice = actions_available.index("look around (l)")
+        elif choice == "s":
+            position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_crime_scene()
