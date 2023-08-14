@@ -182,6 +182,7 @@ class Work_location:
             notebook_clue = self.work_evidence
         else:
             is_work_location = False
+            notebook_clue = "no clue"
         return [is_work_location, notebook_clue]
 
 class Location(Work_location):
@@ -1222,3 +1223,18 @@ def arrest_confirm(suspect_number, current_case):
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+
+
+
+
+
+
+
+/home/codeany/.local/lib/python3.8/site-packages/gspread/worksheet.py:1046: UserWarning: [Deprecated][in version 6.0.0]: method signature will change to: 'Worksheet.update(value = [[]], range_name=)' arguments 'range_name' and 'values' will swap, values will be mandatory of type: 'list(list(...))'
+  warnings.warn(
+
+{'@type': 'type.googleapis.com/google.rpc.Help', 
+ 'links': [{'description': 'Request a higher quota limit.', 
+            'url': 'https://cloud.google.com/docs/quota#requesting_higher_quota'}]}]}
+
+
