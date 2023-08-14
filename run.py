@@ -369,9 +369,10 @@ class Crime_scene:
 
 # Suspect class and associated classes
 class Suspect:
-    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
+    def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location):
         self.suspect_name = suspect_name
         self.occupation = occupation
+        self.work_location = work_location
         self.hobby_location = hobby_location
         self.character_connection = character_connection
         self.connection_location = connection_location
@@ -389,11 +390,11 @@ class Suspect:
         return clue_for_notebook
 
     def question_connections(self):
-        question = f"You ask {self.suspect_name} if they have a connection with any of the other suspects"
+        question = f"You ask {self.suspect_name} where they have been in the last two days"
         print(question)
-        response = f"'{self.character_connection}'"
+        response = f"'Well, I work at the {self.work_location}, I often go the {self.hobby_location} and I popped into to see {self.character_connection} at the {self.connection_location}.'"
         print(response)
-        clue_for_notebook = f"Connection to other characters: '{response}'"
+        clue_for_notebook = f"In the last two days visited: {self.work_location}, {self.hobby_location} and {self.connection_location}."
         return clue_for_notebook
 
     def question_item_recognition(self):
@@ -416,19 +417,19 @@ class Thief:
         self.denile = denile
 
 class Present_at_scene_suspect(Suspect):
-    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection):
+    def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, item_connection):
         Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
         Present_at_scene.__init__(self, presence_reason, item_connection)
 
 class Suspect_is_thief(Suspect):
-    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
-        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
+    def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
+        Suspect.__init__(self, suspect_name, occupation, work_location,hobby_location, character_connection, connection_location)
         Thief.__init__(self, presence_reason, motive, denile)
         self.item_connection = self.denile
 
 class Unconnected_suspect(Suspect):
-    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
-        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
+    def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location):
+        Suspect.__init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location)
         self.presence_reason = "I think you must be mistaken I was nowhere near the crime scene when the item was stolen"
         self.item_connection = "I have never seen it before. What is it?"
 
@@ -1072,6 +1073,7 @@ def set_thief_suspect(suspect_number, current_case):
     suspect_details = current_case.all_suspects[suspect_number]
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
+    work_location = suspect_details[3]
     hobby_location = suspect_details[4]
     connection_location = suspect_details[5]
     character_connection = suspect_details[6]
@@ -1084,7 +1086,7 @@ def set_thief_suspect(suspect_number, current_case):
     motive = current_case.thief_details['Motive']
     denile = current_case.thief_details['Denile']
     # build an instance of the Suspect_is_thief class and return
-    current_suspect = Suspect_is_thief(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile)
+    current_suspect = Suspect_is_thief(suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, motive, denile)
     return current_suspect
 
 def set_present_at_scene_suspect(suspect_number, current_case):
@@ -1095,6 +1097,7 @@ def set_present_at_scene_suspect(suspect_number, current_case):
     suspect_details = current_case.all_suspects[suspect_number]
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
+    work_location = suspect_details[3]
     hobby_location = suspect_details[4]
     connection_location = suspect_details[5]
     character_connection = suspect_details[6]
@@ -1106,7 +1109,7 @@ def set_present_at_scene_suspect(suspect_number, current_case):
     specific_item_connection = f"item_connection_{find_suspect}"
     item_connection = current_case.case_details[specific_item_connection]
     # build an instance of the Present_at_scene_suspect class and return
-    current_suspect = Present_at_scene_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection)
+    current_suspect = Present_at_scene_suspect(suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, item_connection)
     return current_suspect
 
 def set_suspect(suspect_number, current_case):
@@ -1117,11 +1120,12 @@ def set_suspect(suspect_number, current_case):
     suspect_details = current_case.all_suspects[suspect_number]
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
+    work_location = suspect_details[3]
     hobby_location = suspect_details[4]
     connection_location = suspect_details[5]
     character_connection = suspect_details[6]
     # build an instance of the Unconnected_suspect class and return
-    current_suspect = Unconnected_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location)
+    current_suspect = Unconnected_suspect(suspect_name, occupation, work_location, hobby_location, character_connection, connection_location)
     return current_suspect
 
 def question_suspect(current_suspect, current_case):
@@ -1134,7 +1138,7 @@ def question_suspect(current_suspect, current_case):
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
-    actions_available = ["why they were present at the crime scene (p)", "if they have a connection with any of the other suspects (c)", "if they recognise the stolen item (i)"]
+    actions_available = ["why they were present at the crime scene (p)", "about there movements over the last two days (m)", "if they recognise the stolen item (i)"]
     while actions_available:
         print("")
         print("Would you like to ask the suspect:")
@@ -1152,12 +1156,12 @@ def question_suspect(current_suspect, current_case):
             print("")
             presence_clue = current_suspect.question_reason_at_crime_scene()
             clues_for_notebook = clues_for_notebook + presence_clue
-        elif choice == "c":
-            position_of_choice = actions_available.index("if they have a connection with any of the other suspects (c)")
+        elif choice == "m":
+            position_of_choice = actions_available.index("about there movements over the last two days (m)")
             actions_available.pop(position_of_choice)
             print("")
-            character_connection_clue = current_suspect.question_connections()
-            clues_for_notebook = clues_for_notebook + character_connection_clue
+            location_connection_clue = current_suspect.question_connections()
+            clues_for_notebook = clues_for_notebook + location_connection_clue
         elif choice == "i":
             position_of_choice = actions_available.index("if they recognise the stolen item (i)")
             actions_available.pop(position_of_choice)
