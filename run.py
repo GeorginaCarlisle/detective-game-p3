@@ -384,6 +384,16 @@ class Suspect:
         self.character_connection = character_connection
         self.connection_location = connection_location
 
+class Present_at_scene_suspect:
+    def __init__(self, presence_reason, item_connection):
+        self.presence_reason = presence_reason
+        self.item_connection = item_connection
+
+class Thief:
+    def __init__(self, motive, denile):
+        self.motive = motive
+        self.denile = denile
+
 # Initial sequence and introduction to game and case
 def intro_and_setup():
     """
