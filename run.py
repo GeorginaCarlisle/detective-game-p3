@@ -158,6 +158,15 @@ class Case:
         current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
+    def set_thief_suspect(self):
+        print("setting thief")
+
+    def set_suspect(self):
+        print("setting suspect")
+
+    def set_unconnected_suspect(self):
+        print("setting unconnected suspect")
+
 # Location class and associated classes
 class Location:
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness):
@@ -980,7 +989,23 @@ def visit_crime_scene_location(current_case):
     main_action_options(current_case)
 
 def check_suspect_type(suspect_number, current_case):
-    print("checking suspect_type")
+    """
+    Checks the suspect chosen to see how it needs handling and calls one of the following functions
+    set_thief_suspect, set_suspect, set_unconnected_suspect
+    """
+    suspect_name = current_case.all_suspects[suspect_number][0]
+    thief = current_case.thief_details["Thief"]
+    list_suspects = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
+    if suspect_name == thief:
+        current_suspect = current_case.set_thief_suspect()
+    elif suspect_name in list_suspects:
+        current_suspect = current_case.set_suspect()
+    else:
+        current_suspect = current_case.set_unconnected_suspect()
+    question_suspect(current_suspect, current_case)
+
+def question_suspect(current_suspect, current_case):
+    print("questioning suspect")
 
 def arrest_confirm(suspect_number, current_case):
     print("confirming arrest")
