@@ -158,9 +158,6 @@ class Case:
         current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
-    def set_thief_suspect(self):
-        print("setting thief")
-
     def set_present_at_scene_suspect(self):
         print("setting suspect present at the crime scene")
 
@@ -376,6 +373,7 @@ class Crime_scene:
         clue_for_notebook = f"The thief is a {self.description_clue}.\n"
         return clue_for_notebook
 
+# Suspect class and associated classes
 class Suspect:
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
         self.suspect_name = suspect_name
@@ -390,7 +388,8 @@ class Present_at_scene:
         self.item_connection = item_connection
 
 class Thief:
-    def __init__(self, motive, denile):
+    def __init__(self, presence_reason, motive, denile):
+        self.presence_reason = presence_reason
         self.motive = motive
         self.denile = denile
 
@@ -399,11 +398,10 @@ class Present_at_scene_suspect(Suspect):
         Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
         Present_at_scene.__init__(self, presence_reason, item_connection)
 
-class Suspect_is_thief(Suspect, Present_at_scene):
+class Suspect_is_thief(Suspect):
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
         Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
-        Present_at_scene.__init__(self, presence_reason)
-        Thief.__init__(self, motive, denile)
+        Thief.__init__(self, presence_reason, motive, denile)
 
 class Unconnected_suspect(Suspect):
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
@@ -1031,12 +1029,34 @@ def check_suspect_type(suspect_number, current_case):
     thief = current_case.thief_details["Thief"]
     list_suspects = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
     if suspect_name == thief:
-        current_suspect = current_case.set_thief_suspect()
+        current_suspect = set_thief_suspect(suspect_number, current_case)
     elif suspect_name in list_suspects:
-        current_suspect = current_case.set_present_at_scene_suspect()
+        current_suspect = set_present_at_scene_suspect(suspect_number, current_case)
     else:
-        current_suspect = current_case.set_suspect()
+        current_suspect = set_suspect(suspect_number, current_case)
     question_suspect(current_suspect, current_case)
+
+def set_thief_suspect(suspect_number, current_case):
+    """
+    builds an instance of the Suspect_is_thief class specific to this game
+    """
+    # Find variables needed from all_suspects list of lists
+    suspect_details = current_case.all_suspects[suspect_number]
+    suspect_name = suspect_details[0]
+    occupation = suspect_details[1]
+    hobby_location = suspect_details[4]
+    character_connection = suspect_details[5]
+    connection_location = suspect_details[6]
+    # Find variable needed from case_details dictionary
+    suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
+    find_suspect = suspects_at_scene.index(suspect_name) + 1
+    presence_reason = f"current_case.case_details['presence_reason_{find_suspect}']"
+    # Find variable needed from thief_details dictionary
+    motive = current_case.thief_details['Motive']
+    denile = current_case.thief_details['Denile']
+    # build an instance of the Suspect_is_thief class and return
+    current_suspect = Suspect_is_thief(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile)
+    return current_suspect
 
 def question_suspect(current_suspect, current_case):
     print("questioning suspect")
