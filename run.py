@@ -97,8 +97,10 @@ class Case:
         thief = self.thief_details["Thief"]
         event_physcial_clue = self.case_details['event_physcial_clue']
         item = self.case_details['item']
+        work_location = self.thief_details['work_location']
+        work_evidence = self.thief_details['Evidence at work']
         # build an instance of the Stash_location class and return
-        current_location = Stash_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, event_physcial_clue, item)
+        current_location = Stash_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, event_physcial_clue, item, work_location, work_evidence)
         return current_location
 
     def set_pre_crime_location(self):
@@ -123,8 +125,10 @@ class Case:
         work_witness = self.all_locations[pre_crime_list][7]
         physical_clue = self.all_locations[pre_crime_list][8]
         pre_crime = self.thief_details['Pre-crime evidence']
+        work_location = self.thief_details['work_location']
+        work_evidence = self.thief_details['Evidence at work']
         # build an instance of the Pre_crime_location class and return
-        current_location = Pre_crime_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue)
+        current_location = Pre_crime_location(location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue, work_location, work_evidence)
         return current_location
 
     def set_crime_scene(self):
@@ -159,7 +163,28 @@ class Case:
         return current_location
 
 # Location class and associated classes
-class Location:
+class Work_location:
+    """
+    This class is a mixin to be assessed by all locations (except) crime_scene
+    When looking around
+    """
+    def check_if_work_location(self):
+        """
+        checks if the current_location is the thief's work location
+        return True if work_location and False if not work_location
+        """
+        work_location = self.work_location
+        current_location = self.location_name
+        if current_location == work_location:
+            is_work_location = True
+            evidence_found = f"As you look around you notice {self.work_evidence}"
+            print(evidence_found)
+            notebook_clue = self.work_evidence
+        else:
+            is_work_location = False
+        return [is_work_location, notebook_clue]
+
+class Location(Work_location):
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness):
         self.location_name = location_name
         self.description = description
@@ -193,9 +218,13 @@ class Location:
         Prints storyline for looking around the current_location
         Generates and returns clues to be added to the notebook
         """
-        intro_look_around = f"You quickly search the {self.location_name} there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
-        print(intro_look_around)
-        clue_for_notebook = f"You find no clues when looking around.\n"
+        is_work_location = self.check_if_work_location()
+        if is_work_location[0]:
+            clue_for_notebook = is_work_location[1]
+        else: 
+            intro_look_around = f"You quickly search the {self.location_name}, there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
+            print(intro_look_around)
+            clue_for_notebook = f"You find no clues when looking around.\n"
         return clue_for_notebook
 
     def talk_witness_unconnected_location(self):
@@ -211,15 +240,17 @@ class Location:
         return clue_for_notebook
 
 class Stash:
-    def __init__(self, thief, crime_physcial_clue, item):
+    def __init__(self, thief, crime_physcial_clue, item, work_location, work_evidence):
         self.thief = thief
         self.crime_physcial_clue = crime_physcial_clue
         self.item = item
+        self.work_location = work_location
+        self.work_evidence = work_evidence
 
-class Stash_location(Location, Stash):
-    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, crime_physcial_clue, item):
+class Stash_location(Location, Stash, Work_location):
+    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, crime_physcial_clue, item, work_location, work_evidence):
         Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
-        Stash.__init__(self, thief, crime_physcial_clue, item)
+        Stash.__init__(self, thief, crime_physcial_clue, item, work_location, work_evidence)
 
     def cctv_stash_location(self):
         """
@@ -240,11 +271,15 @@ class Stash_location(Location, Stash):
         Prints storyline for looking around the current_location
         Generates and returns clues to be added to the notebook
         """
-        intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
-        print(intro_look_around)
-        notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
-        print(notice_clue)
-        clue_for_notebook = f"When looking around you notice {self.crime_physcial_clue}.\n"
+        is_work_location = self.check_if_work_location()
+        if is_work_location[0]:
+            clue_for_notebook = is_work_location[1]
+        else: 
+            intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
+            print(intro_look_around)
+            notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
+            print(notice_clue)
+            clue_for_notebook = f"When looking around you notice {self.crime_physcial_clue}.\n"
         return clue_for_notebook
 
     def talk_witness_stash_location(self):
@@ -260,14 +295,16 @@ class Stash_location(Location, Stash):
         return clue_for_notebook
 
 class Pre_crime:
-    def __init__(self, pre_crime, physical_clue):
+    def __init__(self, pre_crime, physical_clue, work_location, work_evidence):
         self.pre_crime = pre_crime
         self.physical_clue = physical_clue
+        self.work_location = work_location
+        self.work_evidence = work_evidence
 
 class Pre_crime_location(Location, Pre_crime):
-    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue):
+    def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue, work_location, work_evidence):
         Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
-        Pre_crime.__init__(self, pre_crime, physical_clue)
+        Pre_crime.__init__(self, pre_crime, physical_clue, work_location, work_evidence)
 
     def cctv_pre_crime(self):
         """
@@ -452,6 +489,7 @@ def intro_and_setup():
     pre_crime_location = stash_pre_crime_and_description[1]
     stash_location = stash_pre_crime_and_description[0]
     thief_details['description_clue'] = stash_pre_crime_and_description[2]
+    thief_details['work_location'] = stash_pre_crime_and_description[3]
     all_locations = set_all_locations()
     current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations, all_suspects)
     begin_game(current_case)
@@ -671,7 +709,7 @@ def set_stash_and_precrime_locations(thief_details, case_details, notebook_row, 
             print("ERROR!!")
     # update notebook with choices and return them
     update_notebook(notebook_row, [stash_location, pre_crime_location])
-    return [stash_location, pre_crime_location, thief_description]
+    return [stash_location, pre_crime_location, thief_description, work_location]
 
 def set_all_locations():
     """
