@@ -376,6 +376,21 @@ class Suspect:
         self.character_connection = character_connection
         self.connection_location = connection_location
 
+    def call_suspect_for_questioning(self):
+        print("Call suspect in for questioning")
+
+    def question_reason_at_crime_scene(self):
+        print("Ask the suspect why they were at the scene")
+        return "reason for presence"
+
+    def question_connections(self):
+        print("Ask the suspect if they have a connection with any of the other suspects")
+        return "connection"
+
+    def question_item_recognition(self):
+        print("Ask the suspect if they recognise the stolen item")
+        return "item recognition"
+
 class Present_at_scene:
     def __init__(self, presence_reason, item_connection):
         self.presence_reason = presence_reason
@@ -399,6 +414,7 @@ class Suspect_is_thief(Suspect):
 
 class Unconnected_suspect(Suspect):
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
+        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
         self.presence_reason = "I think you must be mistaken I was nowhere near the crime scene when the item was stolen"
         self.item_connection = "I have never seen it before. What is it?"
 
@@ -777,6 +793,8 @@ def view_suspect_list(current_case):
 def obtain_search_warrant():
     print("search warrant reached")
 
+# Location specific functions
+
 def check_location_type(location_number, current_case):
     """
     Checks the location chosen to see how it needs handling and calls one of the following functions
@@ -1014,6 +1032,8 @@ def visit_crime_scene_location(current_case):
     print("")
     main_action_options(current_case)
 
+# Suspect specific functions
+
 def check_suspect_type(suspect_number, current_case):
     """
     Checks the suspect chosen to see how it needs handling and calls one of the following functions
@@ -1088,7 +1108,55 @@ def set_suspect(suspect_number, current_case):
     return current_suspect
 
 def question_suspect(current_suspect, current_case):
-    print("questioning suspect")
+    """
+    Runs call_suspect_for_questioning, requests player to choose next action and handles their choice
+    Returns to main_action_choices at players request or when all location actions completed
+    """
+    clues_for_notebook = f"{current_suspect.suspect_name}:\n"
+    current_suspect.call_suspect_for_questioning()
+    # Loop requesting and handling choice from player
+    # User will only be present with options they haven't already chosen plus return option
+    # Loop will run until all options chosen or player inputs return option
+    actions_available = ["why they were present at the crime scene (p)", "if they have a connection with any of the other suspects (c)", "if they recognise the stolen item (i)"]
+    while actions_available:
+        print("")
+        print("Would you like to ask the suspect:")
+        if len(actions_available) == 3:
+            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 2:
+            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+        elif len(actions_available) == 1:
+            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+        else:
+            print("ERROR!!")
+        if choice == "p":
+            position_of_choice = actions_available.index("why they were present at the crime scene (p)")
+            actions_available.pop(position_of_choice)
+            print("")
+            presence_clue = current_suspect.question_reason_at_crime_scene()
+            clues_for_notebook = clues_for_notebook + presence_clue
+        elif choice == "c":
+            position_of_choice = actions_available.index("if they have a connection with any of the other suspects (c)")
+            actions_available.pop(position_of_choice)
+            print("")
+            character_connection_clue = current_suspect.question_connections()
+            clues_for_notebook = clues_for_notebook + character_connection_clue
+        elif choice == "i":
+            position_of_choice = actions_available.index("if they recognise the stolen item (i)")
+            actions_available.pop(position_of_choice)
+            print("")
+            item_recognition_clue = current_suspect.question_item_recognition()
+            clues_for_notebook = clues_for_notebook + item_recognition_clue
+        elif choice == "r":
+            break
+        else:
+            print("ERROR!!")
+    # Once loop completed or user chooses to return
+    print("")
+    update_notebook(current_case.notebook_column, [clues_for_notebook])
+    print("Exiting location. You will now be taken back to the main options")
+    print("")
+    main_action_options(current_case)
 
 def arrest_confirm(suspect_number, current_case):
     print("confirming arrest")
