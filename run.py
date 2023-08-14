@@ -42,7 +42,7 @@ def update_notebook(notebook_row, *entries):
 # Classes
 
 class Case:
-    def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location, all_locations):
+    def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location, all_locations, all_suspects):
         self.player_name = player_name
         self.notebook_column = notebook_column
         self.case_details = case_details
@@ -50,6 +50,7 @@ class Case:
         self.pre_crime_location = pre_crime_location
         self.stash_location = stash_location
         self.all_locations = all_locations
+        self.all_suspects = all_suspects
 
     def introduce_case(self):
         enter_agency = "You enter Case Closed Detective Agency"
@@ -386,7 +387,7 @@ def intro_and_setup():
     stash_location = stash_pre_crime_and_description[0]
     thief_details['description_clue'] = stash_pre_crime_and_description[2]
     all_locations = set_all_locations()
-    current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations)
+    current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations, all_suspects)
     begin_game(current_case)
 
 def initial_sequence():
@@ -661,9 +662,9 @@ def main_action_options(current_case):
     elif action == "n":
         view_notebook(current_case)
     elif action == "s":
-        view_suspect_list()
+        view_suspect_list(current_case)
     elif action == "w":
-        obtain_search_warrant()
+        obtain_search_warrant(current_case)
     else:
         print("ERROR!!")
 
@@ -671,7 +672,7 @@ def view_map(current_case):
     """
     Prints the map title, intro and a list of all the locations
     Requests that user choose one of the locations or chooses to return to the main options
-    Handles user input and either calls the main options or calls visit_location 
+    Handles user input and either calls the main options or calls check_location_type 
     passing the chosen location number adjusted to represent the location's row number in the sheet
     """
     print("Map title to be created")
@@ -708,8 +709,35 @@ def view_notebook(current_case):
         print(list_clues[ind])
     main_action_options(current_case)
 
-def view_suspect_list():
-    print("suspect_list reached")
+def view_suspect_list(current_case):
+    """
+    Prints the Suspects title, intro and a list of all the suspects
+    Requests that user choose one of the suspects or chooses to return to the main options
+    Handles user input and either calls the main options or calls check_suspect 
+    """
+    print("Suspects title to be created")
+    print("One of these characters is the thief. Can you work out who?")
+    # loop to print suspect names and occupations
+    for ind in range(0, 8):
+        suspect = current_case.all_suspects[ind][0]
+        occupation = current_case.all_suspects[ind][1]
+        print(f"{ind + 1} - {suspect} the {occupation}")
+    # Player choice requested and handled
+    print("")
+    action = input("To question a suspect type (q) or to arrest a suspect type (a)\n Alternatively type (r) to return to the main options\n")
+    # input to be validated
+    if action == "q":
+        suspect_choice = input("Please type in the number of the suspect you would like to question\n")
+        suspect_number = int(suspect_choice) - 1
+        check_suspect_type(suspect_number, current_case)
+    elif action == "a":
+        suspect_choice = input("Please type in the number of the suspect you would like to arrest\n")
+        suspect_number = int(suspect_choice) - 1
+        arrest_confirm(suspect_number, current_case)
+    elif action == "r":
+        main_action_options(current_case)
+    else:
+        print("ERROR!!!")
 
 def obtain_search_warrant():
     print("search warrant reached")
@@ -950,6 +978,12 @@ def visit_crime_scene_location(current_case):
     print("Exiting location. You will now be taken back to the main options")
     print("")
     main_action_options(current_case)
+
+def check_suspect_type(suspect_number, current_case):
+    print("checking suspect_type")
+
+def arrest_confirm(suspect_number, current_case):
+    print("confirming arrest")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
