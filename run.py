@@ -384,7 +384,7 @@ class Suspect:
         self.character_connection = character_connection
         self.connection_location = connection_location
 
-class Present_at_scene_suspect:
+class Present_at_scene:
     def __init__(self, presence_reason, item_connection):
         self.presence_reason = presence_reason
         self.item_connection = item_connection
@@ -393,6 +393,22 @@ class Thief:
     def __init__(self, motive, denile):
         self.motive = motive
         self.denile = denile
+
+class Present_at_scene_suspect(Suspect):
+    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection):
+        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
+        Present_at_scene.__init__(self, presence_reason, item_connection)
+
+class Suspect_is_thief(Suspect, Present_at_scene):
+    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
+        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
+        Present_at_scene.__init__(self, presence_reason)
+        Thief.__init__(self, motive, denile)
+
+class Unconnected_suspect(Suspect):
+    def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
+        self.presence_reason = "I think you must be mistaken I was nowhere near the crime scene when the item was stolen"
+        self.item_connection = "I have never seen it before. What is it?"
 
 # Initial sequence and introduction to game and case
 def intro_and_setup():
