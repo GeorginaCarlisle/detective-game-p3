@@ -391,14 +391,18 @@ class Suspect:
     def question_connections(self):
         question = f"You ask {self.suspect_name} if they have a connection with any of the other suspects"
         print(question)
-        response = self.character_connection
+        response = f"'{self.character_connection}'"
         print(response)
         clue_for_notebook = f"Connection to other characters: '{response}'"
         return clue_for_notebook
 
     def question_item_recognition(self):
-        print("Ask the suspect if they recognise the stolen item")
-        return "item recognition"
+        question = f"You ask {self.suspect_name} if they recognise the stolen item"
+        print(question)
+        response = f"'{self.item_connection}'"
+        print(response)
+        clue_for_notebook = f"Recognition of item: '{response}'"
+        return clue_for_notebook
 
 class Present_at_scene:
     def __init__(self, presence_reason, item_connection):
@@ -420,6 +424,7 @@ class Suspect_is_thief(Suspect):
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
         Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
         Thief.__init__(self, presence_reason, motive, denile)
+        self.item_connection = self.denile
 
 class Unconnected_suspect(Suspect):
     def __init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location):
