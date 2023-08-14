@@ -389,8 +389,12 @@ class Suspect:
         return clue_for_notebook
 
     def question_connections(self):
-        print("Ask the suspect if they have a connection with any of the other suspects")
-        return "connection"
+        question = f"You ask {self.suspect_name} if they have a connection with any of the other suspects"
+        print(question)
+        response = self.character_connection
+        print(response)
+        clue_for_notebook = f"Connection to other characters: '{response}'"
+        return clue_for_notebook
 
     def question_item_recognition(self):
         print("Ask the suspect if they recognise the stolen item")
@@ -1064,8 +1068,8 @@ def set_thief_suspect(suspect_number, current_case):
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
     hobby_location = suspect_details[4]
-    character_connection = suspect_details[5]
-    connection_location = suspect_details[6]
+    connection_location = suspect_details[5]
+    character_connection = suspect_details[6]
     # Find variable needed from case_details dictionary
     suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
     find_suspect = suspects_at_scene.index(suspect_name) + 1
@@ -1087,8 +1091,8 @@ def set_present_at_scene_suspect(suspect_number, current_case):
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
     hobby_location = suspect_details[4]
-    character_connection = suspect_details[5]
-    connection_location = suspect_details[6]
+    connection_location = suspect_details[5]
+    character_connection = suspect_details[6]
     # Find variable needed from case_details dictionary
     suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
     find_suspect = suspects_at_scene.index(suspect_name) + 1
@@ -1109,8 +1113,8 @@ def set_suspect(suspect_number, current_case):
     suspect_name = suspect_details[0]
     occupation = suspect_details[1]
     hobby_location = suspect_details[4]
-    character_connection = suspect_details[5]
-    connection_location = suspect_details[6]
+    connection_location = suspect_details[5]
+    character_connection = suspect_details[6]
     # build an instance of the Unconnected_suspect class and return
     current_suspect = Unconnected_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location)
     return current_suspect
