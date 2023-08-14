@@ -158,12 +158,6 @@ class Case:
         current_location = Crime_scene(location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue)
         return current_location
 
-    def set_present_at_scene_suspect(self):
-        print("setting suspect present at the crime scene")
-
-    def set_suspect(self):
-        print("setting unconnected suspect")
-
 # Location class and associated classes
 class Location:
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness):
@@ -1056,6 +1050,26 @@ def set_thief_suspect(suspect_number, current_case):
     denile = current_case.thief_details['Denile']
     # build an instance of the Suspect_is_thief class and return
     current_suspect = Suspect_is_thief(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, motive, denile)
+    return current_suspect
+
+def set_present_at_scene_suspect(suspect_number, current_case):
+    """
+    builds an instance of the Present_at_scene_suspect class specific to this game
+    """
+    # Find variables needed from all_suspects list of lists
+    suspect_details = current_case.all_suspects[suspect_number]
+    suspect_name = suspect_details[0]
+    occupation = suspect_details[1]
+    hobby_location = suspect_details[4]
+    character_connection = suspect_details[5]
+    connection_location = suspect_details[6]
+    # Find variable needed from case_details dictionary
+    suspects_at_scene = [current_case.case_details['suspect_1'], current_case.case_details['suspect_2'], current_case.case_details['suspect_3'], current_case.case_details['suspect_4'], current_case.case_details['suspect_5']]
+    find_suspect = suspects_at_scene.index(suspect_name) + 1
+    presence_reason = f"current_case.case_details['presence_reason_{find_suspect}']"
+    item_connection = f"current_case.case_details['item_connection_{find_suspect}']"
+    # build an instance of the Suspect_is_thief class and return
+    current_suspect = Present_at_scene_suspect(suspect_name, occupation, hobby_location, character_connection, connection_location, presence_reason, item_connection)
     return current_suspect
 
 def question_suspect(current_suspect, current_case):
