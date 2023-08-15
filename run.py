@@ -1342,7 +1342,6 @@ def check_for_win(current_case):
     """
     Checks to see if the player has achieved both the arrest and the item location
     """
-    # 
     notebook_row = current_case.notebook_column
     notebook = SHEET.worksheet("notebook")
     notebook_row_list = notebook.row_values(notebook_row)
@@ -1369,7 +1368,11 @@ def win(current_case):
     """
     Prints win storyline
     """
-    print("WIN")
+    print("Detective Inspector Job appears")
+    print("")
+    congratulations = f"Absolutely amazing work Junior detective {current_case.player_name} you have correctly arrested {current_case.thief_details['Thief']} and located the {current_case.case_details['item']}. You have preserved the reputation of the Case Closed Detective Agency and we would be delighted for you to continue working as part of our team.”"
+    print(congratulations)
+    print("Congratulations Title")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
