@@ -393,10 +393,17 @@ class Crime_scene:
         print(intro_crime_scene)
         greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but Detective Inspector Job Done has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
         print(greet_employee)
-        question_employee = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
-        # input to be validated including handling of error
-        # Below needs looking at
-        Crime_scene.event_timeline(self) if question_employee == "y" else game_over("poor_detective", self)
+        while True:
+            question_input = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
+            question_employee = question_input.strip().lower()
+            if question_employee == "y":
+                break
+            elif question_employee == "n":
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+                print("")
+        return question_employee
 
     def event_timeline(self):
         print(self.timeline)
@@ -1062,12 +1069,23 @@ def visit_pre_crime_location(current_case):
 def visit_crime_scene_location(current_case):
     """
     Sets the current_location as an instance of Crime_scene. 
-    Runs enter_crime_scene, requests player to choose next action and handles their choice
-    Returns to main_action_choices at players request or when all location actions completed
+    Runs enter_crime_scene and calls event_timeline and explore_crime_scene
+    If player makes the correct choice, if not game_over called
     """
     current_location = current_case.set_crime_scene()
+    question_employee = current_location.enter_crime_scene()
+    if question_employee == "y":
+        current_location.event_timeline()
+        explore_crime_scene(current_case, current_location)
+    else:
+        game_over("poor_detective", current_case)
+    
+def explore_crime_scene(current_case, current_location):
+    """
+    Requests player to choose their actions while visiting the crime scene and handles their choice
+    Returns to main_action_choices at players request or when all location actions completed
+    """
     clues_for_notebook = f"{current_location.location_name}:\n"
-    current_location.enter_crime_scene()
     # Loop requesting and handling choice from player
     # User will only be present with options they haven't already chosen plus return option
     # Loop will run until all options chosen or player inputs return option
