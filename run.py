@@ -790,8 +790,18 @@ def main_action_options(current_case):
     Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
     Handles player input and calls the associated functions
     """
-    action = input("view map (m), view notebook (n) or view suspect list (s)\n")
-    # input to be validated
+    while True:
+        action = input("view map (m), view notebook (n) or view suspect list (s)\n")
+        confirmed_action = action.strip().lower()
+        if confirmed_action == "m":
+            break
+        elif confirmed_action == "n":
+            break
+        elif confirmed_action == "s":
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'm' or 'n' or 's'  please try again")
+            print("")
     if action == "m":
         view_map(current_case)
     elif action == "n":
@@ -799,7 +809,7 @@ def main_action_options(current_case):
     elif action == "s":
         view_suspect_list(current_case)
     else:
-        print("ERROR!!")
+        print("ERROR! Please contact developer")
 
 def view_map(current_case):
     """
