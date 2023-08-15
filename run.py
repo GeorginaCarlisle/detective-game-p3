@@ -1275,15 +1275,46 @@ def confirm_warrant_request(location_number, current_case):
     print(question_warrant)
     warrant_confirm = input("y/n\n")
     if warrant_confirm == "y":
-        search_location(location_name, current_case)
+        search_location(location_number, current_case)
     elif warrant_confirm == "n":
         print("Returning you to the main options")
         main_action_options(current_case)
     else:
         print("ERROR!!!")
 
-def search_location(location_name, current_case):
-    print("searching location")
+def search_location(location_number, current_case):
+    """
+    Check if the chosen location is the stash_location and print corrosponding story line
+    """
+    location_name = current_case.all_locations[location_number][0]
+    employee = current_case.all_locations[location_number][2]
+    present_search_warrant = f"You present the search warrant to {employee} at the {location_name}. They look thoroughly confused but you ignore them and enter the building."
+    print(present_search_warrant)
+    if location_name == current_case.stash_location:
+        item = current_case.case_details['item']
+        search = f"While searching the {location_name} you find {item}"
+        print(search)
+        print("")
+        crime_scene = current_case.case_details['crime_scene']
+        # Get employee name for the crime_scene location
+        locations = SHEET.worksheet("locations")
+        location_name_column = locations.col_values(1)
+        crime_scene_location_row = location_name_column.index(location_name) + 1
+        item_owner = locations.cell(crime_scene_location_row, 3).value
+        # Print return item story line
+        return_item = f"You head straight to the {crime_scene} And give the {item} back to {item_owner}"
+        print(return_item)
+        print("")
+        # Print thank you story line
+        print(f"{item_owner} beams with delight as you hand them back the {item}")
+        print(f"How can I ever thank you Junior detective {current_case.player_name}!!!")
+        # Update the notebook
+        notebook_clue_one = "Item found!"
+        notebook_clue_two = f"The {current_case.case_details['item']} was hidden at the {location_name}"
+        notebook_entries = [notebook_clue_one, notebook_clue_two]
+        notebook_row = current_case.notebook_column
+        update_notebook(notebook_row, notebook_entries)
+        check_for_win(current_case)
 
 def check_for_win(current_case):
     print("checking for win")
