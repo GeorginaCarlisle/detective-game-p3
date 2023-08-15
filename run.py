@@ -1218,7 +1218,20 @@ def question_suspect(current_suspect, current_case):
     main_action_options(current_case)
 
 def arrest_confirm(suspect_number, current_case):
-    print("confirming arrest")
+    """
+    Confirms that the player definitely wants to arrest the suspect they have chosen
+    """
+    suspect_name = current_case.all_suspects[suspect_number][0]
+    question_arrest = f"Are you sure {suspect_name} is the thief? Remember here at Case Closed we don’t tolerate false arrests!"
+    print(question_arrest)
+    arrest_confirm = input("y/n\n")
+    if arrest_confirm == "y":
+        arrest_suspect(suspect_name, current_case)
+    elif arrest_confirm == "n":
+        print("Returning you to the main options")
+        main_action_options(current_case)
+    else:
+        print("ERROR!!!")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
