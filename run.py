@@ -1297,7 +1297,7 @@ def search_location(location_number, current_case):
     crime_scene = current_case.case_details['crime_scene']
     locations = SHEET.worksheet("locations")
     location_name_column = locations.col_values(1)
-    crime_scene_location_row = location_name_column.index(location_name) + 1
+    crime_scene_location_row = location_name_column.index(crime_scene) + 1
     item_owner = locations.cell(crime_scene_location_row, 3).value
     # Present search warrant
     present_search_warrant = f"You present the search warrant to {employee} at the {location_name}. They look thoroughly confused but you ignore them and enter the building."
@@ -1345,24 +1345,24 @@ def check_for_win(current_case):
     notebook_row = current_case.notebook_column
     notebook = SHEET.worksheet("notebook")
     notebook_row_list = notebook.row_values(notebook_row)
-    try:
-        found_item = notebook_row_list.index("Item found!")
-    except ValueError:
-        print("")
-        print("Now you just need to retrieve the stolen item. Remember you can obtain a search warrant from the map in order to thoroughly search a location")
-        print("Returning you to the main options")
-        main_action_options(current_case)
-    try:
-        thief_arrested = notebook_row_list.index("Correct arrest!")
-    except ValueError:
-        print("")
-        print("Now you just need to arrest the thief")
-        print("Returning you to the main options")
-        main_action_options(current_case)
-    if found_item and thief_arrested:
-        win(current_case)
-    else:
-        print("ERROR")
+    win_met = False
+    while win_met == False:
+        try:
+            found_item = notebook_row_list.index("Item found!")
+        except ValueError:
+            print("")
+            print("Now you just need to retrieve the stolen item. Remember you can obtain a search warrant from the map in order to thoroughly search a location")
+            print("Returning you to the main options")
+            main_action_options(current_case)
+        try:
+            thief_arrested = notebook_row_list.index("Correct arrest!")
+        except ValueError:
+            print("")
+            print("Now you just need to arrest the thief")
+            print("Returning you to the main options")
+            main_action_options(current_case)
+        win_met = True
+    win(current_case)
 
 def win(current_case):
     """
