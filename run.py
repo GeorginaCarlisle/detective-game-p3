@@ -182,6 +182,7 @@ class Work_location:
             notebook_clue = self.work_evidence
         else:
             is_work_location = False
+            notebook_clue = "no clue"
         return [is_work_location, notebook_clue]
 
 class Location(Work_location):
