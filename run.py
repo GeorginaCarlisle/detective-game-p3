@@ -826,11 +826,16 @@ def view_map(current_case):
         print(f"{ind + 1} - {location}")
     # Player choice requested and handled
     print("")
-    choice = input("To visit a location (v) or to obtain a search warrant (w)\n Alternatively type (r) to return to the main options\n")
-    # input to be validated
+    while True:
+        choice = input("To visit a location (v) or to obtain a search warrant (w)\n Alternatively type (r) to return to the main options\n")
+        confirmed_choice = choice.strip().lower()
+        if confirmed_choice in ("v", "w", "r"):
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'v' or 'w' please try again")
+            print("")
     if choice == "v":
         action = input("Please type in the number of the location you would like to visit.\n")
-        # input to be validated
         location_number = int(action) - 1
         check_location_type(location_number, current_case)
     elif choice == "w":
