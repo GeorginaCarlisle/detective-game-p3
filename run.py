@@ -113,7 +113,7 @@ class Case:
         print(main_welcome)
         print("")
         print("")
-        game_explanation = "Throughout the case you will access to:\n - a map of the area, which you can use to select a location you would like\nto visit\n - a notebook containing all the clues you have discovered\ - a list of possible suspects, which you can use to question a suspect and arrest the thief\nA search warrant which you can use to thoroughly search one of the locations for the missing item.\n"
+        game_explanation = "Throughout the case you will access to:\n - a map of the area, which you can use to select a location you would like to visit and obtain a search warrant\n - a notebook containing all the clues you have discovered\n - a list of possible suspects, which you can use to question a suspect and arrest the thief.\n"
         print(game_explanation)
         print("")
         warnings = "A quick word of warning. We don't tolerate false arrests here at Case Closed and we have never yet failed to locate a missing item. I'm sure though that you will be able to swiftly solve this case, maintaining our high reputation"
@@ -124,7 +124,7 @@ class Case:
         """
         builds an instance of the Stash_location class specific to this game
         """
-        # Locate the correct list in self.all_locations for the location chosen for stash 
+        # Locate the correct list in self.all_locations for the location chosen for stash
         location_name = self.stash_location
         list_location_names = []
         for ind in range(0, 8):
@@ -270,7 +270,7 @@ class Location(Work_location):
         is_work_location = self.check_if_work_location()
         if is_work_location[0]:
             clue_for_notebook = is_work_location[1]
-        else: 
+        else:
             intro_look_around = f"You quickly search the {self.location_name}, there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
             print(intro_look_around)
             clue_for_notebook = f"You find no clues when looking around.\n"
@@ -326,7 +326,7 @@ class Stash_location(Location, Stash, Work_location):
         is_work_location = self.check_if_work_location()
         if is_work_location[0]:
             clue_for_notebook = is_work_location[1]
-        else: 
+        else:
             intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
             print(intro_look_around)
             notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
