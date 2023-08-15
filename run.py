@@ -39,6 +39,22 @@ def update_notebook(notebook_row, *entries):
     # Add new entries to the notebook
     notebook.update(f'{start_column_letter}{notebook_row}:{end_column_letter}{notebook_row}', [list_entries])
 
+def game_over(reason, current_case):
+    """
+    Called when player choice leads to game over and passed an argument giving the reason why
+    Final scene of the game played, including an explanation of the reason for game over
+    """
+    print("")
+    if reason == "case_not_accepted":
+        print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
+    else:
+        print("You suddenly notice Detective Inspector Job Done walking towards you")
+        if reason == "poor_detective":
+            print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")    
+    print(f"'Good day to you {current_case.player_name}'")
+    print("GAME OVER")
+    print("")
+    print("Click run program to play again")
 # Classes
 
 class Case:
@@ -738,23 +754,6 @@ def begin_game(current_case):
     else:
         print("Error!!")
 
-def game_over(reason, current_case):
-    """
-    Called when player choice leads to game over and passed an argument giving the reason why
-    Final scene of the game played, including an explanation of the reason for game over
-    """
-    print("")
-    if reason == "case_not_accepted":
-        print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
-    else:
-        print("You suddenly notice Detective Inspector Job Done walking towards you")
-        if reason == "poor_detective":
-            print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")    
-    print(f"'Good day to you {current_case.player_name}'")
-    print("GAME OVER")
-    print("")
-    print("Click run program to play again")
-
 def main_action_options(current_case):
     """
     Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
@@ -1233,6 +1232,28 @@ def arrest_confirm(suspect_number, current_case):
         main_action_options(current_case)
     else:
         print("ERROR!!!")
+
+def arrest_suspect(suspect_name, current_case):
+    """
+    Check if the chosen suspect is the theif and print corrosponding story line
+    """
+    if suspect_name == current_case.thief_details["Thief"]:
+        correct_arrest_statement = f"Congratulations!! You have arrested the correct suspect.\nYou read {suspect_name} their rights and they hang their head in shame."
+        print(correct_arrest_statement)
+        print("")
+        crime_motive = f"You ask {suspect_name} why they stole the {current_case.case_details['item']}\n'{current_case.thief_details['Motive']}'"
+        print(crime_motive)
+        notebook_clue_one = "Correct arrest!"
+        notebook_clue_two = f"{suspect_name} stole the {current_case.case_details['item']}"
+        notebook_entries = [notebook_clue_one, notebook_clue_two]
+        notebook_row = current_case.notebook_column
+        update_notebook(notebook_row, notebook_entries)
+        check_for_win(current_case)
+    else:
+        game_over("false_arrest", current_case)
+
+def check_for_win(current_case):
+    print("checking for win")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
