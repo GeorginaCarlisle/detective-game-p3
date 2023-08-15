@@ -840,7 +840,7 @@ def view_map(current_case):
     """
     Prints the map title, intro and a list of all the locations
     Requests that user choose one of the locations or chooses to return to the main options
-    Handles user input and either calls the main options or calls check_location_type 
+    Handles user input and either calls the main options or calls check_location_type
     passing the chosen location number adjusted to represent the location's row number in the sheet
     """
     clear()
@@ -896,7 +896,7 @@ def view_suspect_list(current_case):
     """
     Prints the Suspects title, intro and a list of all the suspects
     Requests that user choose one of the suspects or chooses to return to the main options
-    Handles user input and either calls the main options or calls check_suspect 
+    Handles user input and either calls the main options or calls check_suspect
     """
     clear()
     print("Suspects title to be created")
@@ -1003,10 +1003,10 @@ def visit_unconnected_location(location_number, current_case):
     print("Exiting location. You will now be taken back to the main options")
     print("")
     main_action_options(current_case)
-    
+
 def visit_stash_location(current_case):
     """
-    Sets the current_location as an instance of Stash_location. 
+    Sets the current_location as an instance of Stash_location.
     Runs enter_location, requests player to choose next action and handles their choice
     Returns to main_action_choices at players request or when all location actions completed
     """
@@ -1060,7 +1060,7 @@ def visit_stash_location(current_case):
 
 def visit_pre_crime_location(current_case):
     """
-    Sets the current_location as an instance of pre_crime_location.  
+    Sets the current_location as an instance of pre_crime_location.
     Runs enter_location, requests player to choose next action and handles their choice
     Returns to main_action_choices at players request or when all location actions completed
     """
@@ -1114,7 +1114,7 @@ def visit_pre_crime_location(current_case):
 
 def visit_crime_scene_location(current_case):
     """
-    Sets the current_location as an instance of Crime_scene. 
+    Sets the current_location as an instance of Crime_scene.
     Runs enter_crime_scene and calls event_timeline and explore_crime_scene
     If player makes the correct choice, if not game_over called
     """
@@ -1126,7 +1126,7 @@ def visit_crime_scene_location(current_case):
         explore_crime_scene(current_case, current_location)
     else:
         game_over("poor_detective", current_case)
-    
+
 def explore_crime_scene(current_case, current_location):
     """
     Requests player to choose their actions while visiting the crime scene and handles their choice
