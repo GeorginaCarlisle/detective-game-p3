@@ -1345,24 +1345,23 @@ def check_for_win(current_case):
     notebook_row = current_case.notebook_column
     notebook = SHEET.worksheet("notebook")
     notebook_row_list = notebook.row_values(notebook_row)
-    win_met = False
-    while win_met == False:
-        try:
-            found_item = notebook_row_list.index("Item found!")
-        except ValueError:
-            print("")
-            print("Now you just need to retrieve the stolen item. Remember you can obtain a search warrant from the map in order to thoroughly search a location")
-            print("Returning you to the main options")
-            main_action_options(current_case)
-        try:
-            thief_arrested = notebook_row_list.index("Correct arrest!")
-        except ValueError:
-            print("")
-            print("Now you just need to arrest the thief")
-            print("Returning you to the main options")
-            main_action_options(current_case)
-        win_met = True
-    win(current_case)
+    found_item = ""
+    thief_arrested = ""
+    try:
+        found_item = notebook_row_list.index("Item found!")
+    except ValueError:
+        print("")
+        print("Now you just need to retrieve the stolen item. Remember you can obtain a search warrant from the map in order to thoroughly search a location")
+    try:
+        thief_arrested = notebook_row_list.index("Correct arrest!")
+    except ValueError:
+        print("")
+        print("Now you just need to arrest the thief")
+    if found_item and thief_arrested:
+        win(current_case)
+    else:
+        print("Returning you to the main options")
+        main_action_options(current_case)
 
 def win(current_case):
     """
