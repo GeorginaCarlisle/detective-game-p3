@@ -768,7 +768,7 @@ def main_action_options(current_case):
     Prints the main actions the player can choose from: map, notebook, suspect list or search warrant
     Handles player input and calls the associated functions
     """
-    action = input("view map (m), view notebook (n), view suspect list (s) or obtain a search warrant (w)\n")
+    action = input("view map (m), view notebook (n) or view suspect list (s)\n")
     # input to be validated
     if action == "m":
         view_map(current_case)
@@ -776,8 +776,6 @@ def main_action_options(current_case):
         view_notebook(current_case)
     elif action == "s":
         view_suspect_list(current_case)
-    elif action == "w":
-        obtain_search_warrant(current_case)
     else:
         print("ERROR!!")
 
@@ -795,11 +793,19 @@ def view_map(current_case):
         location = current_case.all_locations[ind][0]
         print(f"{ind + 1} - {location}")
     # Player choice requested and handled
-    action = input("Please type in the number of the location you would like to visit.\n Alternatively type (r) to return to the main options\n")
+    print("")
+    choice = input("To visit a location (v) or to obtain a search warrant (w)\n Alternatively type (r) to return to the main options\n")
     # input to be validated
-    if action in ("1","2","3","4","5","6","7","8"):
+    if choice == "v":
+        action = input("Please type in the number of the location you would like to visit.\n")
+        # input to be validated
         location_number = int(action) - 1
         check_location_type(location_number, current_case)
+    elif choice == "w":
+        action = input("Please type in the number of the location you would like thoroughly search.\n")
+        # input to be validated
+        location_number = int(action) - 1
+        confirm_warrant_request(location_number, current_case)
     elif action == "r":
         main_action_options(current_case)
     else:
@@ -851,9 +857,6 @@ def view_suspect_list(current_case):
         main_action_options(current_case)
     else:
         print("ERROR!!!")
-
-def obtain_search_warrant():
-    print("search warrant reached")
 
 # Location specific functions
 
@@ -1226,6 +1229,8 @@ def question_suspect(current_suspect, current_case):
     print("")
     main_action_options(current_case)
 
+# Game win specific functions
+
 def arrest_confirm(suspect_number, current_case):
     """
     Confirms that the player definitely wants to arrest the suspect they have chosen
@@ -1260,6 +1265,9 @@ def arrest_suspect(suspect_name, current_case):
         check_for_win(current_case)
     else:
         game_over("false_arrest", current_case)
+
+def confirm_warrant_request(location_number, current_case):
+    print("confirming search warrant")
 
 def check_for_win(current_case):
     print("checking for win")
