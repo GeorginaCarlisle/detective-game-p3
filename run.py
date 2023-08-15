@@ -47,6 +47,9 @@ def game_over(reason, current_case):
     print("")
     if reason == "case_not_accepted":
         print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
+    elif reason == "false_search_warrant":
+        print("")
+        print(f"'Good day to you {current_case.player_name}'")
     else:
         print("You suddenly notice Detective Inspector Job Done walking towards you")
         if reason == "poor_detective":
@@ -61,8 +64,9 @@ def game_over(reason, current_case):
             print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
     print("GAME OVER")
     print("")
-    print("The next day .....\nYou pick up the newspaper to read:")
-    print(f"Case Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}'\nGreat job Detective Inspector Job Done!")
+    print("The next day .....")
+    print("")
+    print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}'\nGreat job Detective Inspector Job Done!")
 
 # Classes
 
@@ -484,7 +488,7 @@ class Present_at_scene_suspect(Suspect):
         Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
         Present_at_scene.__init__(self, presence_reason, item_connection)
 
-class Suspect_is_thief(Suspect):
+class Suspect_is_thief(Suspect, Thief):
     def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
         Suspect.__init__(self, suspect_name, occupation, work_location,hobby_location, character_connection, connection_location)
         Thief.__init__(self, presence_reason, motive, denile)
@@ -1286,21 +1290,24 @@ def search_location(location_number, current_case):
     """
     Check if the chosen location is the stash_location and print corrosponding story line
     """
+    # retrieve all variables required
     location_name = current_case.all_locations[location_number][0]
     employee = current_case.all_locations[location_number][2]
+    item = current_case.case_details['item']
+    crime_scene = current_case.case_details['crime_scene']
+    locations = SHEET.worksheet("locations")
+    location_name_column = locations.col_values(1)
+    crime_scene_location_row = location_name_column.index(location_name) + 1
+    item_owner = locations.cell(crime_scene_location_row, 3).value
+    # Present search warrant
     present_search_warrant = f"You present the search warrant to {employee} at the {location_name}. They look thoroughly confused but you ignore them and enter the building."
     print(present_search_warrant)
+    print("")
+    # check if the chosen location is the stash_location and print corrosponding story line
     if location_name == current_case.stash_location:
-        item = current_case.case_details['item']
         search = f"While searching the {location_name} you find {item}"
         print(search)
         print("")
-        crime_scene = current_case.case_details['crime_scene']
-        # Get employee name for the crime_scene location
-        locations = SHEET.worksheet("locations")
-        location_name_column = locations.col_values(1)
-        crime_scene_location_row = location_name_column.index(location_name) + 1
-        item_owner = locations.cell(crime_scene_location_row, 3).value
         # Print return item story line
         return_item = f"You head straight to the {crime_scene} And give the {item} back to {item_owner}"
         print(return_item)
@@ -1310,11 +1317,26 @@ def search_location(location_number, current_case):
         print(f"How can I ever thank you Junior detective {current_case.player_name}!!!")
         # Update the notebook
         notebook_clue_one = "Item found!"
-        notebook_clue_two = f"The {current_case.case_details['item']} was hidden at the {location_name}"
+        notebook_clue_two = f"The {item} was hidden at the {location_name}"
         notebook_entries = [notebook_clue_one, notebook_clue_two]
         notebook_row = current_case.notebook_column
         update_notebook(notebook_row, notebook_entries)
         check_for_win(current_case)
+    else:
+        long_search = f"Six hours later you have thoroughly searched the {location_name} but {item} is nowhere to be found. You resign yourself to the fact that it is not here."
+        print(long_search)
+        agitated_employee = f"Throughout your search {employee} has become more and more agitated as you have torn apart the {location_name} looking for the {item} and is now in a state of great upset."
+        print(agitated_employee)
+        print("")
+        boss_appears = f"Detective Inspector Job Done appears.\n'What are you doing {current_case.player_name}? It is clear the {item} is not here!'"
+        print(boss_appears)
+        print("")
+        reassure_employee = f"Detective Inspector Job Done turns to {employee} 'I cannot apologise enough {employee}, rest assured {current_case.player_name} will not be allowed to leave until the {location_name} is spotless and back to it’s normal state!'"
+        print(reassure_employee)
+        print("")
+        tidy_location = f"Finally the {location_name} is tidy.\nDetective Inspector Job Done inspects your work.\n'Hmm that will do. Maybe you should find yourself a cleaning job as you are clearly no detective!'"
+        print(tidy_location)
+        game_over("false_search_warrant", current_case)
 
 def check_for_win(current_case):
     """
