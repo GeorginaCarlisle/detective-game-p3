@@ -1317,7 +1317,37 @@ def search_location(location_number, current_case):
         check_for_win(current_case)
 
 def check_for_win(current_case):
-    print("checking for win")
+    """
+    Checks to see if the player has achieved both the arrest and the item location
+    """
+    # 
+    notebook_row = current_case.notebook_column
+    notebook = SHEET.worksheet("notebook")
+    notebook_row_list = notebook.row_values(notebook_row)
+    try:
+        found_item = notebook_row_list.index("Item found!")
+    except ValueError:
+        print("")
+        print("Now you just need to retrieve the stolen item. Remember you can obtain a search warrant from the map in order to thoroughly search a location")
+        print("Returning you to the main options")
+        main_action_options(current_case)
+    try:
+        thief_arrested = notebook_row_list.index("Correct arrest!")
+    except ValueError:
+        print("")
+        print("Now you just need to arrest the thief")
+        print("Returning you to the main options")
+        main_action_options(current_case)
+    if found_item and thief_arrested:
+        win(current_case)
+    else:
+        print("ERROR")
+
+def win(current_case):
+    """
+    Prints win storyline
+    """
+    print("WIN")
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
