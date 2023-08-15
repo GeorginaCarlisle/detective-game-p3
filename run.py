@@ -540,7 +540,10 @@ Title name and art to be created
     print(developer)
     print(question_user)
     print(game_introduction)
-    player_name = input("Please enter your name to begin your new career as a detective:\n")
+    input_name = input("Please enter your name to begin your new career as a detective:\n")
+    player_name = input_name.strip()
+    if player_name == "":
+        player_name = "No Name"
     return player_name
     # input to be validated including request for confirmation of name if
     # len(user_name) <3 or >20, or user_name.isaplpha()is False
