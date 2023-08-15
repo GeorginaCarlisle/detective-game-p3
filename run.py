@@ -88,8 +88,16 @@ class Case:
         print(brief_welcome)
         introduce_case = f"'Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
         print(introduce_case)
-        accept_case = input("'Do you wish to take on the case?' (y/n)\n")
-        # input to be validated and input handled
+        while True:
+            accept_input = input("'Do you wish to take on the case?' (y/n)\n")
+            accept_case = accept_input.strip().lower()
+            if accept_case == "y":
+                break
+            elif accept_case == "n":
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+                print("")
         return accept_case
 
     def welcome(self):
@@ -768,7 +776,7 @@ def begin_game(current_case):
     elif accept_case == "n":
         game_over("case_not_accepted", current_case)
     else:
-        print("Error!!")
+        print("Error!! Please contact developer")
 
 def main_action_options(current_case):
     """
