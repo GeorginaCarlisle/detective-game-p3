@@ -50,11 +50,20 @@ def game_over(reason, current_case):
     else:
         print("You suddenly notice Detective Inspector Job Done walking towards you")
         if reason == "poor_detective":
-            print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")    
-    print(f"'Good day to you {current_case.player_name}'")
+            print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")
+            print("")
+            print(f"'Good day to you {current_case.player_name}'")
+        elif reason == "false_arrest":
+            print(f"'What are you doing {current_case.player_name}! You have arrested the wrong person!'")
+            print("")
+            print(f"Detective Inspector Job Done turns to the suspect removing the hand-cuffs\n'I cannot apologise enough, {current_case.player_name} will not be allowed to cause such upset to the members of our community you can rest assured that their days as a detective are over!'")
+            print("")
+            print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
     print("GAME OVER")
     print("")
-    print("Click run program to play again")
+    print("The next day .....\nYou pick up the newspaper to read:")
+    print(f"Case Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}'\nGreat job Detective Inspector Job Done!")
+
 # Classes
 
 class Case:
