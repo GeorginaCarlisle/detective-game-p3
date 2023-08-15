@@ -1267,7 +1267,23 @@ def arrest_suspect(suspect_name, current_case):
         game_over("false_arrest", current_case)
 
 def confirm_warrant_request(location_number, current_case):
-    print("confirming search warrant")
+    """
+    Confirms that the player definitely wants to obtain a search warrant for the chosen location
+    """
+    location_name = current_case.all_locations[location_number][0]
+    question_warrant = f"Are you sure the thief hid the {current_case.case_details['item']} at the {location_name}? This is your one chance to find it!"
+    print(question_warrant)
+    warrant_confirm = input("y/n\n")
+    if warrant_confirm == "y":
+        search_location(location_name, current_case)
+    elif warrant_confirm == "n":
+        print("Returning you to the main options")
+        main_action_options(current_case)
+    else:
+        print("ERROR!!!")
+
+def search_location(location_name, current_case):
+    print("searching location")
 
 def check_for_win(current_case):
     print("checking for win")
