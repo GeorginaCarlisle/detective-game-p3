@@ -45,8 +45,8 @@ def game_over(reason, current_case):
     Called when player choice leads to game over and passed an argument giving the reason why
     Final scene of the game played, including an explanation of the reason for game over
     """
-    clear()
     if reason == "case_not_accepted":
+        print("")
         print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
     elif reason == "false_search_warrant":
         print("")
@@ -63,11 +63,20 @@ def game_over(reason, current_case):
             print(f"Detective Inspector Job Done turns to the suspect removing the hand-cuffs\n'I cannot apologise enough, {current_case.player_name} will not be allowed to cause such upset to the members of our community you can rest assured that their days as a detective are over!'")
             print("")
             print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
-    print("GAME OVER")
+    title = """
+            ____  ____ ___ ___   ___       ___  __ __   ___ ____  
+           /    |/    |   |   | /  _]     /   \|  |  | /  _]    \ 
+          |   __|  o  | _   _ |/  [_     |     |  |  |/  [_|  D  )
+          |  |  |     |  \_/  |    _]    |  O  |  |  |    _]    / 
+          |  |_ |  _  |   |   |   [_     |     |  :  |   [_|    \ 
+          |     |  |  |   |   |     |    |     |\   /|     |  .  \
+          |___,_|__|__|___|___|_____|     \___/  \_/ |_____|__|\_|    
+    """
+    print(title)
     print("")
     print("The next day .....")
     print("")
-    print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}'\nGreat job Detective Inspector Job Done!")
+    print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}' Great job Detective Inspector Job Done!")
 
 def clear():
     """
@@ -89,14 +98,17 @@ class Case:
         self.all_suspects = all_suspects
 
     def introduce_case(self):
+        print("")
         enter_agency = "You enter Case Closed Detective Agency"
         print(enter_agency)
-        brief_welcome = f"'You must be Junior Detective {self.player_name}. I have heard great things about your\ndetective skills. I hope you are eager to get started, as we’ve just had a new case\ncome through ......'\n"
+        print("")
+        brief_welcome = f"'You must be Junior Detective {self.player_name}. I have heard great things about your detective skills. I hope you are eager to get started, as we’ve just had a new case come through ......'\n"
         print(brief_welcome)
-        introduce_case = f"'Someone has stolen the {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
+        introduce_case = f"'Someone has stolen {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
         print(introduce_case)
+        print("")
         while True:
-            accept_input = input("'Do you wish to take on the case?' (y/n)\n")
+            accept_input = input("Do you wish to take on the case? (y/n)\n")
             accept_case = accept_input.strip().lower()
             if accept_case == "y":
                 break
@@ -109,16 +121,17 @@ class Case:
 
     def welcome(self):
         clear()
-        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\n\nWelcome to Case Closed Detective Agency. My name is Detective Inspector Job Done\nand I will be keeping a close eye on your work during this case.\n\nWe pride ourselves here at Case Closed on being able to solve and close every\ncase we are given."
+        print("")
+        main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\n\nWelcome to Case Closed Detective Agency. My name is Detective Inspector Job Done\nand I will be keeping a close eye on your work during this case.\nWe pride ourselves here at Case Closed on being able to solve and close every\ncase we are given."
         print(main_welcome)
         print("")
-        print("")
-        game_explanation = "Throughout the case you will access to:\n - a map of the area, which you can use to select a location you would like to visit and obtain a search warrant\n - a notebook containing all the clues you have discovered\n - a list of possible suspects, which you can use to question a suspect and arrest the thief.\n"
+        game_explanation = "Throughout the case you will access to:\n - a map of the area, which you can use to select a location you would like to visit and obtain a search warrant\n - a notebook containing all the clues you have discovered\n - a list of possible suspects, which you can use to question a suspect and arrest the thief."
         print(game_explanation)
         print("")
-        warnings = "A quick word of warning. We don't tolerate false arrests here at Case Closed and we have never yet failed to locate a missing item. I'm sure though that you will be able to swiftly solve this case, maintaining our high reputation"
+        warnings = "A quick word of warning. We don't tolerate false arrests here at Case Closed and we have never yet failed to locate a missing item. I'm sure though that you will be able to swiftly solve this case, maintaining our high reputation."
         print(warnings)
-        print("Where would you like to start?\n")
+        print("")
+        print("Where would you like to start?")
 
     def set_stash_location(self):
         """
@@ -252,8 +265,10 @@ class Location(Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
+        print("")
         intro_cctv_location = f"You review the cctv during the hours after the crime.\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_location)
+        print("")
         suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
         summary_cctv_location = f"Nothing stands out as being suspicious."
@@ -267,7 +282,8 @@ class Location(Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        intro_look_around = f"You quickly search the {self.location_name}, there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
+        print("")
+        intro_look_around = f"You quickly search the {self.location_name}, there is nothing of interest.\n\nIf you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
         clue_for_notebook = f"You find no clues when looking around.\n"
         return clue_for_notebook
@@ -278,9 +294,10 @@ class Location(Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        question = f"You question the {self.work_witness}"
+        print("")
+        question = f"You question the {self.work_witness}:"
         print(question)
-        response = f"I don't know that I can help you. {self.employee} works here {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally"
+        response = f"'I don't know that I can help you. {self.employee} works here. {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally'"
         print(response)
         clue_for_notebook = f"{self.employee} works here. {self.regular_hobby_link} is often seen here and {self.character_connection} who is {self.employee}'s {self.connection} pops in occasionally.\n"
         return clue_for_notebook
@@ -304,11 +321,13 @@ class Stash_location(Location, Stash, Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\nYou notice the following suspects at the {self.location_name}:"
+        print("")
+        intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\n\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
         suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
-        suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour"
+        suspicion_raised = f"You are immediately suspicious when you notice the {self.thief} appear on the CCTV at an odd hour."
+        print("")
         print(suspicion_raised)
         clue_for_notebook = f"{self.thief} appeared on the CCTV at an odd hour.\n"
         return clue_for_notebook
@@ -319,6 +338,7 @@ class Stash_location(Location, Stash, Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
+        print("")
         is_work_location = self.check_if_work_location()
         if is_work_location[0]:
             clue_for_notebook = is_work_location[1]
@@ -336,9 +356,10 @@ class Stash_location(Location, Stash, Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        question = f"You question the {self.work_witness}"
+        print("")
+        question = f"You question the {self.work_witness}:"
         print(question)
-        response = f"Well there was something odd.\nWhen I came in next morning I could have sworn that a couple of things seemed out of place.\nAs though someone had been in after we had locked up."
+        response = f"'Well there was something odd. When I came in next morning I could have sworn that a couple of things seemed out of place. As though someone had been in after we had locked up.'"
         print(response)
         clue_for_notebook = f"The {self.work_witness} thought someone might have been in after they had locked up.\n"
         return clue_for_notebook
@@ -361,10 +382,12 @@ class Pre_crime_location(Location, Pre_crime):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        intro_cctv_pre_crime = f"You review the cctv on the morning of the crime\nYou notice the following suspects at the {self.location_name}:"
+        print("")
+        intro_cctv_pre_crime = f"You review the cctv on the morning of the crime.\n\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_pre_crime)
         suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
+        print("")
         summary_cctv = "Nothing stands out as being suspicious."
         print(summary_cctv)
         clue_for_notebook = f"{suspects} were spotted on the morning of the crime.\n"
@@ -376,9 +399,10 @@ class Pre_crime_location(Location, Pre_crime):
         Generates and returns clues to be added to the notebook
         """
         clear()
+        print("")
         question = f"You question the {self.work_witness}"
         print(question)
-        response = f"Well on that morning {self.employee} was here as normal and {self.regular} came in during the morning. {self.character_connection} also popped in"
+        response = f"Well on that morning {self.employee} was here as normal and {self.regular} came in during the morning. {self.character_connection} also popped in...."
         print(response)
         clue = f"Oh and come to think of it {self.pre_crime}"
         print(clue)
@@ -402,11 +426,26 @@ class Crime_scene:
         self.description_clue = description_clue
 
     def enter_crime_scene(self):
+        title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+        print(title)
         intro_crime_scene = f"As you walk into {self.location_name} {self.employee} rushes over to meet you"
+        print("")
         print(intro_crime_scene)
-        greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but Detective Inspector Job Done has assured me that your detective skills are second to none. You must find the missing {self.item}! {self.plea}'"
+        greet_employee = f"'Are you Junior detective {self.player_name}? I had hoped for one of the senior detectives, but Detective Inspector Job Done has assured me that your detective skills are second to none. You must find {self.item}! {self.plea}'"
+        print("")
         print(greet_employee)
         while True:
+            print("")
             question_input = input(f"Ask the {self.employee} to explain what has happened (y/n)\n")
             question_employee = question_input.strip().lower()
             if question_employee == "y":
@@ -419,6 +458,7 @@ class Crime_scene:
         return question_employee
 
     def event_timeline(self):
+        print("")
         print(self.timeline)
 
     def location_actions(self):
@@ -432,9 +472,11 @@ class Crime_scene:
         Generates and returns clues to be added to the notebook
         """
         clear()
+        print("")
         intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
         print(intro_cctv_crime_scene)
-        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        print("")
+        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}.\n\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
         print(cctv_recording_crime_scene)
         clue_for_notebook = f"{self.list_suspects} were spotted at the crime scene.\n"
         return clue_for_notebook
@@ -445,9 +487,11 @@ class Crime_scene:
         Generates and returns clues to be added to the notebook
         """
         clear()
+        print("")
         intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
         print(intro_look_around)
-        notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}."
+        print("")
+        notice_clue = f"As you look around you notice {self.pre_crime_physical_clue} {self.clue_detail}"
         print(notice_clue)
         clue_for_notebook = f"You find {self.pre_crime_physical_clue} in the vicinity of the crime.\n"
         return clue_for_notebook
@@ -458,8 +502,10 @@ class Crime_scene:
         Generates and returns clues to be added to the notebook
         """
         clear()
-        question = f"You question the {self.witness}"
+        print("")
+        question = f"You question the {self.witness}:"
         print(question)
+        print("")
         response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
         print(response)
         clue_for_notebook = f"The thief is a {self.description_clue}.\n"
@@ -576,7 +622,7 @@ def initial_sequence():
 """
     print(title)
     developer = "Created by Georgina Carlisle 2023\n"
-    question_user = "Would you make a good detective?\nHave you got the skills to follow the clues, arrest the correct suspect and\nlocate the stolen item? \n"
+    question_user = "Would you make a good detective? Have you got the skills to follow the clues, arrest the correct suspect and\nlocate the stolen item? \n"
     game_introduction = "In Case Closed you will choose which locations to visit, who to\ninterview, who to arrest and where to search for the stolen item.\nYour game data will be saved and used for development purposes, but no personal data will be kept and used outside of your game.\n"
     print(developer)
     print(question_user)
@@ -808,6 +854,7 @@ def begin_game(current_case):
         current_case.welcome()
         main_action_options(current_case)
     elif accept_case == "n":
+        clear()
         game_over("case_not_accepted", current_case)
     else:
         print("Error!! Please contact developer")
@@ -847,13 +894,13 @@ def view_map(current_case):
     """
     clear()
     title = """
-                           ___ ___  ____ ____     
-                          |   |   |/    |    \ 
-                          | _   _ |  o  |  o  )
-                          |  \_/  |     |   _/ 
-                          |   |   |  _  |  |   
-                          |   |   |  |  |  |   
-                          |___|___|__|__|__|   
+                                   ___ ___  ____ ____     
+                                  |   |   |/    |    \ 
+                                  | _   _ |  o  |  o  )
+                                  |  \_/  |     |   _/ 
+                                  |   |   |  _  |  |   
+                                  |   |   |  |  |  |   
+                                  |___|___|__|__|__|   
 
 """
     print(title)
@@ -865,7 +912,7 @@ def view_map(current_case):
     # Player choice requested and handled
     print("")
     while True:
-        choice = input("To visit a location (v) or to obtain a search warrant (w)\n Alternatively type (r) to return to the main options\n")
+        choice = input("To visit a location (v) or to obtain a search warrant (w). Alternatively type (r) to return to the main options\n")
         confirmed_choice = choice.strip().lower()
         if confirmed_choice in ("v", "w", "r"):
             break
@@ -881,7 +928,7 @@ def view_map(current_case):
         # input to be validated
         location_number = int(action) - 1
         confirm_warrant_request(location_number, current_case)
-    elif action == "r":
+    elif choice == "r":
         main_action_options(current_case)
     else:
         print("ERROR!!!")
@@ -897,6 +944,7 @@ def view_notebook(current_case):
                /  \/ / _ \| __/ _ \ '_ \ / _ \ / _ \| |/ /
               / /\  / (_) | ||  __/ |_) | (_) | (_) |   < 
               \_\ \/ \___/ \__\___|_.__/ \___/ \___/|_|\_\
+
 """
     print(title)
     notebook = SHEET.worksheet("notebook")
@@ -977,6 +1025,18 @@ def visit_unconnected_location(location_number, current_case):
     Uses the methods of the Location class to allow the user to explore the location
     """
     clear()
+    title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+    print(title)
     # get details for chosen location
     location_name = current_case.all_locations[location_number][0]
     description = current_case.all_locations[location_number][1]
@@ -1041,6 +1101,18 @@ def visit_stash_location(current_case):
     Returns to main_action_choices at players request or when all location actions completed
     """
     clear()
+    title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+    print(title)
     current_location = current_case.set_stash_location()
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
@@ -1095,6 +1167,18 @@ def visit_pre_crime_location(current_case):
     Returns to main_action_choices at players request or when all location actions completed
     """
     clear()
+    title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+    print(title)
     current_location = current_case.set_pre_crime_location()
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
@@ -1149,6 +1233,18 @@ def visit_crime_scene_location(current_case):
     If player makes the correct choice, if not game_over called
     """
     clear()
+    title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+    print(title)
     current_location = current_case.set_crime_scene()
     question_employee = current_location.enter_crime_scene()
     if question_employee == "y":
