@@ -570,7 +570,13 @@ def initial_sequence():
     and an input request from the user to input their name to start the game.
     """
     title = """
-Title name and art to be created
+      __________________________________________________________________
+            __                                                          
+          /    )                              /                        /
+      ---/---------__---__----__--------__---/----__---__----__----__-/-
+        /        /   ) (_ ` /___)     /   ' /   /   ) (_ ` /___) /   /  
+      _(____/___(___(_(__)_(___ _____(___ _/___(___/_(__)_(___ _(___/___
+                                                                  
 """
     print(title)
     developer = "Created by Georgina Carlisle 2023\n"
@@ -844,7 +850,17 @@ def view_map(current_case):
     passing the chosen location number adjusted to represent the location's row number in the sheet
     """
     clear()
-    print("Map title to be created")
+    title = """
+                           ___ ___  ____ ____     
+                          |   |   |/    |    \ 
+                          | _   _ |  o  |  o  )
+                          |  \_/  |     |   _/ 
+                          |   |   |  _  |  |   
+                          |   |   |  |  |  |   
+                          |___|___|__|__|__|   
+
+"""
+    print(title)
     print("A map of the area shows the following notable locations:")
     # loop to print location names
     for ind in range(0, 8):
@@ -879,7 +895,14 @@ def view_notebook(current_case):
     Prints the notebook title, intro and a record of all the clues the player has gained
     """
     clear()
-    print("Notebook title to be created")
+    title = """
+                   __      _       _                 _    
+                /\ \ \___ | |_ ___| |__   ___   ___ | | __
+               /  \/ / _ \| __/ _ \ '_ \ / _ \ / _ \| |/ /
+              / /\  / (_) | ||  __/ |_) | (_) | (_) |   < 
+              \_\ \/ \___/ \__\___|_.__/ \___/ \___/|_|\_\
+"""
+    print(title)
     notebook = SHEET.worksheet("notebook")
     list_clues = notebook.row_values(current_case.notebook_column)
     number_clues = len(list_clues)
@@ -899,6 +922,17 @@ def view_suspect_list(current_case):
     Handles user input and either calls the main options or calls check_suspect
     """
     clear()
+    title = """
+            _______ __  _________   ___    __ ______  _____
+           / ___/  |  |/ ___/    \ /  _]  /  ]      |/ ___/
+          (   \_|  |  (   \_|  o  )  [_  /  /|      (   \_ 
+           \__  |  |  |\__  |   _/    _]/  / |_|  |_|\__  |
+           /  \ |  :  |/  \ |  | |   [_/   \_  |  |  /  \ |
+           \    |     |\    |  | |     \     | |  |  \    |
+            \___|\__,_| \___|__| |_____|\____| |__|   \___|
+
+"""
+    print(title)
     print("Suspects title to be created")
     print("One of these characters is the thief. Can you work out who?")
     # loop to print suspect names and occupations
@@ -1334,7 +1368,16 @@ def arrest_suspect(suspect_name, current_case):
     """
     clear()
     if suspect_name == current_case.thief_details["Thief"]:
-        correct_arrest_statement = f"Congratulations!! You have arrested the correct suspect.\nYou read {suspect_name} their rights and they hang their head in shame."
+        title = """
+       ___                            _         _       _   _                 
+      / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
+     / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
+    / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \
+    \____/\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___/
+                      |___/  
+"""
+        print(title)
+        correct_arrest_statement = f"You have arrested the correct suspect.\nYou read {suspect_name} their rights and they hang their head in shame."
         print(correct_arrest_statement)
         print("")
         crime_motive = f"You ask {suspect_name} why they stole the {current_case.case_details['item']}\n'{current_case.thief_details['Motive']}'"
@@ -1384,6 +1427,16 @@ def search_location(location_number, current_case):
     print("")
     # check if the chosen location is the stash_location and print corrosponding story line
     if location_name == current_case.stash_location:
+        clear()
+        title = """
+     ___                            _         _       _   _                 
+    / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
+   / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
+  / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \
+  \____/\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___/
+                    |___/
+"""
+        print(title)
         search = f"While searching the {location_name} you find {item}"
         print(search)
         print("")
@@ -1451,7 +1504,16 @@ def win(current_case):
     print("")
     congratulations = f"Absolutely amazing work Junior detective {current_case.player_name} you have correctly arrested {current_case.thief_details['Thief']} and located the {current_case.case_details['item']}. You have preserved the reputation of the Case Closed Detective Agency and we would be delighted for you to continue working as part of our team.”"
     print(congratulations)
-    print("Congratulations Title")
+    title = """
+      __________________________________________________________________
+            __                                                          
+          /    )                              /                        /
+      ---/---------__---__----__--------__---/----__---__----__----__-/-
+        /        /   ) (_ ` /___)     /   ' /   /   ) (_ ` /___) /   /  
+      _(____/___(___(_(__)_(___ _____(___ _/___(___/_(__)_(___ _(___/___
+
+"""
+    print(title)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
