@@ -267,13 +267,9 @@ class Location(Work_location):
         Generates and returns clues to be added to the notebook
         """
         clear()
-        is_work_location = self.check_if_work_location()
-        if is_work_location[0]:
-            clue_for_notebook = is_work_location[1]
-        else:
-            intro_look_around = f"You quickly search the {self.location_name}, there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
-            print(intro_look_around)
-            clue_for_notebook = f"You find no clues when looking around.\n"
+        intro_look_around = f"You quickly search the {self.location_name}, there is nothing of intrest\nIf you want to do a more thorough search you will need to obtain a search warrant."
+        print(intro_look_around)
+        clue_for_notebook = f"You find no clues when looking around.\n"
         return clue_for_notebook
 
     def talk_witness_unconnected_location(self):
