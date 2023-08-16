@@ -390,6 +390,7 @@ class Stash_location(Location, Stash, Work_location):
         else:
             intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
             print(intro_look_around)
+            print("")
             notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
             print(notice_clue)
             clue_for_notebook = f"When looking around you notice {self.crime_physcial_clue}.\n"
@@ -404,6 +405,7 @@ class Stash_location(Location, Stash, Work_location):
         print("")
         question = f"You ask the {self.work_witness} if they have noticed anything odd at the {self.location_name}:"
         print(question)
+        print("")
         response = f"'Well there was something odd. When I came in next morning I could have sworn that a couple of things seemed out of place. As though someone had been in after we had locked up.'"
         print(response)
         clue_for_notebook = f"The {self.work_witness} thought someone might have been in after they had locked up.\n"
@@ -445,8 +447,9 @@ class Pre_crime_location(Location, Pre_crime):
         """
         clear()
         print("")
-        question = f"You ask the {self.work_witness} if any of the suspects were at the {self.location_name} on the morning of the crime"
+        question = f"You ask the {self.work_witness} if any of the suspects were at the {self.location_name} on the morning of the crime:"
         print(question)
+        print("")
         response = f"Well on that morning {self.employee} was here as normal and {self.regular} came in during the morning. {self.character_connection} also popped in...."
         print(response)
         clue = f"Oh and come to think of it {self.pre_crime}"
