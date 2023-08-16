@@ -629,16 +629,24 @@ def intro_and_setup():
     The begin_game function is then called passing on the new instance
     """
     player_name = initial_sequence()
+    print("")
+    print("Please ignore the following message:")
+    print("")
     date = str(get_date())
     notebook_row = new_notebook_entry(date)
+    print("")
     case_details = set_case(notebook_row)
+    print("Your game is now loading")
     thief_details = set_thief(case_details, notebook_row)
+    print("")
     all_suspects = set_all_suspects()
+    print("Almost there ....")
     stash_pre_crime_and_description = set_stash_and_precrime_locations(thief_details, case_details, notebook_row, all_suspects)
     pre_crime_location = stash_pre_crime_and_description[1]
     stash_location = stash_pre_crime_and_description[0]
     thief_details['description_clue'] = stash_pre_crime_and_description[2]
     thief_details['work_location'] = stash_pre_crime_and_description[3]
+    print("")
     all_locations = set_all_locations()
     current_case = Case(player_name, notebook_row, case_details, thief_details, pre_crime_location, stash_location, all_locations, all_suspects)
     begin_game(current_case)
