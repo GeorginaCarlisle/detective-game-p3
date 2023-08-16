@@ -342,6 +342,7 @@ class Location(Work_location):
         print("")
         question = f"You ask the {self.work_witness} if they have noticed anything odd at the {self.location_name}:"
         print(question)
+        print("")
         response = f"'I don't know that I can help you. {self.employee} works here. {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally'"
         print(response)
         clue_for_notebook = f"{self.employee} works here. {self.regular_hobby_link} is often seen here and {self.character_connection} who is {self.employee}'s {self.connection} pops in occasionally.\n"
@@ -525,7 +526,7 @@ class Crime_scene:
         intro_cctv_crime_scene = f"You review the cctv from the {self.location_name} {self.event}"
         print(intro_cctv_crime_scene)
         print("")
-        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}.\n\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
+        cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}.\n\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}.g"
         print(cctv_recording_crime_scene)
         clue_for_notebook = f"{self.list_suspects} were spotted at the crime scene.\n"
         return clue_for_notebook
@@ -552,7 +553,7 @@ class Crime_scene:
         """
         clear()
         print("")
-        question = f"You question the {self.witness} about the day of the crime:"
+        question = f"You question the {self.witness} at the time of the crime:"
         print(question)
         print("")
         response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
@@ -1886,7 +1887,7 @@ def search_location(location_number, current_case):
      ___                            _         _       _   _                 
     / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
    / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
-  / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \
+  / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \ 
   \____/\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___/
                     |___/
 """
@@ -1895,12 +1896,12 @@ def search_location(location_number, current_case):
         print(search)
         print("")
         # Print return item story line
-        return_item = f"You head straight to the {crime_scene} And give the {item} back to {item_owner}"
+        return_item = f"You head straight to the {crime_scene} And give the {item} back to {item_owner}."
         print(return_item)
         print("")
         # Print thank you story line
-        print(f"{item_owner} beams with delight as you hand them back the {item}")
-        print(f"How can I ever thank you Junior detective {current_case.player_name}!!!")
+        print(f"{item_owner} beams with delight as you hand them back the {item}.")
+        print(f"How can I ever thank you Junior Detective {current_case.player_name}!!!")
         # Update the notebook
         notebook_clue_one = "Item found!"
         notebook_clue_two = f"The {item} was hidden at the {location_name}"
