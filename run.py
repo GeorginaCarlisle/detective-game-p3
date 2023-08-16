@@ -1765,7 +1765,7 @@ def question_suspect(current_suspect, current_case):
             print("")
             item_recognition_clue = current_suspect.question_item_recognition()
             clues_for_notebook = clues_for_notebook + item_recognition_clue
-        elif choice == "r":
+        elif confirmed_action == "r":
             break
         else:
             print("ERROR!!")
