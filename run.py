@@ -69,7 +69,7 @@ def game_over(reason, current_case):
           |   __|  o  | _   _ |/  [_     |     |  |  |/  [_|  D  )
           |  |  |     |  \_/  |    _]    |  O  |  |  |    _]    / 
           |  |_ |  _  |   |   |   [_     |     |  :  |   [_|    \ 
-          |     |  |  |   |   |     |    |     |\   /|     |  .  \
+          |     |  |  |   |   |     |    |     |\   /|     |  .  \ 
           |___,_|__|__|___|___|_____|     \___/  \_/ |_____|__|\_|    
     """
     print(title)
@@ -256,6 +256,18 @@ class Location(Work_location):
 
     def enter_location(self):
         clear()
+        title = """
+                                            ________
+                                    __     |   __   |
+          ________________    _____|  |_   |  |__|  |  
+          |   __   __     |  |    __    |  |   __   |    _____________
+          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
+          |   __   __     |  |    __           __   |___|  |__| |__|  |
+        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
+        |                                                  |__| |__|     |
+        |________________________________________________________________| 
+"""
+        print(title)
         intro_location = f"You enter the {self.location_name} it is {self.description}"
         print(intro_location)
 
@@ -426,6 +438,7 @@ class Crime_scene:
         self.description_clue = description_clue
 
     def enter_crime_scene(self):
+        clear()
         title = """
                                             ________
                                     __     |   __   |
@@ -458,6 +471,7 @@ class Crime_scene:
         return question_employee
 
     def event_timeline(self):
+        print("")
         print("")
         print(self.timeline)
 
@@ -894,13 +908,13 @@ def view_map(current_case):
     """
     clear()
     title = """
-                                   ___ ___  ____ ____     
-                                  |   |   |/    |    \ 
-                                  | _   _ |  o  |  o  )
-                                  |  \_/  |     |   _/ 
-                                  |   |   |  _  |  |   
-                                  |   |   |  |  |  |   
-                                  |___|___|__|__|__|   
+                           ___ ___  ____ ____     
+                          |   |   |/    |    \ 
+                          | _   _ |  o  |  o  )
+                          |  \_/  |     |   _/ 
+                          |   |   |  _  |  |   
+                          |   |   |  |  |  |   
+                          |___|___|__|__|__|   
 
 """
     print(title)
@@ -943,7 +957,7 @@ def view_notebook(current_case):
                 /\ \ \___ | |_ ___| |__   ___   ___ | | __
                /  \/ / _ \| __/ _ \ '_ \ / _ \ / _ \| |/ /
               / /\  / (_) | ||  __/ |_) | (_) | (_) |   < 
-              \_\ \/ \___/ \__\___|_.__/ \___/ \___/|_|\_\
+              \_\ \/ \___/ \__\___|_.__/ \___/ \___/|_|\_\ 
 
 """
     print(title)
@@ -977,7 +991,6 @@ def view_suspect_list(current_case):
 
 """
     print(title)
-    print("Suspects title to be created")
     print("One of these characters is the thief. Can you work out who?")
     # loop to print suspect names and occupations
     for ind in range(0, 8):
@@ -986,7 +999,7 @@ def view_suspect_list(current_case):
         print(f"{ind + 1} - {suspect} the {occupation}")
     # Player choice requested and handled
     print("")
-    action = input("To question a suspect type (q) or to arrest a suspect type (a)\n Alternatively type (r) to return to the main options\n")
+    action = input("To question a suspect type (q) or to arrest a suspect type (a). Alternatively type (r) to return to the main options\n")
     # input to be validated
     if action == "q":
         suspect_choice = input("Please type in the number of the suspect you would like to question\n")
@@ -1024,19 +1037,6 @@ def visit_unconnected_location(location_number, current_case):
     Takes the chosen location_number as an argument and uses to create an instance of Location
     Uses the methods of the Location class to allow the user to explore the location
     """
-    clear()
-    title = """
-                                            ________
-                                    __     |   __   |
-          ________________    _____|  |_   |  |__|  |  
-          |   __   __     |  |    __    |  |   __   |    _____________
-          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
-          |   __   __     |  |    __           __   |___|  |__| |__|  |
-        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
-        |                                                  |__| |__|     |
-        |________________________________________________________________| 
-"""
-    print(title)
     # get details for chosen location
     location_name = current_case.all_locations[location_number][0]
     description = current_case.all_locations[location_number][1]
@@ -1100,19 +1100,6 @@ def visit_stash_location(current_case):
     Runs enter_location, requests player to choose next action and handles their choice
     Returns to main_action_choices at players request or when all location actions completed
     """
-    clear()
-    title = """
-                                            ________
-                                    __     |   __   |
-          ________________    _____|  |_   |  |__|  |  
-          |   __   __     |  |    __    |  |   __   |    _____________
-          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
-          |   __   __     |  |    __           __   |___|  |__| |__|  |
-        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
-        |                                                  |__| |__|     |
-        |________________________________________________________________| 
-"""
-    print(title)
     current_location = current_case.set_stash_location()
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
@@ -1166,19 +1153,6 @@ def visit_pre_crime_location(current_case):
     Runs enter_location, requests player to choose next action and handles their choice
     Returns to main_action_choices at players request or when all location actions completed
     """
-    clear()
-    title = """
-                                            ________
-                                    __     |   __   |
-          ________________    _____|  |_   |  |__|  |  
-          |   __   __     |  |    __    |  |   __   |    _____________
-          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
-          |   __   __     |  |    __           __   |___|  |__| |__|  |
-        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
-        |                                                  |__| |__|     |
-        |________________________________________________________________| 
-"""
-    print(title)
     current_location = current_case.set_pre_crime_location()
     clues_for_notebook = f"{current_location.location_name}:\n"
     current_location.enter_location()
@@ -1232,19 +1206,6 @@ def visit_crime_scene_location(current_case):
     Runs enter_crime_scene and calls event_timeline and explore_crime_scene
     If player makes the correct choice, if not game_over called
     """
-    clear()
-    title = """
-                                            ________
-                                    __     |   __   |
-          ________________    _____|  |_   |  |__|  |  
-          |   __   __     |  |    __    |  |   __   |    _____________
-          |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
-          |   __   __     |  |    __           __   |___|  |__| |__|  |
-        __|  |__| |__|    |__|   |__|         |__|          __   __   |__
-        |                                                  |__| |__|     |
-        |________________________________________________________________| 
-"""
-    print(title)
     current_location = current_case.set_crime_scene()
     question_employee = current_location.enter_crime_scene()
     if question_employee == "y":
