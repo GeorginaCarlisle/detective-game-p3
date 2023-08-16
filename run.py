@@ -2,7 +2,11 @@ import gspread
 from google.oauth2.service_account import Credentials
 import datetime
 import random
+# Import below and the associated clear() function
+# copied from https://github.com/jbocciadev/PP3_Diego_Santacarmen
 from os import system
+# Import below and use of sleep()
+# copied from https://github.com/jbocciadev/PP3_Diego_Santacarmen
 from time import sleep
 
 SCOPE = [
@@ -43,8 +47,9 @@ def update_notebook(notebook_row, *entries):
 
 def game_over(reason, current_case):
     """
-    Called when player choice leads to game over and passed an argument giving the reason why
-    Final scene of the game played, including an explanation of the reason for game over
+    Called when player choice leads to game over
+    passed an argument giving the reason for game over
+    Final scene of the game played specific to reason and new_game called
     """
     notebook_row = current_case.notebook_column
     notebook_entry = [f"GAME OVER: {reason}"]
@@ -70,14 +75,14 @@ def game_over(reason, current_case):
             print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
     sleep(4)
     title = """
-            ____  ____ ___ ___   ___       ___  __ __   ___ ____  
+            ____  ____ ___ ___   ___       ___  __ __   ___ ____ 
            /    |/    |   |   | /  _]     /   \|  |  | /  _]    \ 
           |   __|  o  | _   _ |/  [_     |     |  |  |/  [_|  D  )
           |  |  |     |  \_/  |    _]    |  O  |  |  |    _]    / 
           |  |_ |  _  |   |   |   [_     |     |  :  |   [_|    \ 
           |     |  |  |   |   |     |    |     |\   /|     |  .  \ 
-          |___,_|__|__|___|___|_____|     \___/  \_/ |_____|__|\_|    
-    """
+          |___,_|__|__|___|___|_____|     \___/  \_/ |_____|__|\_| 
+"""
     print(title)
     print("")
     print("The next day .....")
@@ -89,7 +94,9 @@ def game_over(reason, current_case):
 
 def clear():
     """
-    Clears the terminal
+    Clears the terminal. Code for this function copied from
+    https://github.com/jbocciadev/PP3_Diego_Santacarmen
+    a fellow student project
     """
     system("clear")
 
@@ -102,15 +109,15 @@ def new_game(current_case):
     print("")
     print("Case Closed has a number of different cases, each with a number of potential thieves and if even when you work out who the thief is, you can never be sure where they stashed it!\n")
     while True:
-            player_input = input("Would you like to play again? (y/n)")
-            play_again = player_input.strip().lower()
-            if play_again == "y":
-                break
-            elif play_again == "n":
-                break
-            else:
-                print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
-                print("")
+        player_input = input("Would you like to play again? (y/n)")
+        play_again = player_input.strip().lower()
+        if play_again == "y":
+            break
+        elif play_again == "n":
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+            print("")
     if play_again == "y":
         notebook_row = current_case.notebook_column
         notebook_entry = ["Play again chosen"]
@@ -125,6 +132,10 @@ def new_game(current_case):
 # Classes
 
 class Case:
+    """
+    This class holds all the information specific to this game and
+    the set-up choices chosen
+    """
     def __init__(self, player_name, notebook_column, case_details, thief_details, pre_crime_location, stash_location, all_locations, all_suspects):
         self.player_name = player_name
         self.notebook_column = notebook_column
@@ -136,6 +147,10 @@ class Case:
         self.all_suspects = all_suspects
 
     def introduce_case(self):
+        """
+        A brief welcome called from begin_game that introduces
+        the case and gives the player chance to accept or not
+        """
         print("")
         enter_agency = "You enter Case Closed Detective Agency"
         print(enter_agency)
@@ -158,6 +173,10 @@ class Case:
         return accept_case
 
     def welcome(self):
+        """
+        Called from introduce_case if player accepts the case
+        Proper welcome and explanation of how to play the game
+        """
         clear()
         print("")
         main_welcome = "'Fantastic! I do love an enthusiastic detective. Sorry I almost forgot:\n\nWelcome to Case Closed Detective Agency. My name is Detective Inspector Job Done\nand I will be keeping a close eye on your work during this case.\nWe pride ourselves here at Case Closed on being able to solve and close every\ncase we are given."
@@ -282,6 +301,10 @@ class Work_location:
         return [is_work_location, notebook_clue]
 
 class Location(Work_location):
+    """
+    Parent class that holds all the information generic to all locations
+    and all the uncoonected location functions
+    """
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness):
         self.location_name = location_name
         self.description = description
@@ -293,17 +316,21 @@ class Location(Work_location):
         self.work_witness = work_witness
 
     def enter_location(self):
+        """
+        Called when the player enters a location and prints title
+        and intro to the location
+        """
         clear()
         title = """
                                             ________
                                     __     |   __   |
-          ________________    _____|  |_   |  |__|  |  
+          ________________    _____|  |_   |  |__|  |
           |   __   __     |  |    __    |  |   __   |    _____________
           |  |__| |__|    |  |   |__|   |__|  |__|  |   |   __   __   |
           |   __   __     |  |    __           __   |___|  |__| |__|  |
         __|  |__| |__|    |__|   |__|         |__|          __   __   |__
         |                                                  |__| |__|     |
-        |________________________________________________________________| 
+        |________________________________________________________________|
 """
         print(title)
         intro_location = f"You enter the {self.location_name} it is {self.description}"
@@ -354,6 +381,9 @@ class Location(Work_location):
         return clue_for_notebook
 
 class Stash:
+    """
+    Holds information specific to the stash location
+    """
     def __init__(self, thief, crime_physcial_clue, item, work_location, work_evidence):
         self.thief = thief
         self.crime_physcial_clue = crime_physcial_clue
@@ -362,6 +392,10 @@ class Stash:
         self.work_evidence = work_evidence
 
 class Stash_location(Location, Stash, Work_location):
+    """
+    Pulls together all the information needed for the stash location
+    and holds stash_location specific functions
+    """
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, thief, crime_physcial_clue, item, work_location, work_evidence):
         Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
         Stash.__init__(self, thief, crime_physcial_clue, item, work_location, work_evidence)
@@ -420,6 +454,9 @@ class Stash_location(Location, Stash, Work_location):
         return clue_for_notebook
 
 class Pre_crime:
+    """
+    holds information specic to the pre_crime location
+    """
     def __init__(self, pre_crime, physical_clue, work_location, work_evidence):
         self.pre_crime = pre_crime
         self.physical_clue = physical_clue
@@ -427,6 +464,11 @@ class Pre_crime:
         self.work_evidence = work_evidence
 
 class Pre_crime_location(Location, Pre_crime, Work_location):
+    """
+    Pulls together all the information needed for the
+    pre_crime location and
+    holds all the pre_crime specific functions
+    """
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue, work_location, work_evidence):
         Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
         Pre_crime.__init__(self, pre_crime, physical_clue, work_location, work_evidence)
@@ -464,7 +506,6 @@ class Pre_crime_location(Location, Pre_crime, Work_location):
             clue_for_notebook = f"You find no clues when looking around.\n"
         return clue_for_notebook
 
-
     def talk_witness_pre_crime(self):
         """
         Prints storyline for talking to the witness at the pre_crime location
@@ -483,6 +524,10 @@ class Pre_crime_location(Location, Pre_crime, Work_location):
         return clue_for_notebook
 
 class Crime_scene:
+    """
+    Holds all the information and functions
+    specific to the crime_scene
+    """
     def __init__(self, location_name, list_suspects, clue_detail, witness, witness_report, pre_crime_physical_clue, item, plea, timeline, event, player_name, employee, description_clue):
         self.location_name = location_name
         self.list_suspects = list_suspects
@@ -499,6 +544,10 @@ class Crime_scene:
         self.description_clue = description_clue
 
     def enter_crime_scene(self):
+        """
+        Runs crime_scene storyline when player enters the
+        crime scene
+        """
         clear()
         title = """
                                             ________
@@ -509,7 +558,7 @@ class Crime_scene:
           |   __   __     |  |    __           __   |___|  |__| |__|  |
         __|  |__| |__|    |__|   |__|         |__|          __   __   |__
         |                                                  |__| |__|     |
-        |________________________________________________________________| 
+        |________________________________________________________________|
 """
         print(title)
         intro_crime_scene = f"As you walk into {self.location_name} {self.employee} rushes over to meet you"
@@ -531,11 +580,18 @@ class Crime_scene:
         return question_employee
 
     def event_timeline(self):
+        """
+        Runs the timeline of events around the disappearance of the item
+        """
         print("")
         print("")
         print(self.timeline)
 
     def location_actions(self):
+        """
+        Asks the user to input the location action they would
+        like to choose
+        """
         print("Would you like to:")
         choice = input("check the cctv (c), look around (l), or talk to a witness (t)\nAlternatively type (r) to return to the main options\n")
         return choice
@@ -703,7 +759,7 @@ def initial_sequence():
       ---/---------__---__----__--------__---/----__---__----__----__-/-
         /        /   ) (_ ` /___)     /   ' /   /   ) (_ ` /___) /   /  
       _(____/___(___(_(__)_(___ _____(___ _/___(___/_(__)_(___ _(___/___
-                                                                  
+
 """
     print(title)
     developer = "Created by Georgina Carlisle 2023\n"
@@ -982,13 +1038,13 @@ def view_map(current_case):
     """
     clear()
     title = """
-                           ___ ___  ____ ____     
+                           ___ ___  ____ ____ 
                           |   |   |/    |    \ 
                           | _   _ |  o  |  o  )
                           |  \_/  |     |   _/ 
-                          |   |   |  _  |  |   
-                          |   |   |  |  |  |   
-                          |___|___|__|__|__|   
+                          |   |   |  _  |  |
+                          |   |   |  |  |  |
+                          |___|___|__|__|__|
 
 """
     print(title)
@@ -1041,7 +1097,7 @@ def view_notebook(current_case):
     """
     clear()
     title = """
-                   __      _       _                 _    
+                   __      _       _                 _ 
                 /\ \ \___ | |_ ___| |__   ___   ___ | | __
                /  \/ / _ \| __/ _ \ '_ \ / _ \ / _ \| |/ /
               / /\  / (_) | ||  __/ |_) | (_) | (_) |   < 
@@ -1347,7 +1403,7 @@ def visit_stash_location(current_case):
                     print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
                     print("")
         else:    
-            print("ERROR!!")
+            print("ERROR!! Please contact Developer")
         if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
@@ -1458,8 +1514,8 @@ def visit_pre_crime_location(current_case):
                     print("")
                     print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
                     print("")
-        else:    
-            print("ERROR!!")
+        else:
+            print("ERROR!! Please contact developer")
         if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
@@ -1582,8 +1638,8 @@ def explore_crime_scene(current_case, current_location):
                     print("")
                     print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
                     print("")
-        else:    
-            print("ERROR!!")
+        else: 
+            print("ERROR!! Please contact developer")
         # Carries out chosen action
         if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
@@ -1840,7 +1896,7 @@ def arrest_suspect(suspect_name, current_case):
     clear()
     if suspect_name == current_case.thief_details["Thief"]:
         title = """
-       ___                            _         _       _   _                 
+       ___                            _         _       _   _ 
       / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
      / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
     / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \ 
@@ -1910,7 +1966,7 @@ def search_location(location_number, current_case):
     if location_name == current_case.stash_location:
         clear()
         title = """
-     ___                            _         _       _   _                 
+     ___                            _         _       _   _ 
     / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
    / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
   / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \ 
@@ -2007,4 +2063,3 @@ def win(current_case):
     new_game(current_case)
 
 intro_and_setup()
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
