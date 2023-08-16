@@ -1433,7 +1433,7 @@ def visit_pre_crime_location(current_case):
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
             print("")
-            cctv_clue = current_location.cctv_unconnected_location()
+            cctv_clue = current_location.cctv_pre_crime()
             clues_for_notebook = clues_for_notebook + cctv_clue
         elif confirmed_action == "s":
             position_of_choice = actions_available.index("look around (s)")
@@ -1445,7 +1445,7 @@ def visit_pre_crime_location(current_case):
             position_of_choice = actions_available.index("talk to a witness(t)")
             actions_available.pop(position_of_choice)
             print("")
-            witness_clue = current_location.talk_witness_unconnected_location()
+            witness_clue = current_location.talk_witness_pre_crime()
             clues_for_notebook = clues_for_notebook + witness_clue
         elif confirmed_action == "r":
             break
