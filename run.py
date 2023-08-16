@@ -500,7 +500,6 @@ class Crime_scene:
                 break
             else:
                 print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
-                print("")
         return question_employee
 
     def event_timeline(self):
