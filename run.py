@@ -77,12 +77,36 @@ def game_over(reason, current_case):
     print("The next day .....")
     print("")
     print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}' Great job Detective Inspector Job Done!")
+    new_game()
 
 def clear():
     """
     Clears the terminal
     """
     system("clear")
+
+def new_game():
+    """
+    Entices the player to play again. Asks if they would like to
+    and handles the request.
+    """
+    print("")
+    print("")
+    print("Case Closed has a number of different cases, each with a number of potential thieves and if even when you work out who the thief is, you can never be sure where they stashed it!\n")
+    while True:
+            player_input = input("Would you like to play again? (y/n)")
+            play_again = player_input.strip().lower()
+            if play_again == "y":
+                break
+            elif play_again == "n":
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+                print("")
+    if play_again == "y":
+        intro_and_setup()
+    elif play_again == "n":
+        print("Oh well. If change your mind click run program to start the game again")
 
 # Classes
 
@@ -1585,6 +1609,7 @@ def win(current_case):
 
 """
     print(title)
+    new_game()
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
