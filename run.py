@@ -391,10 +391,11 @@ class Stash_location(Location, Stash, Work_location):
         else:
             intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
             print(intro_look_around)
-            print("")
-            notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
-            print(notice_clue)
-            clue_for_notebook = f"When looking around you notice {self.crime_physcial_clue}.\n"
+
+        print("")
+        notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
+        print(notice_clue)
+        clue_for_notebook = clue_for_notebook + f"When looking around you notice {self.crime_physcial_clue}."
         return clue_for_notebook
 
     def talk_witness_stash_location(self):
