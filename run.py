@@ -57,7 +57,7 @@ def game_over(reason, current_case):
         print(f"'Good day to you {current_case.player_name}'")
     else:
         print("You suddenly notice Detective Inspector Job Done walking towards you")
-        sleep(2)
+        sleep(4)
         if reason == "poor_detective":
             print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")
             print("")
@@ -68,7 +68,7 @@ def game_over(reason, current_case):
             print(f"Detective Inspector Job Done turns to the suspect removing the hand-cuffs\n'I cannot apologise enough, {current_case.player_name} will not be allowed to cause such upset to the members of our community you can rest assured that their days as a detective are over!'")
             print("")
             print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
-    sleep(2)
+    sleep(4)
     title = """
             ____  ____ ___ ___   ___       ___  __ __   ___ ____  
            /    |/    |   |   | /  _]     /   \|  |  | /  _]    \ 
@@ -84,7 +84,7 @@ def game_over(reason, current_case):
     sleep(2)
     print("")
     print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}' Great job Detective Inspector Job Done!")
-    sleep(2)
+    sleep(4)
     new_game(current_case)
 
 def clear():
@@ -1059,7 +1059,7 @@ def view_notebook(current_case):
     for ind in range(8, number_clues):
         print("")
         print(list_clues[ind])
-        sleep(2)
+        sleep(4)
     main_action_options(current_case)
 
 def view_suspect_list(current_case):
@@ -1851,6 +1851,7 @@ def arrest_suspect(suspect_name, current_case):
         correct_arrest_statement = f"You have arrested the correct suspect.\nYou read {suspect_name} their rights and they hang their head in shame."
         print(correct_arrest_statement)
         print("")
+        sleep(2)
         crime_motive = f"You ask {suspect_name} why they stole the {current_case.case_details['item']}\n'{current_case.thief_details['Motive']}'"
         print(crime_motive)
         notebook_clue_one = "Correct arrest!"
@@ -1920,6 +1921,7 @@ def search_location(location_number, current_case):
         search = f"While searching the {location_name} you find {item}"
         print(search)
         print("")
+        sleep(2)
         # Print return item story line
         return_item = f"You head straight to the {crime_scene} And give the {item} back to {item_owner}."
         print(return_item)
@@ -1937,15 +1939,19 @@ def search_location(location_number, current_case):
     else:
         long_search = f"Six hours later you have thoroughly searched the {location_name} but {item} is nowhere to be found. You resign yourself to the fact that it is not here."
         print(long_search)
+        sleep(2)
         agitated_employee = f"Throughout your search {employee} has become more and more agitated as you have torn apart the {location_name} looking for the {item} and is now in a state of great upset."
         print(agitated_employee)
         print("")
+        sleep(2)
         boss_appears = f"Detective Inspector Job Done appears.\n'What are you doing {current_case.player_name}? It is clear the {item} is not here!'"
         print(boss_appears)
         print("")
+        sleep(2)
         reassure_employee = f"Detective Inspector Job Done turns to {employee} 'I cannot apologise enough {employee}, rest assured {current_case.player_name} will not be allowed to leave until the {location_name} is spotless and back to it’s normal state!'"
         print(reassure_employee)
         print("")
+        sleep(2)
         tidy_location = f"Finally the {location_name} is tidy.\nDetective Inspector Job Done inspects your work.\n'Hmm that will do. Maybe you should find yourself a cleaning job as you are clearly no detective!'"
         print(tidy_location)
         game_over("false_search_warrant", current_case)
@@ -1996,6 +2002,7 @@ def win(current_case):
 
 """
     print(title)
+    sleep(2)
     new_game(current_case)
 
 intro_and_setup()
