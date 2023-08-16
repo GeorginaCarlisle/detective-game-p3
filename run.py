@@ -1144,7 +1144,6 @@ def visit_unconnected_location(location_number, current_case):
             while True:
                 action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
                 confirmed_action = action.strip().lower()
-                print(confirmed_action)
                 if confirmed_action in ("c", "s", "t", "r"):
                     break
                 else:
