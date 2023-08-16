@@ -396,6 +396,7 @@ class Stash_location(Location, Stash, Work_location):
         else:
             intro_look_around = f"You quickly search the {self.location_name} if you want to do a more thorough search you will need to obtain a search warrant."
             print(intro_look_around)
+            clue_for_notebook = " "
 
         print("")
         notice_clue = f"As you look around you notice {self.crime_physcial_clue}. Now how did that end up here?"
@@ -1842,7 +1843,7 @@ def arrest_suspect(suspect_name, current_case):
        ___                            _         _       _   _                 
       / __\___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___ 
      / /  / _ \| '_ \ / _` | '__/ _` | __| | | | |/ _` | __| |/ _ \| '_ \/ __|
-    / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \
+    / /__| (_) | | | | (_| | | | (_| | |_| |_| | | (_| | |_| | (_) | | | \__ \ 
     \____/\___/|_| |_|\__, |_|  \__,_|\__|\__,_|_|\__,_|\__|_|\___/|_| |_|___/
                       |___/  
 """
