@@ -934,11 +934,11 @@ def main_action_options(current_case):
         else:
             print("Your input does not match requirements.\nYou need to either type 'm' or 'n' or 's'  please try again")
             print("")
-    if action == "m":
+    if confirmed_action == "m":
         view_map(current_case)
-    elif action == "n":
+    elif confirmed_action == "n":
         view_notebook(current_case)
-    elif action == "s":
+    elif confirmed_action == "s":
         view_suspect_list(current_case)
     else:
         print("ERROR! Please contact developer")
