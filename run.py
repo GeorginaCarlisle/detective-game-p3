@@ -419,7 +419,7 @@ class Pre_crime:
         self.work_location = work_location
         self.work_evidence = work_evidence
 
-class Pre_crime_location(Location, Pre_crime):
+class Pre_crime_location(Location, Pre_crime, Work_location):
     def __init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness, pre_crime, physical_clue, work_location, work_evidence):
         Location.__init__(self, location_name, description, employee, regular, regular_hobby_link, character_connection, connection, work_witness)
         Pre_crime.__init__(self, pre_crime, physical_clue, work_location, work_evidence)
@@ -440,6 +440,23 @@ class Pre_crime_location(Location, Pre_crime):
         print(summary_cctv)
         clue_for_notebook = f"{suspects} were spotted on the morning of the crime.\n"
         return clue_for_notebook
+
+    def look_around_pre_crime(self):
+        """
+        Prints storyline for looking around the current_location
+        Generates and returns clues to be added to the notebook
+        """
+        clear()
+        print("")
+        is_work_location = self.check_if_work_location()
+        if is_work_location[0]:
+            clue_for_notebook = is_work_location[1]
+        else:
+            intro_look_around = f"You quickly search the {self.location_name}, there is nothing of interest.\n\nIf you want to do a more thorough search you will need to obtain a search warrant."
+            print(intro_look_around)
+            clue_for_notebook = f"You find no clues when looking around.\n"
+        return clue_for_notebook
+
 
     def talk_witness_pre_crime(self):
         """
@@ -1445,7 +1462,7 @@ def visit_pre_crime_location(current_case):
             position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
-            look_around_clue = current_location.look_around_unconnected_location()
+            look_around_clue = current_location.look_around_pre_crime()
             clues_for_notebook = clues_for_notebook + look_around_clue
         elif confirmed_action == "t":
             position_of_choice = actions_available.index("talk to a witness(t)")
