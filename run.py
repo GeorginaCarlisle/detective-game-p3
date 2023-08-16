@@ -3,6 +3,7 @@ from google.oauth2.service_account import Credentials
 import datetime
 import random
 from os import system
+from time import sleep
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -56,6 +57,7 @@ def game_over(reason, current_case):
         print(f"'Good day to you {current_case.player_name}'")
     else:
         print("You suddenly notice Detective Inspector Job Done walking towards you")
+        sleep(2)
         if reason == "poor_detective":
             print(f"'It seems I have been mis-lead about your detective skills. A good detective evaluates all the evidence'")
             print("")
@@ -66,6 +68,7 @@ def game_over(reason, current_case):
             print(f"Detective Inspector Job Done turns to the suspect removing the hand-cuffs\n'I cannot apologise enough, {current_case.player_name} will not be allowed to cause such upset to the members of our community you can rest assured that their days as a detective are over!'")
             print("")
             print(f"Your services are no longer required {current_case.player_name} you are no detective please kindly leave this establishment at once!'")
+    sleep(2)
     title = """
             ____  ____ ___ ___   ___       ___  __ __   ___ ____  
            /    |/    |   |   | /  _]     /   \|  |  | /  _]    \ 
@@ -78,8 +81,10 @@ def game_over(reason, current_case):
     print(title)
     print("")
     print("The next day .....")
+    sleep(2)
     print("")
     print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}' Great job Detective Inspector Job Done!")
+    sleep(2)
     new_game(current_case)
 
 def clear():
@@ -1053,6 +1058,7 @@ def view_notebook(current_case):
     for ind in range(8, number_clues):
         print("")
         print(list_clues[ind])
+        sleep(2)
     main_action_options(current_case)
 
 def view_suspect_list(current_case):
