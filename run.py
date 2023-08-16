@@ -137,7 +137,7 @@ class Case:
         print("")
         brief_welcome = f"'You must be Junior Detective {self.player_name}. I have heard great things about your detective skills. I hope you are eager to get started, as we’ve just had a new case come through ......'\n"
         print(brief_welcome)
-        introduce_case = f"'Someone has stolen {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
+        introduce_case = f"'Yesterday afternoon somebody stole {self.case_details['item']} {self.case_details['event']} at the {self.case_details['crime_scene']}'"
         print(introduce_case)
         print("")
         while True:
@@ -340,7 +340,7 @@ class Location(Work_location):
         """
         clear()
         print("")
-        question = f"You question the {self.work_witness}:"
+        question = f"You ask the {self.work_witness} if they have noticed anything odd at the {self.location_name}:"
         print(question)
         response = f"'I don't know that I can help you. {self.employee} works here. {self.regular_hobby_link} is often to be seen here. {self.character_connection} who is {self.employee}'s {self.connection} also pops in occasionally'"
         print(response)
@@ -367,7 +367,7 @@ class Stash_location(Location, Stash, Work_location):
         """
         clear()
         print("")
-        intro_cctv_stash = f"You review the cctv during the hours after the {self.item} was stolen.\n\nYou notice the following suspects at the {self.location_name}:"
+        intro_cctv_stash = f"You review the cctv during the evening after the {self.item} was stolen.\n\nYou notice the following suspects at the {self.location_name}:"
         print(intro_cctv_stash)
         suspects = f"{self.employee}, {self.regular} and {self.character_connection}"
         print(suspects)
@@ -402,7 +402,7 @@ class Stash_location(Location, Stash, Work_location):
         """
         clear()
         print("")
-        question = f"You question the {self.work_witness}:"
+        question = f"You ask the {self.work_witness} if they have noticed anything odd at the {self.location_name}:"
         print(question)
         response = f"'Well there was something odd. When I came in next morning I could have sworn that a couple of things seemed out of place. As though someone had been in after we had locked up.'"
         print(response)
@@ -445,7 +445,7 @@ class Pre_crime_location(Location, Pre_crime):
         """
         clear()
         print("")
-        question = f"You question the {self.work_witness}"
+        question = f"You ask the {self.work_witness} if any of the suspects were at the {self.location_name} on the morning of the crime"
         print(question)
         response = f"Well on that morning {self.employee} was here as normal and {self.regular} came in during the morning. {self.character_connection} also popped in...."
         print(response)
@@ -519,7 +519,7 @@ class Crime_scene:
         """
         clear()
         print("")
-        intro_cctv_crime_scene = f"You review the cctv from the {self.event}"
+        intro_cctv_crime_scene = f"You review the cctv from the {self.location_name} {self.event}"
         print(intro_cctv_crime_scene)
         print("")
         cctv_recording_crime_scene = f"You spot the following suspects at the {self.location_name}:\n{self.list_suspects}.\n\nIt’s impossible to tell from the CCTV who of these might have stolen the {self.item}"
@@ -549,7 +549,7 @@ class Crime_scene:
         """
         clear()
         print("")
-        question = f"You question the {self.witness}:"
+        question = f"You question the {self.witness} about the day of the crime:"
         print(question)
         print("")
         response = f"'{self.witness_report} I couldn't tell who it was, but it was definitely a {self.description_clue}.'"
@@ -574,17 +574,19 @@ class Suspect:
 
     def question_reason_at_crime_scene(self):
         clear()
-        question = f"You ask {self.suspect_name} why they were at the crime scene"
+        question = f"You ask {self.suspect_name} why they were at the crime scene:"
         print(question)
-        response = self.presence_reason
+        print("")
+        response = f"'{self.presence_reason}'"
         print(response)
         clue_for_notebook = f"Reason for presence at crime scene: '{response}'"
         return clue_for_notebook
 
     def question_connections(self):
         clear()
-        question = f"You ask {self.suspect_name} where they have been in the last two days"
+        question = f"You ask {self.suspect_name} where they have been in the last two days:"
         print(question)
+        print("")
         response = f"'Well, I work at the {self.work_location}, I often go the {self.hobby_location} and I popped into to see {self.character_connection} at the {self.connection_location}.'"
         print(response)
         clue_for_notebook = f"In the last two days visited: {self.work_location}, {self.hobby_location} and {self.connection_location}."
@@ -594,6 +596,7 @@ class Suspect:
         clear()
         question = f"You ask {self.suspect_name} if they recognise the stolen item"
         print(question)
+        print("")
         response = f"'{self.item_connection}'"
         print(response)
         clue_for_notebook = f"Recognition of item: '{response}'"
@@ -1677,12 +1680,12 @@ def question_suspect(current_suspect, current_case):
     actions_available = ["why they were present at the crime scene (p)", "about there movements over the last two days (m)", "if they recognise the stolen item (i)"]
     while actions_available:
         print("")
-        print("Would you like to ask the suspect:")
         # checks number of actions available and requests and confirms appropriate input
         confirmed_action = ""
         # No actions yet completed
         if len(actions_available) == 3:
             while True:
+                print("Would you like to ask the suspect:")
                 action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
                 confirmed_action = action.strip().lower()
                 if confirmed_action in ("p", "m", "i", "r"):
@@ -1713,6 +1716,7 @@ def question_suspect(current_suspect, current_case):
                 print("ERROR!! Please contact developer")
             # Request input and error handle
             while True:
+                print("Would you like to ask the suspect:")
                 action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
                 confirmed_action = action.strip().lower()
                 if confirmed_action in (choice_1, choice_2, "r"):
@@ -1733,6 +1737,7 @@ def question_suspect(current_suspect, current_case):
             else:
                 print("ERROR!! Please contact developer")
             while True:
+                print("Would you like to ask the suspect:")
                 action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
                 confirmed_action = action.strip().lower()
                 if confirmed_action in (choice_1, "r"):
