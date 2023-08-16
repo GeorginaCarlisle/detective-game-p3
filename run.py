@@ -1406,7 +1406,16 @@ def arrest_confirm(suspect_number, current_case):
     suspect_name = current_case.all_suspects[suspect_number][0]
     question_arrest = f"Are you sure {suspect_name} is the thief? Remember here at Case Closed we don’t tolerate false arrests!"
     print(question_arrest)
-    arrest_confirm = input("y/n\n")
+    while True:
+        arrest_input = input("y/n\n")
+        arrest_confirm = arrest_input.strip().lower()
+        if arrest_confirm == "y":
+            break
+        elif arrest_confirm == "n":
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+            print("")
     if arrest_confirm == "y":
         arrest_suspect(suspect_name, current_case)
     elif arrest_confirm == "n":
@@ -1451,7 +1460,16 @@ def confirm_warrant_request(location_number, current_case):
     location_name = current_case.all_locations[location_number][0]
     question_warrant = f"Are you sure the thief hid the {current_case.case_details['item']} at the {location_name}? This is your one chance to find it!"
     print(question_warrant)
-    warrant_confirm = input("y/n\n")
+    while True:
+        confirm_input = input("y/n\n")
+        warrant_confirm = confirm_input.strip().lower()
+        if warrant_confirm == "y":
+            break
+        elif warrant_confirm == "n":
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
+            print("")
     if warrant_confirm == "y":
         search_location(location_number, current_case)
     elif warrant_confirm == "n":
