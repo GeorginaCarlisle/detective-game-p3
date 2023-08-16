@@ -602,14 +602,14 @@ class Thief:
         self.motive = motive
         self.denile = denile
 
-class Present_at_scene_suspect(Suspect):
+class Present_at_scene_suspect(Suspect, Present_at_scene):
     def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, item_connection):
-        Suspect.__init__(self, suspect_name, occupation, hobby_location, character_connection, connection_location)
+        Suspect.__init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location)
         Present_at_scene.__init__(self, presence_reason, item_connection)
 
 class Suspect_is_thief(Suspect, Thief):
     def __init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location, presence_reason, motive, denile):
-        Suspect.__init__(self, suspect_name, occupation, work_location,hobby_location, character_connection, connection_location)
+        Suspect.__init__(self, suspect_name, occupation, work_location, hobby_location, character_connection, connection_location)
         Thief.__init__(self, presence_reason, motive, denile)
         self.item_connection = self.denile
 
@@ -665,8 +665,15 @@ def initial_sequence():
     print(developer)
     print(question_user)
     print(game_introduction)
-    input_name = input("Please enter your name to begin your new career as a detective:\n")
-    player_name = input_name.strip()
+    while True:
+        input_name = input("Please enter your name to begin your new career as a detective:\n")
+        player_name = input_name.strip()
+        if len(player_name) < 80:
+            break
+        else:
+            print("")
+            print("Your name is far too long! It needs to be less than 80 characters long. This is the length of one row. Please try again.")
+            print("")
     if player_name == "":
         player_name = "No Name"
     return player_name
@@ -905,11 +912,7 @@ def main_action_options(current_case):
     while True:
         action = input("view map (m), view notebook (n) or view suspect list (s)\n")
         confirmed_action = action.strip().lower()
-        if confirmed_action == "m":
-            break
-        elif confirmed_action == "n":
-            break
-        elif confirmed_action == "s":
+        if confirmed_action in ("m", "n", "s"):
             break
         else:
             print("Your input does not match requirements.\nYou need to either type 'm' or 'n' or 's'  please try again")
@@ -949,24 +952,38 @@ def view_map(current_case):
         print(f"{ind + 1} - {location}")
     # Player choice requested and handled
     print("")
+    confirmed_choice = ""
     while True:
         choice = input("To visit a location (v) or to obtain a search warrant (w). Alternatively type (r) to return to the main options\n")
         confirmed_choice = choice.strip().lower()
         if confirmed_choice in ("v", "w", "r"):
             break
         else:
-            print("Your input does not match requirements.\nYou need to either type 'v' or 'w' please try again")
+            print("Your input does not match requirements.\nYou need to either type 'v', 'w' or 'r' please try again")
             print("")
-    if choice == "v":
-        action = input("Please type in the number of the location you would like to visit.\n")
-        location_number = int(action) - 1
+    if confirmed_choice == "v":
+        while True:
+            action = input("Please type in the number of the location you would like to visit.\n")
+            confirmed_action = action.strip()
+            if confirmed_action in ("1", "2", "3", "4", "5", "6", "7", "8"):
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to enter a number between 1 and 8, please try again")
+                print("")
+        location_number = int(confirmed_action) - 1
         check_location_type(location_number, current_case)
-    elif choice == "w":
-        action = input("Please type in the number of the location you would like thoroughly search.\n")
-        # input to be validated
-        location_number = int(action) - 1
+    elif confirmed_choice == "w":
+        while True:
+            action = input("Please type in the number of the location you would like thoroughly search.\n")
+            confirmed_action = action.strip()
+            if confirmed_action in ("1", "2", "3", "4", "5", "6", "7", "8"):
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to enter a number between 1 and 8, please try again")
+                print("")
+        location_number = int(confirmed_action) - 1
         confirm_warrant_request(location_number, current_case)
-    elif choice == "r":
+    elif confirmed_choice == "r":
         main_action_options(current_case)
     else:
         print("ERROR!!!")
@@ -1023,15 +1040,38 @@ def view_suspect_list(current_case):
         print(f"{ind + 1} - {suspect} the {occupation}")
     # Player choice requested and handled
     print("")
-    action = input("To question a suspect type (q) or to arrest a suspect type (a). Alternatively type (r) to return to the main options\n")
-    # input to be validated
-    if action == "q":
-        suspect_choice = input("Please type in the number of the suspect you would like to question\n")
-        suspect_number = int(suspect_choice) - 1
+    confirmed_choice = ""
+    while True:
+        choice = input("To question a suspect type (q) or to arrest a suspect type (a). Alternatively type (r) to return to the main options\n")
+        confirmed_choice = choice.strip().lower()
+        if confirmed_choice in ("q", "a", "r"):
+            break
+        else:
+            print("Your input does not match requirements.\nYou need to either type 'q', 'a' or 'r' please try again")
+            print("")
+    if confirmed_choice == "q":
+        confirmed_action = ""
+        while True:
+            action = input("Please type in the number of the suspect you would like to question\n")
+            confirmed_action = action.strip()
+            if confirmed_action in ("1", "2", "3", "4", "5", "6", "7", "8"):
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to enter a number between 1 and 8, please try again")
+                print("")
+        suspect_number = int(confirmed_action) - 1
         check_suspect_type(suspect_number, current_case)
-    elif action == "a":
-        suspect_choice = input("Please type in the number of the suspect you would like to arrest\n")
-        suspect_number = int(suspect_choice) - 1
+    elif confirmed_choice == "a":
+        confirmed_action = ""
+        while True:
+            action = input("Please type in the number of the suspect you would like to arrest\n")
+            confirmed_action = action.strip()
+            if confirmed_action in ("1", "2", "3", "4", "5", "6", "7", "8"):
+                break
+            else:
+                print("Your input does not match requirements.\nYou need to enter a number between 1 and 8, please try again")
+                print("")
+        suspect_number = int(confirmed_action) - 1
         arrest_confirm(suspect_number, current_case)
     elif action == "r":
         main_action_options(current_case)
@@ -1081,33 +1121,93 @@ def visit_unconnected_location(location_number, current_case):
     while actions_available:
         print("")
         print("Would you like to:")
+        # checks number of actions available and requests and confirms appropriate input
+        confirmed_action = ""
+        # No actions yet completed
         if len(actions_available) == 3:
-            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+            while True:
+                action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                print(confirmed_action)
+                if confirmed_action in ("c", "s", "t", "r"):
+                    break
+                else:
+                    print("")
+                    print("Your input does not match requirements.\nYou need to either type 'c', 's', 't' or 'r'  please try again")
+                    print("")
+        # One action completed
         elif len(actions_available) == 2:
-            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which actions are left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            choice_2 = ""
+            if actions_available[1] == "check the cctv (c)":
+                choice_2 = "c"
+            elif actions_available[1] == "look around (s)":
+                choice_2 = "s"
+            elif actions_available[1] == "talk to a witness(t)":
+                choice_2 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            # Request input and error handle
+            while True:
+                action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, choice_2, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}', '{choice_2}' or 'r'. Please try again")
+                    print("")
+        # Two actions completed
         elif len(actions_available) == 1:
-            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
-        else:
+            # Work out which actions is left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            while True:
+                action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
+                    print("")
+        else:    
             print("ERROR!!")
-        if choice == "c":
+        if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
             print("")
             cctv_clue = current_location.cctv_unconnected_location()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "s":
+        elif confirmed_action == "s":
             position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_unconnected_location()
             clues_for_notebook = clues_for_notebook + look_around_clue
-        elif choice == "t":
+        elif confirmed_action == "t":
             position_of_choice = actions_available.index("talk to a witness(t)")
             actions_available.pop(position_of_choice)
             print("")
             witness_clue = current_location.talk_witness_unconnected_location()
             clues_for_notebook = clues_for_notebook + witness_clue
-        elif choice == "r":
+        elif confirmed_action == "r":
             break
         else:
             print("ERROR!!")
@@ -1134,33 +1234,93 @@ def visit_stash_location(current_case):
     while actions_available:
         print("")
         print("Would you like to:")
+        # checks number of actions available and requests and confirms appropriate input
+        confirmed_action = ""
+        # No actions yet completed
         if len(actions_available) == 3:
-            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+            while True:
+                action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                print(confirmed_action)
+                if confirmed_action in ("c", "s", "t", "r"):
+                    break
+                else:
+                    print("")
+                    print("Your input does not match requirements.\nYou need to either type 'c', 's', 't' or 'r'  please try again")
+                    print("")
+        # One action completed
         elif len(actions_available) == 2:
-            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which actions are left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            choice_2 = ""
+            if actions_available[1] == "check the cctv (c)":
+                choice_2 = "c"
+            elif actions_available[1] == "look around (s)":
+                choice_2 = "s"
+            elif actions_available[1] == "talk to a witness(t)":
+                choice_2 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            # Request input and error handle
+            while True:
+                action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, choice_2, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}', '{choice_2}' or 'r'. Please try again")
+                    print("")
+        # Two actions completed
         elif len(actions_available) == 1:
-            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
-        else:
+            # Work out which actions is left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            while True:
+                action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
+                    print("")
+        else:    
             print("ERROR!!")
-        if choice == "c":
+        if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
             print("")
-            cctv_clue = current_location.cctv_stash_location()
+            cctv_clue = current_location.cctv_unconnected_location()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "s":
+        elif confirmed_action == "s":
             position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
-            look_around_clue = current_location.look_around_stash_location()
+            look_around_clue = current_location.look_around_unconnected_location()
             clues_for_notebook = clues_for_notebook + look_around_clue
-        elif choice == "t":
+        elif confirmed_action == "t":
             position_of_choice = actions_available.index("talk to a witness(t)")
             actions_available.pop(position_of_choice)
             print("")
-            witness_clue = current_location.talk_witness_stash_location()
+            witness_clue = current_location.talk_witness_unconnected_location()
             clues_for_notebook = clues_for_notebook + witness_clue
-        elif choice == "r":
+        elif confirmed_action == "r":
             break
         else:
             print("ERROR!!")
@@ -1187,33 +1347,93 @@ def visit_pre_crime_location(current_case):
     while actions_available:
         print("")
         print("Would you like to:")
+        # checks number of actions available and requests and confirms appropriate input
+        confirmed_action = ""
+        # No actions yet completed
         if len(actions_available) == 3:
-            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+            while True:
+                action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                print(confirmed_action)
+                if confirmed_action in ("c", "s", "t", "r"):
+                    break
+                else:
+                    print("")
+                    print("Your input does not match requirements.\nYou need to either type 'c', 's', 't' or 'r'  please try again")
+                    print("")
+        # One action completed
         elif len(actions_available) == 2:
-            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which actions are left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            choice_2 = ""
+            if actions_available[1] == "check the cctv (c)":
+                choice_2 = "c"
+            elif actions_available[1] == "look around (s)":
+                choice_2 = "s"
+            elif actions_available[1] == "talk to a witness(t)":
+                choice_2 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            # Request input and error handle
+            while True:
+                action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, choice_2, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}', '{choice_2}' or 'r'. Please try again")
+                    print("")
+        # Two actions completed
         elif len(actions_available) == 1:
-            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
-        else:
+            # Work out which actions is left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            while True:
+                action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
+                    print("")
+        else:    
             print("ERROR!!")
-        if choice == "c":
+        if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
             print("")
-            cctv_clue = current_location.cctv_pre_crime()
+            cctv_clue = current_location.cctv_unconnected_location()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "s":
+        elif confirmed_action == "s":
             position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_unconnected_location()
             clues_for_notebook = clues_for_notebook + look_around_clue
-        elif choice == "t":
+        elif confirmed_action == "t":
             position_of_choice = actions_available.index("talk to a witness(t)")
             actions_available.pop(position_of_choice)
             print("")
-            witness_clue = current_location.talk_witness_pre_crime()
+            witness_clue = current_location.talk_witness_unconnected_location()
             clues_for_notebook = clues_for_notebook + witness_clue
-        elif choice == "r":
+        elif confirmed_action == "r":
             break
         else:
             print("ERROR!!")
@@ -1251,37 +1471,98 @@ def explore_crime_scene(current_case, current_location):
     while actions_available:
         print("")
         print("Would you like to:")
+        # checks number of actions available and requests and confirms appropriate input
+        confirmed_action = ""
+        # No actions yet completed
         if len(actions_available) == 3:
-            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+            while True:
+                action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                print(confirmed_action)
+                if confirmed_action in ("c", "s", "t", "r"):
+                    break
+                else:
+                    print("")
+                    print("Your input does not match requirements.\nYou need to either type 'c', 's', 't' or 'r'  please try again")
+                    print("")
+        # One action completed
         elif len(actions_available) == 2:
-            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which actions are left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            choice_2 = ""
+            if actions_available[1] == "check the cctv (c)":
+                choice_2 = "c"
+            elif actions_available[1] == "look around (s)":
+                choice_2 = "s"
+            elif actions_available[1] == "talk to a witness(t)":
+                choice_2 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            # Request input and error handle
+            while True:
+                action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, choice_2, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}', '{choice_2}' or 'r'. Please try again")
+                    print("")
+        # Two actions completed
         elif len(actions_available) == 1:
-            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
-        else:
+            # Work out which actions is left
+            choice_1 = ""
+            if actions_available[0] == "check the cctv (c)":
+                choice_1 = "c"
+            elif actions_available[0] == "look around (s)":
+                choice_1 = "s"
+            elif actions_available[0] == "talk to a witness(t)":
+                choice_1 = "t"
+            else:
+                print("ERROR!! Please contact developer")
+            while True:
+                action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, "r"):
+                    break
+                else:
+                    print("")
+                    print(f"Your input does not match requirements.\nYou need to either type '{choice_1}' or 'r' please try again")
+                    print("")
+        else:    
             print("ERROR!!")
-        if choice == "c":
+        # Carries out chosen action
+        if confirmed_action == "c":
             position_of_choice = actions_available.index("check the cctv (c)")
             actions_available.pop(position_of_choice)
             print("")
             cctv_clue = current_location.cctv_crime_scene()
             clues_for_notebook = clues_for_notebook + cctv_clue
-        elif choice == "s":
+        elif confirmed_action == "s":
             position_of_choice = actions_available.index("look around (s)")
             actions_available.pop(position_of_choice)
             print("")
             look_around_clue = current_location.look_around_crime_scene()
             clues_for_notebook = clues_for_notebook + look_around_clue
-        elif choice == "t":
+        elif confirmed_action == "t":
             position_of_choice = actions_available.index("talk to a witness(t)")
             actions_available.pop(position_of_choice)
             print("")
             witness_clue = current_location.talk_witness_crime_scene()
             clues_for_notebook = clues_for_notebook + witness_clue
-        elif choice == "r":
+        elif confirmed_action == "r":
             break
         else:
             print("ERROR!!")
-    # Once loop completed or user chooses to return
+    # Once all actions completed and loop exited or user chooses to return to main_actions
     print("")
     update_notebook(current_case.notebook_column, [clues_for_notebook])
     print("Exiting location. You will now be taken back to the main options")
@@ -1384,27 +1665,84 @@ def question_suspect(current_suspect, current_case):
     while actions_available:
         print("")
         print("Would you like to ask the suspect:")
+        # checks number of actions available and requests and confirms appropriate input
+        confirmed_action = ""
+        # No actions yet completed
         if len(actions_available) == 3:
-            choice = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+            while True:
+                action = input(f"{actions_available[0]}, {actions_available[1]} or {actions_available[2]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in ("p", "m", "i", "r"):
+                    break
+                else:
+                    print("Your input does not match requirements.\nYou need to either type 'p', 'm', 'i' or 'r'  please try again")
+                    print("")
+        # One action completed
         elif len(actions_available) == 2:
-            choice = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which actions are left
+            choice_1 = ""
+            if actions_available[0] == "why they were present at the crime scene (p)":
+                choice_1 = "p"
+            elif actions_available[0] == "about there movements over the last two days (m)":
+                choice_1 = "m"
+            elif actions_available[0] == "if they recognise the stolen item (i)":
+                choice_1 = "i"
+            else:
+                print("ERROR!! Please contact developer")
+            choice_2 = ""
+            if actions_available[1] == "why they were present at the crime scene (p)":
+                choice_2 = "p"
+            elif actions_available[1] == "about there movements over the last two days (m)":
+                choice_2 = "m"
+            elif actions_available[1] == "if they recognise the stolen item (i)":
+                choice_2 = "i"
+            else:
+                print("ERROR!! Please contact developer")
+            # Request input and error handle
+            while True:
+                action = input(f"{actions_available[0]} or {actions_available[1]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, choice_2, "r"):
+                    break
+                else:
+                    print(f"Your input does not match requirements.\nYou need to either type {choice_1}, {choice_2} or 'r'. Please try again")
+                    print("")
+        # Two actions completed
         elif len(actions_available) == 1:
-            choice = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+            # Work out which action is left
+            choice_1 = ""
+            if actions_available[0] == "why they were present at the crime scene (p)":
+                choice_1 = "p"
+            elif actions_available[0] == "about there movements over the last two days (m)":
+                choice_1 = "m"
+            elif actions_available[0] == "if they recognise the stolen item (i)":
+                choice_1 = "i"
+            else:
+                print("ERROR!! Please contact developer")
+            while True:
+                action = input(f"{actions_available[0]}\nAlternatively type (r) to return to the main options\n")
+                confirmed_action = action.strip().lower()
+                if confirmed_action in (choice_1, "r"):
+                    break
+                else:
+                    print(f"Your input does not match requirements.\nYou need to either type {choice_1} or 'r' please try again")
+                    print("")
         else:
             print("ERROR!!")
-        if choice == "p":
+        # Carries out chosen action
+        if confirmed_action == "p":
             position_of_choice = actions_available.index("why they were present at the crime scene (p)")
             actions_available.pop(position_of_choice)
             print("")
             presence_clue = current_suspect.question_reason_at_crime_scene()
             clues_for_notebook = clues_for_notebook + presence_clue
-        elif choice == "m":
+        elif confirmed_action == "m":
             position_of_choice = actions_available.index("about there movements over the last two days (m)")
             actions_available.pop(position_of_choice)
             print("")
             location_connection_clue = current_suspect.question_connections()
             clues_for_notebook = clues_for_notebook + location_connection_clue
-        elif choice == "i":
+        elif confirmed_action == "i":
             position_of_choice = actions_available.index("if they recognise the stolen item (i)")
             actions_available.pop(position_of_choice)
             print("")
