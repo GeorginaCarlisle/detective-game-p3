@@ -1092,7 +1092,7 @@ def view_suspect_list(current_case):
                 print("")
         suspect_number = int(confirmed_action) - 1
         arrest_confirm(suspect_number, current_case)
-    elif action == "r":
+    elif confirmed_choice == "r":
         main_action_options(current_case)
     else:
         print("ERROR!!!")
