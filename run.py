@@ -1985,13 +1985,14 @@ def win(current_case):
     """
     Prints win storyline
     """
+    sleep(4)
     clear()
     print("Detective Inspector Job appears")
     print("")
     congratulations = f"Absolutely amazing work Junior detective {current_case.player_name} you have correctly arrested {current_case.thief_details['Thief']} and located the {current_case.case_details['item']}. You have preserved the reputation of the Case Closed Detective Agency and we would be delighted for you to continue working as part of our team.”"
     print(congratulations)
     notebook_row = current_case.notebook_column
-    update_notebook(notebook_row, "Win achieved")
+    update_notebook(notebook_row, ["Win achieved"])
     title = """
       __________________________________________________________________
             __                                                          
