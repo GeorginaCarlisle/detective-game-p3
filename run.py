@@ -45,6 +45,9 @@ def game_over(reason, current_case):
     Called when player choice leads to game over and passed an argument giving the reason why
     Final scene of the game played, including an explanation of the reason for game over
     """
+    notebook_row = current_case.notebook_column
+    notebook_entry = [f"GAME OVER: {reason}"]
+    update_notebook(notebook_row, notebook_entry)
     if reason == "case_not_accepted":
         print("")
         print(f"'I'm not sure you are the sort of detective we need here at Case Closed {current_case.player_name}. We only employ the best here and the best do not turn down important cases that need solving'\n")
@@ -77,7 +80,7 @@ def game_over(reason, current_case):
     print("The next day .....")
     print("")
     print(f"You pick up the newspaper to read:\nCase Closed has solved and closed another case in record time!\nDetective Inspector Job Done arrested {current_case.thief_details['Thief']} who had stolen the {current_case.case_details['item']} and hidden it at the {current_case.stash_location}. '{current_case.thief_details['Motive']}' Great job Detective Inspector Job Done!")
-    new_game()
+    new_game(current_case)
 
 def clear():
     """
@@ -85,7 +88,7 @@ def clear():
     """
     system("clear")
 
-def new_game():
+def new_game(current_case):
     """
     Entices the player to play again. Asks if they would like to
     and handles the request.
@@ -104,8 +107,14 @@ def new_game():
                 print("Your input does not match requirements.\nYou need to either type 'y' or 'n' please try again")
                 print("")
     if play_again == "y":
+        notebook_row = current_case.notebook_column
+        notebook_entry = ["Play again chosen"]
+        update_notebook(notebook_row, notebook_entry)
         intro_and_setup()
     elif play_again == "n":
+        notebook_row = current_case.notebook_column
+        notebook_entry = ["Game exited"]
+        update_notebook(notebook_row, notebook_entry)
         print("Oh well. If change your mind click run program to start the game again")
 
 # Classes
@@ -1945,6 +1954,8 @@ def win(current_case):
     print("")
     congratulations = f"Absolutely amazing work Junior detective {current_case.player_name} you have correctly arrested {current_case.thief_details['Thief']} and located the {current_case.case_details['item']}. You have preserved the reputation of the Case Closed Detective Agency and we would be delighted for you to continue working as part of our team.”"
     print(congratulations)
+    notebook_row = current_case.notebook_column
+    update_notebook(notebook_row, "Win achieved")
     title = """
       __________________________________________________________________
             __                                                          
@@ -1955,7 +1966,7 @@ def win(current_case):
 
 """
     print(title)
-    new_game()
+    new_game(current_case)
 
 intro_and_setup()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
