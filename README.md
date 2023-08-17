@@ -130,13 +130,66 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Deployment
 
+This website has been deployed using Heroku.
+
+Instructions to deploy using Heroku:
+
+1 - While in Heroku, navigate to dashboard and then click on the new button in the top right corner choosing: create new app.
+
+2 - Input a name for your app (this name will need to be unique) and choose the correct region for where you are located. Click create app.
+
+3 - Your app has been created, now click on the settings tab.
+
+4 - Click reveal config vars to add any keys the application will need. For this project I added the api credentials for my spreadsheet to a key of CREDS and a value of 8000 to a key of PORT.
+
+5 - Click add buildpack to install any interdependecies needed. For this project I installed 'python' and 'nodejs'.
+
+6 - Click on deploy tab. Select deploy method, in this case Git Hub. Confirm connection to git hub by searching for the correct repository and then connecting to it.
+
+7 - To manually deploy project click 'Deploy Branch'. Once built a message will appear saying: Your app was successfully deployed. Click the view button to view the deployed page making a note of it's url.
+
 [Return to contents list](#contents)
 
 ## Cloning this repository
 
+In order to work on this repository you will first need to clone it.
+
+**Instructions to clone the repository**:
+
+1 - While in the GitHub repository, click on the green code button.
+
+2 - Copy the link.
+
+3 - In your IDE or local coding environment use the link to open the repository. 
+
+For example: in VScode 
+- clicking on 'Clone Git Repository...' will bring up a box in which to paste the link. 
+- once vscode has the link, you will then be asked where you would like the repo saving.
+- You should now be set up ready to work on the repository.
+
+For example: in CodeAnywhere
+- Click on 'Add new workspace'
+- You will then be given the option to 'Create from your project repository' and a box in which to paste the link
+- CodeAnywhere will now open a new workspace containing the repository.
+- You should now be set up ready to work on the repository.
+
 [Return to contents list](#contents)
 
 ## Forking a branch
+
+In order to protect the main branch while you work on something new, essential when working as part of a team or when you want to experiment with a new feature, you will need to fork a branch.
+
+**Instructions to fork the repository**:
+
+1 - While in the GitHub repository, click on the branch symbol and text indicating the number of branches.
+
+2 - This will load details on current branches. Click on the green 'New branch' button.
+
+3 - Enter a name for the new branch and then click the green 'create new branch' button.
+
+4 - Your new branch should now have appeared on the screen.
+
+5 - Clicking on the new branch and then following the steps for cloning will allow you to open up and work on this branch.
 
 [Return to contents list](#contents)
 
