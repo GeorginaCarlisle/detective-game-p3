@@ -1,5 +1,7 @@
 # Case Closed
 
+![Screenshot of the game title](documentation/screenshots/title_picture.png)
+
 Developer: Georgina Carlisle
 
 A detective game where the player must follows the clues to work out who stole the missing item and where they have hidden it.
@@ -114,7 +116,7 @@ This game has been created to work with a background spreadsheet that holds all 
 
 ![PDF of locations](documentation/locations.pdf)
 
-![PDF pf cases](documentation/cases.pdf)
+![PDF of cases](documentation/cases.pdf)
 
 The game also saves game data in a notebook sheet. This is then accessed when the player visits their notebook. It also provides a way to track how the game is being played in order for further improvements to be identified.
 
