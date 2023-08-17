@@ -154,9 +154,56 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Credits
 
+### Code
+
+- This project was made using the following template [Code Institute p3-template](https://github.com/Code-Institute-Org/p3-template). This template provides all the supprting code which allows my python run.py to run within a console window within a web page.
+
+- Activating API credentials, connecting to API and importing of gspread library were all completed following the Love Sandwiches walkthrough by Code Institute.
+
+- The clear() function created to clear the screen when called, making the latest text easier to find and read, was copied from a project by Juan A. Boccia [PP3_Diego_Santacarmen
+](https://github.com/jbocciadev/PP3_Diego_Santacarmen).
+
+- The use of the sleep() method imported from time, was copied from a project by Juan A. Boccia [PP3_Diego_Santacarmen
+](https://github.com/jbocciadev/PP3_Diego_Santacarmen).
+
+### Title art
+
+- The Case closed, Map, Suspects and congratulations title art were created by Ethan and Ray Carlisle using [Text to ASCII Art Generator](http://patorjk.com/software/taag/#p=display&h=2&v=2&f=AMC%20Thin&t=Notebook)
+
+### Detective storyline
+
+- The case of the stolen manuscript, Famous author's treehouse in the woods location and suspect Mr Ethan Carlisle were written in collaboration with Ethan Carlisle.
+
+- The case of the stolen crown, the library location and suspect Mr Ray Carlisle were written in collaboration with Ray Carlisle.
+
 [Return to contents list](#contents)
 
 ## Acknowledgements
+
+My two young boys - For being the inspiration and the drive for this project. It is for them. They also helped with the detective storyline and the creation of the title art. They tested the game and gave feedback. They kept me going with their support and were completely understanding of the time I spent sat at my laptop during their summer holidays.
+
+My husband - For his invaluable support and lots of user testing throughout the development of this project.
+
+Juan A. Boccia - His project [PP3_Diego_Santacarmen
+](https://github.com/jbocciadev/PP3_Diego_Santacarmen) provided me with the idea of creating a detective game for my third portfolio project.
+
+My mentor Gurjot - For his reassurance and push to make sure there were no global variables.
+
+Code Institue - The vast majority of the coding skills, knowledge and understanding showcased in this project have been learnt through the 'Diploma of Full stack software development' that I am completing with Code Institute.
+
+### Websites, articles and tutorials
+
+[Python Tutorial: Datetime Module](https://www.youtube.com/watch?v=eirjjyP2qcQ) - This tutorial helped me to understand how to get today's date.
+
+[Gspread documentation](https://docs.gspread.org/en/v5.10.0/) - This document was invaluable in locating the methods I needed to be able to interact with my spreadsheet.
+
+[Python List index() method](https://www.w3schools.com/python/ref_list_index.asp) - This article helped me to understand how to search for the location of the thief name within the list generated from the first column of the suspects sheet.
+
+[Python *args](https://www.youtube.com/watch?v=MNLy8atLI3k) - This tutorial aided my understanding of *args and how to handle them.
+
+[Stack Overflow: Access item in a list of lists](https://stackoverflow.com/questions/18449360/access-item-in-a-list-of-lists) - This question and its responses helped me in retrieving a value from a list of lists.
+
+[How to use google sheets with Python](https://www.youtube.com/watch?v=bu5wXjz2KvU) - This tutorial was invaluable in helping me understand how to use the get() gspread method. 
 
 [Return to contents list](#contents)
 
