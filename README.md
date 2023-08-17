@@ -142,6 +142,16 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Making additions and changes to the game
 
+To add a new case, or make changes to the suspects, locations or current case no change to the code is needed. This can all be done through the background spreadsheets.
+
+
+When editing the suspects, case or locations sheets, the following rules need to be followed:
+- number of suspects/locations must remain as 8.
+- all columns must be filled
+- location names must exactly match their name as written elsewhere
+- Suspect names must exactly match their names as written else where
+- take time to preview changes in the game, to ensure that any wording works in context
+
 [Return to contents list](#contents)
 
 ## Languages
