@@ -126,6 +126,14 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Bugs and fixes
 
+| Bug | Action | Result |
+| -- | -- | -- |
+| Error and Warning from cloud.google that quota reached | Followed links in warning and researched api quotas. Made changes to code to reduce api calls, pulling and pushing information in larger chunks to reduce the number of calls | Resolved: no reacurrence of error or warning, situation to be monitored |
+| gspread generated message printed to terminal when first api call goes through | Current research and asking for help has not led me to find a way to prevent or hide this message. In order to reduce the impact on users a message prior to first api call 'Please ignore the following message:' and messages to reassure as the settings are built 'Your game is now loading' 'Almost there ....' have been added | Unresolved: no impact on running of program and action taken to reduce impact on user |
+| Suspect from whom the item is stolen, won't recognise it when questioned or react as they should during questioning | This is a current flaw in the underlining logic that was realised too late to be fixed | Unresolved: will only be noticed by user should they happen to question this individual |
+
+All unresolved bugs will be handled during the next release of the game.
+
 [Return to contents list](#contents)
 
 ## Deployment
