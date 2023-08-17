@@ -122,7 +122,27 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Testing and Validation
 
+### Validation
 
+The Python code for this project has been validated using the Code Institue Python Linter. The following still appear:
+- expected 2 blank lines, found 1
+- line too long (? > 79 characters)
+- trailing whitespace
+- invalid escape sequence
+
+All other warnings/errors have been resolved. The remaining trailing whitespace and invalid escape sequence are linked to the title art used. Throughout I have only ever used 1 blank line, in order to meet project requirements. The too long lines are attributed to string variables of text to printed.
+
+### Testing
+
+This project has been extensively tested. 
+
+All possible user input points have been tested to ensure error handling has been taken care of and they call the correct function.
+
+![PDF showing a table of all the input points tested](documentation/input_testing.pdf)
+
+I have attempt to test all possible interations of all parts of the game. As there are 18 case settings (3 cases, each with 3 possible thieves, each with two possible stash locations), locations can take on 6 different forms depending on case settings (unconnected, crime_scene, pre_crime, stash, pre_crime_and_work and stash_and_work) and suspects can take on 3 different forms depending on case settings (thief, present_at_scene and unconnected) I may well have missed something.
+
+![PDF of the notebook showing a sample of the testing undertook](documentation/notebook.pdf)
 
 [Return to contents list](#contents)
 
