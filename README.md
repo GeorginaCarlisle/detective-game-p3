@@ -1,10 +1,11 @@
-# Detective game
+# Case Closed
 
 Developer: Georgina Carlisle
 
 A detective game where the player must follows the clues to work out who stole the missing item and where they have hidden it.
 
-This game is currently under development
+Link to live page:
+https://case-closed-d6a42992581c.herokuapp.com
 
 ## Contents
 [Features](#features)
