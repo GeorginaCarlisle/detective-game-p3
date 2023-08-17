@@ -146,9 +146,25 @@ The following diagram shows the clues that can be gained through visiting a loca
 
 ## Languages
 
+Python with the following libraries:
+- gspread
+- datetime
+- random
+- os
+- time
+
 [Return to contents list](#contents)
 
 ## Tools and Technologies
+
+- Codeanywhere: Used for writing, previewing and pushing the code to git hub
+- VScode: Used for writing and pushing the code to git hub
+- Git: Used for version control
+- Git hub: Used to store the repository for this project
+- Heroku: Used to deploy the website
+- [CI Python Linter](https://pep8ci.herokuapp.com): Used to validate Python code
+- [Text to ASCII Art Generator](http://patorjk.com/software/taag/#p=display&h=2&v=2&f=AMC%20Thin&t=Notebook): Used to generate the title art created (note the buildings art was created by myself).
+- [draw.io](https://app.diagrams.net/): Used to create the flow charts used during planning
 
 [Return to contents list](#contents)
 
