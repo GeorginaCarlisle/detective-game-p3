@@ -38,6 +38,96 @@ https://case-closed-d6a42992581c.herokuapp.com
 
 ## Features
 
+### Opening console
+
+The users first view of the game includes the title, developer information, an introduction and an input request. The introduction aims to entice the user to play the game, while providing them with some basic information as to what the game is about and what they will have to do. To start the game they will need to enter their name. A blank input gives the player the name: No Name and inputs over 79 characters long are denied with the user being asked to re-enter a shorter name.
+
+![Screenshot of opening console](documentation/screenshots/opening_console.png)
+
+### Welcome Information
+
+The welcome information is displayed in two parts:
+- The first briefly welcomes you to the case closed detective agency, gives you your case and confirms that the wish to accept it. This input request gives the user chance to back out of the assigned case, should they wish to try a different case.
+- The second fully welcomes the player and provides information specific to how the game works.
+
+![Sceenshot of first welcome](documentation/screenshots/welcome_info_1.png)
+
+![Sceenshot of second welcome](documentation/screenshots/welcome_info_2.png)
+
+### Map
+
+The map provides the player with a list of all the locations and has options to:
+- Visit a location
+- Obtain a search warrant
+- Return to the main options
+
+![Screenshot of map](documentation/screenshots/map.png)
+
+### Visit location
+
+Visiting a location, will give you some information about the location and has options to:
+- View the CCTV
+- Look around
+- Talk to a witness
+- Return to the main options
+
+![Screenshot of visiting a location](documentation/screenshots/visit_location.png)
+
+### Suspects
+
+The suspect list provides the player with a list of all the suspects and their occupations and has options to:
+- Question a suspect
+- Arrest a suspect
+- Return to the main options
+
+![Screenshot of suspect list](documentation/screenshots/suspects.png)
+
+### Question Suspects
+
+Questioning a suspect gives the option to ask them:
+- Why they were present at the crime scene
+- About there movements over the last two days
+- If they recognise the stolen item
+- Return to the main options
+
+![Screenshot of question suspect](documentation/screenshots/question_suspect.png)
+
+### Notebook
+
+The notebook provides a recap of all the clues you have gained in the game so far.
+
+![Screenshot of notebook](documentation/screenshots/notebook.png)
+
+### Game win and Game over
+
+If the playet arrests the correct suspect they will receive a congratulations. If they search the correct location they will find the item and receive a congratulations. Once both arrest and search have been achieved the player will win the game.
+
+A number of game over points have been set, icluding for false arrest and false search.
+
+No screenshots provided as I don't wish to spoil your game.
+
+### Background spreadsheets
+
+This game has been created to work with a background spreadsheet that holds all the suspect, location and case specific information. This allows for the suspects and locations to be updated and changed and for new cases to be created or old cases to be deleted. All without needing to make any changes within the code.
+
+![PDF of suspects](documentation/suspects.pdf)
+
+![PDF of locations](documentation/locations.pdf)
+
+![PDF pf cases](documentation/cases.pdf)
+
+The game also saves game data in a notebook sheet. This is then accessed when the player visits their notebook. It also provides a way to track how the game is being played in order for further improvements to be identified.
+
+![PDF of notebook](documentation/notebook.pdf)
+
+### Future Instalments
+
+In the next instalment of this game:
+- Identified bugs will be fixed
+- Further work will be carried out to refine the surface plane of the game
+- Player game data will be analyse and further user testing carried out to pin point further improvements
+- Code will be refactored and refined to remove code duplication where possible and to streamline the logic and handling of data through the game
+
 ## Design
 
 ### The Strategy Plane
