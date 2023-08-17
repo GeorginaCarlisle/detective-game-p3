@@ -13,6 +13,7 @@ This game is currently under development
 - [The Strategy Plane](#the-strategy-plane)
 - [The Scope Plane](#the-scope-plane)
 - [The Structure Plane](#the-structure-plane)
+- [The Surface Plane](#the-surface-plane)
 
 [Testing and Validation](#testing-and-validation)
 
@@ -117,6 +118,16 @@ Available player actions will be clearly stated at each point input is required.
 The following diagram shows the clues that can be gained through visiting a location or questioning the suspect and how these lead the player to further linked locations and build a clear picture of who the thief is and where they have stashed the item. The green font shows all the information that is specific to the case and thief identity and the black shows background information that will always show regardless of the case or thief.
 
 ![Diagram showing how the clues will work](documentation/clues.drawio.pdf)
+
+[Return to contents list](#contents)
+
+### The Surface Plane
+
+As a command line game, there isn't much of a surface plane. However the following additions have been made to enhance the visual presentation of the game increasing user experience:
+- Title art has been used at key points throughout (see features) to add variety, break up the visual appearance of line after line of text, to highlight where in the game the user is or celebrate an achievement.
+- When moving to a different section of the game the console is cleared making the new information clear to the player and obvious as to where to read next.
+- Where a lot of information is given at once the sleep method has been used so that the user has chance to see the information before it moves off the top of the visible console. This needs some further refinement.
+- Sections of text have also been broken into smaller chunks by printing a blank line. This aids readability for the user.
 
 [Return to contents list](#contents)
 
